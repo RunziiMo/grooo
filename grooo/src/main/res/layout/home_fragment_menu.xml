@@ -1,0 +1,9 @@
+<org.fireking.app.kimiralibrary.views.NoScrollGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:horizontalSpacing="20dip"
+    android:numColumns="4"
+    android:scrollbars="none"
+    android:stretchMode="columnWidth" />
+

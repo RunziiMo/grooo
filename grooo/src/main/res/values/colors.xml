@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF03A9F4</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryLight">#BBDEFB</color>
+    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorControlActivated">#FF03A9F4</color>
+    <color name="colorSwitchThumbNormal">#FF78909C</color>
+    <color name="window_background">#F9F9F9</color>
+    <color name="msg_emote_divider">#ffa1a1a1</color>
+    <color name="color_bottom_bg">#272a2e</color>
+    <color name="color_bottom_text_normal">#9da0a4</color>
+    <color name="color_bottom_text_press">#4f9ef6</color>
+    <color name="text_gray">#969696</color>
+    <color name="transparent">#00000000</color>
+    <color name="msg_chat_bg">#eceff4</color>
+    <color name="theme_bg_color">#f0f2f5</color>
+    <color name="color_theme">#489cfa</color>
+    <color name="alpha_c_f98800">#77ed4e23</color>
+    <color name="dialog_color_title">#f82c22</color>
+    <color name="guide_color">#898989</color>
+    <color name="common_bg">#fcfcfc</color>
+    <color name="orange_ff">#ffff6000</color>
+    <color name="alpha_orange_ff">#77ff6000</color>
+    <color name="red_light">#ffcd423a</color>
+    <color name="color_d2">#ffd2d2d2</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="color_6">#ff666666</color>
+    <color name="yellow">#FFFCD209</color>
+    <color name="blue_dark">#ff0c72a9</color>
+    <color name="blue_light">#ff3893cf</color>
+    <color name="gray_bg">#ffeeeeec</color>
+    <color name="gray_bg_2">#fff1f1f1</color>
+    <color name="grey_dark">#ff404850</color>
+    <color name="grey_dark_pressed">#ff363c43</color>
+    <color name="green_light">#ff4dc060</color>
+    <color name="green_weixin">#ff42bd41</color>
+    <color name="green_weixin_pressed">#ff3cae3b</color>
+    <color name="green_weixin_co_order">#ff4db232</color>
+
+</resources>

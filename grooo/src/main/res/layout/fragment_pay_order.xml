@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+
+    <LinearLayout
+        android:id="@+id/above_confirm_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/pay_remark"
+            style="@style/Material.Widget.EditText.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="备注"
+            android:textDirection="locale"
+            android:textSize="@dimen/text_size_medium"
+            app:et_dividerColor="@color/colorPrimary"
+            app:et_supportMode="none" />
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/pay_room"
+            style="@style/Material.Widget.EditText.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="房间号"
+            android:textDirection="locale"
+            android:textSize="@dimen/text_size_medium"
+            app:et_dividerColor="@color/colorPrimary"
+            app:et_supportMode="none" />
+
+        <com.rey.material.widget.EditText
+            android:id="@+id/pay_time"
+            style="@style/Material.Widget.EditText.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="取餐时间"
+            android:textDirection="locale"
+            android:textSize="@dimen/text_size_medium"
+            app:et_dividerColor="@color/colorPrimary"
+            app:et_supportMode="none" />
+
+
+        <com.rey.material.widget.Spinner
+            android:id="@+id/pay_building"
+            style="@style/Material.Widget.Spinner.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minWidth="128dp"
+            app:rd_delayClick="none"
+            app:rd_enable="true"
+            app:rd_style="@style/Material.Drawable.Ripple.Wave.Light"
+            app:spn_arrowAnimDuration="@android:integer/config_shortAnimTime"
+            app:spn_arrowInterpolator="@android:anim/decelerate_interpolator"
+            app:spn_arrowSwitchMode="true"
+            app:spn_dividerColor="@color/colorPrimary"
+            app:spn_label="送至"
+            app:spn_labelEnable="true"
+            app:spn_popupItemAnimOffset="30"
+            app:spn_popupItemAnimation="@animator/anim_grow_fade_in_from_bottom_fast" />
+
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        android:id="@+id/confirm_pay"
+        style="@style/Widget.Button.LoginStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/above_confirm_pay"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/confirmpay"
+        app:rd_enable="true" />
+
+</RelativeLayout>
