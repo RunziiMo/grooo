@@ -21,4 +21,9 @@ public class InitBuildingsSuccessData {
     public ArrayList<Building> getBuildings() {
         return buildings;
     }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(buildings);
+    }
 }

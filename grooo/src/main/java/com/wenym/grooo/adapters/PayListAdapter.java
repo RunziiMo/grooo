@@ -29,7 +29,7 @@ public class PayListAdapter extends RecyclerView.Adapter<PayListAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.restaurant_paylist_item, parent, false);
+                .inflate(R.layout.item_restaurant_paylist, parent, false);
         return new ViewHolder(view);
     }
 

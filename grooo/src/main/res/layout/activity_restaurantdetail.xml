@@ -20,7 +20,8 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     app:umanoPanelHeight="?attr/actionBarSize"
-    app:umanoParalaxOffset="?attr/actionBarSize"
+    app:umanoParallaxOffset="?attr/actionBarSize"
+    app:umanoScrollableView="@+id/recyclerView"
     app:umanoShadowHeight="4dp">
 
     <android.support.design.widget.CoordinatorLayout
@@ -60,10 +61,11 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+
     <RelativeLayout
         android:id="@+id/basket_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="320dp">
 
 
         <LinearLayout
@@ -100,7 +102,6 @@
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold|italic" />
 
-
             <ImageView
                 android:id="@+id/basket_icon"
                 android:layout_width="0dp"
@@ -111,25 +112,49 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/basket_info"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/confirm_order"
+            android:layout_below="@+id/basket_info"
+            android:padding="@dimen/activity_horizontal_margin" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/basket_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/confirm_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@+id/relative_space"
+            android:background="@drawable/selector_alpha_button_order"
+            android:text="@string/confirmpay"
+            android:textColor="@color/white" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/basket_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin" />
+        <Space
+            android:id="@+id/relative_space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp" />
 
-        </LinearLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/clear_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_toLeftOf="@+id/relative_space"
+            android:background="@drawable/selector_alpha_button_order"
+            android:text="@string/clearorder"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

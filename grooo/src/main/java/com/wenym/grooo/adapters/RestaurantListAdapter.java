@@ -2,15 +2,15 @@ package com.wenym.grooo.adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.wenym.grooo.GroooApplication;
+import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
-import com.wenym.grooo.RestaurantDetailActivity;
+import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
 import com.wenym.grooo.model.Restaurant;
 
 import java.util.List;
@@ -22,12 +22,10 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantViewHo
 
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
-    private boolean isWaiMai;
     private List<Restaurant> contents;
 
-    public RestaurantListAdapter(List<Restaurant> contents, boolean isWaiMai) {
+    public RestaurantListAdapter(List<Restaurant> contents) {
         this.contents = contents;
-        this.isWaiMai = isWaiMai;
     }
 
     @Override
@@ -69,7 +67,8 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantViewHo
     @Override
     public void onBindViewHolder(final RestaurantViewHolder holder, final int position) {
         final Restaurant restaurant = contents.get(position);
-        ImageLoader.getInstance().displayImage(restaurant.getSellerImageURL(), holder.logo, GroooApplication.options);
+        Log.d("Logo",restaurant.getSellerImageURL());
+        Picasso.with(holder.logo.getContext()).load(restaurant.getSellerImageURL()).into(holder.logo);
         holder.time.setText("他们不让加时间");
         holder.announcement.setText(restaurant.getAnnouncement().equals("") ? "该店暂无公告" : restaurant.getAnnouncement());
         holder.buy_nums.setText("月售：" + restaurant.getNumPerMonth());
@@ -80,7 +79,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantViewHo
             public void onClick(View v) {
                 Intent intent = new Intent(holder.itemView.getContext(), RestaurantDetailActivity.class);
                 intent.putExtra("entity", new Gson().toJson(restaurant));
-                intent.putExtra("isWaiMai", isWaiMai);
                 holder.itemView.getContext().startActivity(intent);
             }
         });

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wenym.grooo"
     android:versionCode="1"
     android:versionName="1.0">
@@ -30,13 +31,13 @@
     <application
         android:name=".GroooApplication"
         android:allowBackup="true"
-        android:icon="@drawable/app_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
 
-        <activity
-            android:name=".GroooLoginActivity"
-            android:label="@string/app_name">
+        <activity android:name=".ui.activities.SplashActivity" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,28 +45,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask" />
+            android:name=".ui.activities.GroooLoginActivity"
+            android:label="@string/app_name"/>
         <activity
-            android:name=".LingshiActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:theme="@style/AppBaseTheme" />
         <activity
-            android:name=".RestaurantListActivity"
+            android:name=".ui.activities.RestaurantListActivity"
             android:label="@string/grooo_delivery"
             android:theme="@style/RestaurantListTheme" />
         <activity
-            android:name=".LookOrderActivity"
+            android:name=".ui.activities.LookOrderActivity"
             android:label="@string/my_order" />
+        <activity android:name=".ui.activities.RestaurantDetailActivity" />
+        <activity android:name=".ui.activities.WebViewActivity"></activity>
+        <activity android:name=".ui.activities.FecthKuaidiActivity"></activity>
         <activity
-            android:name=".RestaurantDetailActivity"
-            android:theme="@style/Theme.DesignDemo" />
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".FecthKuaidiActivity"></activity>
-        <activity
-            android:name=".UserInfoActivity"
+            android:name=".ui.activities.UserInfoActivity"
             android:label="@string/set_myinfo"></activity>
+        <activity
+            android:name=".ui.activities.AboutActivity"
+            android:label="@string/aboutus"></activity>
+        <activity
+            android:name=".ui.activities.ConfirmOrderActivity"
+            android:label="@string/confirmpay"></activity>
 
     </application>
 

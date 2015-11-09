@@ -1,30 +1,44 @@
 package com.wenym.grooo.model;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.webkit.URLUtil;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class Restaurant implements Serializable, Parcelable {
+
+    public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
 
     /**
      * 版本1
      */
     private static final long serialVersionUID = 1L;
-    public String SellerImageURL;// 商户logo
-    public String Shopname;// 商户名称
-    public int Rating;// 星星数量
-    public int BasePrice;// 起送价
-    public int DiscountStartPrice;
-    public int DiscountPrice;
-    public String id;// 商家编号
-    public String NumPerMonth;// 售出数量
-    public String finish_time = "他们不准我加送达时间";
-    public String Description;// 商户介绍
-    public String Announcement;// 商户推广信息
-    public Boolean Status;// 商户是否休息
-    public Boolean is_favor = false;// 是否添加关注
-    public Boolean is_mins = false;// 是否有活动
+    private String SellerImageURL;// 商户logo
+    private String Shopname;// 商户名称
+    private int Rating;// 星星数量
+    private int BasePrice;// 起送价
+    private int DiscountStartPrice;
+    private int DiscountPrice;
+    private String id;// 商家编号
+    private String NumPerMonth;// 售出数量
+    private String finish_time = "他们不准我加送达时间";
+    private String Description;// 商户介绍
+    private String Announcement;// 商户推广信息
+    private Boolean Status;// 商户是否休息
+    private Boolean is_favor = false;// 是否添加关注
+    private Boolean is_mins = false;// 是否有活动
     private String DeliveryClass;
     private String Class1;
 
@@ -37,7 +51,19 @@ public class Restaurant implements Serializable, Parcelable {
     }
 
     public String getSellerImageURL() {
-        return SellerImageURL;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < SellerImageURL.length(); i++) {
+            if ((SellerImageURL.charAt(i) + "").getBytes().length > 1) {
+                try {
+                    sb.append(URLEncoder.encode(SellerImageURL.charAt(i) + "", "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                sb.append(SellerImageURL.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 
     public void setSellerImageURL(String sellerImageURL) {
@@ -184,8 +210,37 @@ public class Restaurant implements Serializable, Parcelable {
         return 0;
     }
 
+    private Restaurant(Parcel in) {
+        this.Announcement = in.readString();
+        this.Class1 = in.readString();
+        this.DeliveryClass = in.readString();
+        this.Description = in.readString();
+        this.finish_time = in.readString();
+        this.id = in.readString();
+        this.Shopname = in.readString();
+        this.NumPerMonth = in.readString();
+        this.SellerImageURL = in.readString();
+        this.BasePrice = in.readInt();
+        this.DiscountPrice = in.readInt();
+        this.DiscountStartPrice = in.readInt();
+        this.Rating = in.readInt();
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeSerializable(this);
+        dest.writeString(this.Announcement);
+        dest.writeString(this.Class1);
+        dest.writeString(this.DeliveryClass);
+        dest.writeString(this.Description);
+        dest.writeString(this.finish_time);
+        dest.writeString(this.id);
+        dest.writeString(this.Shopname);
+        dest.writeString(this.NumPerMonth);
+        dest.writeString(this.SellerImageURL);
+        dest.writeInt(this.BasePrice);
+        dest.writeInt(this.DiscountPrice);
+        dest.writeInt(this.DiscountStartPrice);
+        dest.writeInt(this.Rating);
     }
+
 }

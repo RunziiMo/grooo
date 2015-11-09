@@ -8,6 +8,10 @@
     <color name="colorControlNormal">#FF78909C</color>
     <color name="colorControlActivated">#FF03A9F4</color>
     <color name="colorSwitchThumbNormal">#FF78909C</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#727272</color>
+
     <color name="window_background">#F9F9F9</color>
     <color name="msg_emote_divider">#ffa1a1a1</color>
     <color name="color_bottom_bg">#272a2e</color>
@@ -25,7 +29,7 @@
     <color name="orange_ff">#ffff6000</color>
     <color name="alpha_orange_ff">#77ff6000</color>
     <color name="red_light">#ffcd423a</color>
-    <color name="color_d2">#ffd2d2d2</color>
+    <color name="color_d2">#fff2f2f2</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="color_6">#ff666666</color>
@@ -37,7 +41,8 @@
     <color name="grey_dark">#ff404850</color>
     <color name="grey_dark_pressed">#ff363c43</color>
     <color name="green_light">#ff4dc060</color>
-    <color name="green_weixin">#ff42bd41</color>
+    <color name="green_500">#4caf50</color>
+    <color name="green_800">#2e7d32</color>
     <color name="green_weixin_pressed">#ff3cae3b</color>
     <color name="green_weixin_co_order">#ff4db232</color>
 

@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
     app:cardUseCompatPadding="true">
 
     <com.daimajia.swipe.SwipeLayout
@@ -18,7 +20,7 @@
             android:tag="Bottom3"
             android:weightSum="9">
 
-            <com.rey.material.widget.Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_close"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -44,27 +46,25 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <com.rey.material.widget.Button
+                    <android.support.v7.widget.AppCompatButton
                         android:id="@+id/btn_callshop"
-                        style="@style/Widget.Button.BuyStyle"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:background="@drawable/color_accent_bg"
                         android:layout_weight="1"
                         android:text="联系商家"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
 
-                    <com.rey.material.widget.Button
+                    <android.support.v7.widget.AppCompatButton
                         android:id="@+id/btn_cancel"
-                        style="@style/Widget.Button.BuyStyle"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:background="@drawable/color_accent_bg"
                         android:layout_weight="1"
                         android:text="申请退单"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_small" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -156,7 +156,7 @@
                     android:textSize="12.0sp" />
             </LinearLayout>
 
-            <com.rey.material.widget.Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_showup"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

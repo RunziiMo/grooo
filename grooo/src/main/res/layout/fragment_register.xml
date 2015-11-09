@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
-    android:orientation="vertical"
-    app:cardUseCompatPadding="true">
+    android:background="@drawable/login_bg">
 
     <LinearLayout
         android:id="@+id/select_address"
@@ -13,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="@dimen/activity_horizontal_margin">
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/register_phonenumber"
@@ -92,14 +90,17 @@
             app:met_maxCharacters="16"
             app:met_primaryColor="@color/blue" />
 
-        <com.rey.material.widget.Button
-            android:id="@+id/btn_confirmfetch"
-            style="@style/Widget.Button.LoginStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="@string/confirmregister"
-            app:rd_enable="true" />
+
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_confirmfetch"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@drawable/selector_green_button"
+        android:text="@string/confirmregister"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

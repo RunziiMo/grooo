@@ -1,7 +1,8 @@
 package com.wenym.grooo.http.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -9,7 +10,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.wenym.grooo.GroooApplication;
 import com.wenym.grooo.http.model.CancelOrderData;
 import com.wenym.grooo.http.model.CancelOrderSuccessData;
 import com.wenym.grooo.http.model.CheckUpdateData;
@@ -40,8 +40,11 @@ import com.wenym.grooo.http.model.RegistData;
 import com.wenym.grooo.http.model.RegistSuccessData;
 import com.wenym.grooo.http.model.SuggestData;
 import com.wenym.grooo.http.model.SuggestSuccessData;
-import com.wenym.grooo.utils.SharedPreferencesUtil;
+import com.wenym.grooo.model.AppUser;
+import com.wenym.grooo.utils.GroooAppManager;
+import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.utils.SmallTools;
+import com.wenym.grooo.widgets.Toasts;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -67,29 +70,22 @@ public class HttpUtils {
         httpClient.cancelAllRequests(true);
     }
 
-    public static void InitBuildings(InitBuildingData data, final HttpCallBack callBack) {
+    private static void InitBuildings(InitBuildingData data, final HttpCallBack callBack) {
         httpClient.post(HttpConstants.GETBUILDING, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                String buildinglist = GroooApplication.getAppSharedPreferences().getString("buildinglist", "");
-                InitBuildingsSuccessData buildingsSuccessData = new InitBuildingsSuccessData(buildinglist);
-                if (buildingsSuccessData.getBuildings().size() == 0) {
-                    callBack.onError(statusCode);
-                } else {
-                    callBack.onSuccess(buildingsSuccessData);
-                }
+                callBack.onError(statusCode);
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                GroooApplication.getAppSharedPreferences().edit().putString("buildinglist", responseString).commit();
                 InitBuildingsSuccessData buildingsSuccessData = new InitBuildingsSuccessData(responseString);
                 callBack.onSuccess(buildingsSuccessData);
             }
         });
     }
 
-    public static void InitRestaurantList(InitRestaurantData data, final HttpCallBack callBack) {
+    private static void InitRestaurantList(InitRestaurantData data, final HttpCallBack callBack) {
         httpClient.post(HttpConstants.GETRESTAURANLISTTURL, new TextHttpResponseHandler() {
 
             @Override
@@ -101,8 +97,7 @@ public class HttpUtils {
             @Override
             public void onSuccess(int statusCode, Header[] headers,
                                   String response) {
-                GroooApplication.getAppSharedPreferences().edit().putString("restaurantlist", response).commit();
-                if (response.equals("")) {
+                if (TextUtils.isEmpty(response)) {
                     callBack.onFailed();
                     return;
                 }
@@ -112,8 +107,8 @@ public class HttpUtils {
         });
     }
 
-    public static void CheckUpdate(CheckUpdateData data, Context context,
-                                   final HttpCallBack callBack) {
+    private static void CheckUpdate(CheckUpdateData data, Context context,
+                                    final HttpCallBack callBack) {
         httpClient.post(HttpConstants.CHECKUPDATEURL,
                 new TextHttpResponseHandler() {
 
@@ -131,47 +126,43 @@ public class HttpUtils {
                 });
     }
 
-    public static void Login(final LoginData data, Context context,
-                             final HttpCallBack callBack) {
+    private static void Login(final LoginData data, Context context,
+                              final HttpCallBack callBack) {
 //        PersistentCookieStore myCookieStore = new PersistentCookieStore(context);
 //        List<Cookie> cookies = myCookieStore.getCookies();
 //        for (Cookie cookie : cookies) {
 //            Toasts.show(cookie.getName() + " = " + cookie.getValue());
 //        }
         httpClient.post(context, HttpConstants.LOGINURL, data.toStringEntity(),
-                HttpConstants.contentType, new JsonHttpResponseHandler() {
+                HttpConstants.contentType, new TextHttpResponseHandler() {
 
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
+                                          String response, Throwable throwable) {
                         callBack.onError(statusCode);
                     }
 
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers,
-                                          JSONObject response) {
-                        SharedPreferences.Editor editor = GroooApplication.getAppSharedPreferences().edit();
-                        if ("401".equals(response.toString())) {
+                    public void onSuccess(int statusCode, Header[] headers, String response) {
+                        if (statusCode == 401) {
                             callBack.onFailed();
-                            SharedPreferencesUtil.clearAll();
+                            PreferencesUtil.getInstance().clearAll();
                         } else {
-                            LoginSuccessData loginSuccessData = new Gson().fromJson(response.toString(), LoginSuccessData.class);
-                            SharedPreferencesUtil.setUsername(data.getUsername());
-                            SharedPreferencesUtil.setPassword(data.getPassword());
-                            SharedPreferencesUtil.setUserBuilding(SmallTools.buildingIdToText(GroooApplication.buildings, loginSuccessData.getBuildingNum()));
-                            SharedPreferencesUtil.setUserRoom(loginSuccessData.getRoomNum());
-                            SharedPreferencesUtil.setUserId(loginSuccessData.getUserid());
+                            Log.d("Login", response);
+                            LoginSuccessData loginSuccessData = new Gson().fromJson(response, LoginSuccessData.class);
+                            AppUser appUser = AppUser.fromString(response);
+                            appUser.setUserBuilding(SmallTools.buildingIdToText(GroooAppManager.getBuildings(),appUser.getBuildingNum()));
+                            PreferencesUtil.getInstance().setAppUser(appUser);
                             callBack.onSuccess(loginSuccessData);
                         }
                     }
-
                 });
     }
 
-    public static void Suggest(SuggestData data, Context context,
-                               final HttpCallBack callBack) throws UnsupportedEncodingException {
-        data.setUserid(SharedPreferencesUtil.getUserId());
+    private static void Suggest(SuggestData data, Context context,
+                                final HttpCallBack callBack) throws UnsupportedEncodingException {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient
                 .post(context, HttpConstants.SUGGESTUSURL,
                         new StringEntity(new Gson().toJson(data)),
@@ -190,7 +181,7 @@ public class HttpUtils {
                         });
     }
 
-    public static void GetNews(final HttpCallBack callBack) {
+    private static void GetNews(final HttpCallBack callBack) {
         httpClient.post(HttpConstants.NEWSURL, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -205,8 +196,8 @@ public class HttpUtils {
         });
     }
 
-    public static void Regist(RegistData data, Context context,
-                              final HttpCallBack callBack) throws UnsupportedEncodingException {
+    private static void Regist(RegistData data, Context context,
+                               final HttpCallBack callBack) throws UnsupportedEncodingException {
 
         httpClient.post(context, HttpConstants.REGISTERURL, new StringEntity(data.getRegistdata()), HttpConstants.contentType, new TextHttpResponseHandler() {
             @Override
@@ -223,9 +214,9 @@ public class HttpUtils {
 
     }
 
-    public static void GetOrder(GetOrderData data, Context context,
-                                final HttpCallBack callBack) throws UnsupportedEncodingException {
-        data.setUserid(SharedPreferencesUtil.getUserId());
+    private static void GetOrder(GetOrderData data, Context context,
+                                 final HttpCallBack callBack) throws UnsupportedEncodingException {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient.post(context, HttpConstants.GETORDERURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new JsonHttpResponseHandler() {
 
             @Override
@@ -242,8 +233,8 @@ public class HttpUtils {
         });
     }
 
-    public static void CancelOrder(CancelOrderData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
-        data.setUserid(SharedPreferencesUtil.getUserId());
+    private static void CancelOrder(CancelOrderData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient.post(context, HttpConstants.CANCELORDERURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -261,7 +252,7 @@ public class HttpUtils {
         });
     }
 
-    public static void GetRestaurants(Context context, final HttpCallBack callBack) {
+    private static void GetRestaurants(Context context, final HttpCallBack callBack) {
         httpClient.post(HttpConstants.GETRESTAURANTURL, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -275,7 +266,7 @@ public class HttpUtils {
         });
     }
 
-    public static void GetMenu(GetMenuData data, Context context, final HttpCallBack callBack) {
+    private static void GetMenu(GetMenuData data, Context context, final HttpCallBack callBack) {
         httpClient.post(HttpConstants.GETRESTAURANTMENUURL + data.getId() + "/getmenu/", new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -289,8 +280,8 @@ public class HttpUtils {
         });
     }
 
-    public static void OrderFood(OrderFoodData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
-        data.setUserid(SharedPreferencesUtil.getUserId());
+    private static void OrderFood(OrderFoodData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient.post(context, HttpConstants.ORDERFOODURL, new StringEntity(new Gson().toJson(data)),
                 HttpConstants.contentType, new TextHttpResponseHandler() {
                     @Override
@@ -305,8 +296,8 @@ public class HttpUtils {
                 });
     }
 
-    public static void FetchKuaidi(FetchKuaidiData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
-        data.setUserid(SharedPreferencesUtil.getUserId());
+    private static void FetchKuaidi(FetchKuaidiData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient.post(context, HttpConstants.ORDERKUAIDIURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -320,8 +311,8 @@ public class HttpUtils {
         });
     }
 
-    public static void SetPushInfo(PushInfoData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
-        data.setUid(SharedPreferencesUtil.getUserId());
+    private static void SetPushInfo(PushInfoData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
+        data.setUid(GroooAppManager.getAppUser().getUserid());
         httpClient.post(context, HttpConstants.SETPUSHINFO, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -335,7 +326,7 @@ public class HttpUtils {
         });
     }
 
-    public static void getBaiduPicture(GetBaiduPictureData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
+    private static void getBaiduPicture(GetBaiduPictureData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
         httpClient.post(HttpConstants.GETBAIDUPICTURE, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -350,6 +341,9 @@ public class HttpUtils {
     }
 
     public static void MakeAPICall(Object data, Context context, final HttpCallBack callback) {
+        if (httpClient == null) {
+            init(context);
+        }
         try {
             if (data instanceof CancelOrderData) {
                 CancelOrder((CancelOrderData) data, context, callback);

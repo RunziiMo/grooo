@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">Grooo</string>
+    <string name="app_info_welcome">最in的校园生活平台</string>
+    <string name="copyright">©一个神奇的工作室</string>
     <string name="grooo_delivery">咕噜外卖</string>
     <string name="grooo_preorder">咕噜预定</string>
     <string name="hello_world">Hello world!</string>
@@ -70,7 +72,8 @@
     <string name="zero">0</string>
     <string name="myaddress">鹏远3号楼</string>
     <string name="myroomnumber">2004号</string>
-    <string name="confirmpay">确认订单</string>
+    <string name="confirmpay">确认</string>
+    <string name="clearorder">清空</string>
     <string name="confirmfetch">还不快去</string>
     <string name="confirmregister">确认注册</string>
     <string name="requestcancel">申请退单</string>
@@ -83,6 +86,7 @@
     <string name="recallyousoon">RESPONSE SOON!</string>
     <string name="aboutusweb1">不习惯用app?</string>
     <string name="aboutusweb2">去网页版></string>
+    <string name="aboutus">关于我们</string>
     <string name="aboutusintroduce">app刚刚制作完成，肯定存在不少bug\n因此大家的意见对我们至关重要\n咕噜团队迫切渴望你的真诚建议\n\n商业合作请联系苏同学：13653351433\n\nPowered by\n\n润之腊肉馆\nAND\nResponsible</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>

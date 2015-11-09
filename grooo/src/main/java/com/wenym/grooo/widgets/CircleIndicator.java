@@ -24,7 +24,7 @@ public class CircleIndicator extends LinearLayout implements OnPageChangeListene
     private int mIndicatorMargin;
     private int mIndicatorWidth;
     private int mIndicatorHeight;
-    private int mAnimatorResId = R.animator.scale_with_alpha;
+    private int mAnimatorResId = R.anim.scale_with_alpha;
     private int mAnimatorReverseResId = -1;
     private int mIndicatorBackground = R.drawable.white_radius;
     private int mIndicatorUnselectedBackground = R.drawable.white_radius;
@@ -67,7 +67,7 @@ public class CircleIndicator extends LinearLayout implements OnPageChangeListene
                     typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_ci_margin, -1);
 
             mAnimatorResId = typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator,
-                    R.animator.scale_with_alpha);
+                    R.anim.scale_with_alpha);
             mAnimatorReverseResId =
                     typedArray.getResourceId(R.styleable.CircleIndicator_ci_animator_reverse, -1);
             mIndicatorBackground = typedArray.getResourceId(R.styleable.CircleIndicator_ci_drawable,

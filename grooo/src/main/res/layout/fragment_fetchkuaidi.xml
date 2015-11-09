@@ -90,15 +90,13 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="20" />
 
-        <com.rey.material.widget.Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_confirmfetch"
-            style="@style/Widget.Button.LoginStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@drawable/bg_bt_raise_color"
-            android:text="@string/confirmfetch"
-            app:rd_enable="true" />
+            android:text="@string/confirmfetch" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

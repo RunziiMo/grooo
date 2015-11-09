@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,15 +22,14 @@ import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.daimajia.swipe.implments.SwipeItemRecyclerMangerImpl;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.rey.material.widget.Button;
-import com.wenym.grooo.GroooApplication;
+import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
 import com.wenym.grooo.http.model.CancelOrderData;
 import com.wenym.grooo.http.model.CancelOrderSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
 import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.utils.OrderStatus;
 import com.wenym.grooo.widgets.Toasts;
 
 import java.util.List;
@@ -58,8 +58,7 @@ public class OrderListAdapter extends
     public void onBindViewHolder(final SimpleViewHolder viewHolder,
                                  final int position) {
         final FoodOrder foodOrder = mDataset.get(position);
-        ImageLoader.getInstance().displayImage(foodOrder.getSellerImageURL(),
-                viewHolder.shopIcon, GroooApplication.options);
+        Picasso.with(viewHolder.shopIcon.getContext()).load(foodOrder.getSellerImageURL()).into(viewHolder.shopIcon);
         viewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         viewHolder.buttonShowup.setOnClickListener(new OnClickListener() {
 
@@ -140,25 +139,7 @@ public class OrderListAdapter extends
         });
         viewHolder.textViewShopNamePrice.setText(foodOrder.getSeller_name() + "-￥"
                 + foodOrder.getTotalPrice());
-        switch (foodOrder.getStatus()) {
-            case "0":
-                viewHolder.textViewStatus.setText("未接单");
-                break;
-            case "1":
-                viewHolder.textViewStatus.setText("已接单");
-                break;
-            case "2":
-                viewHolder.textViewStatus.setText("已申请退单");
-                break;
-            case "3":
-                viewHolder.textViewStatus.setText("已无效");
-                break;
-            case "4":
-                viewHolder.textViewStatus.setText("已配送");
-                break;
-            default:
-                break;
-        }
+        viewHolder.textViewStatus.setText(OrderStatus.getStatus(foodOrder.getStatus()));
         viewHolder.textViewTime.setText(foodOrder.getTime());
         viewHolder.textViewRemark.setText(foodOrder.getRemark());
         mItemManger.bindView(viewHolder.itemView, position);

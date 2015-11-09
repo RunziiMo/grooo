@@ -1,5 +1,8 @@
 package com.wenym.grooo.model;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class FoodOrder {
 
     private String SellerImageURL;
@@ -12,7 +15,19 @@ public class FoodOrder {
     private String seller_phone;
 
     public String getSellerImageURL() {
-        return SellerImageURL;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < SellerImageURL.length(); i++) {
+            if ((SellerImageURL.charAt(i)+"").getBytes().length>1) {
+                try {
+                    sb.append(URLEncoder.encode(SellerImageURL.charAt(i) + "", "utf-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                sb.append(SellerImageURL.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 
     public void setSellerImageURL(String sellerImageURL) {

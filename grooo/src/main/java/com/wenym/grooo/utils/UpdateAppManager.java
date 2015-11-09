@@ -13,7 +13,6 @@ import android.os.Message;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.MaterialDialog.ButtonCallback;
-import com.wenym.grooo.GroooApplication;
 import com.wenym.grooo.http.model.CheckUpdateData;
 import com.wenym.grooo.http.model.CheckUpdateSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
@@ -60,11 +59,11 @@ public class UpdateAppManager {
     }
 
     public void checkUpdateInfo() {
-        HttpUtils.MakeAPICall(new CheckUpdateData(), GroooApplication.getGroooApplicationContext(), new HttpCallBack() {
+        HttpUtils.MakeAPICall(new CheckUpdateData(), GroooAppManager.getAppContext(), new HttpCallBack() {
             @Override
             public void onSuccess(Object object) {
                 CheckUpdateSuccessData checkUpdateSuccessData = (CheckUpdateSuccessData) object;
-                if (getVersionCode(GroooApplication.getGroooApplicationContext()) < checkUpdateSuccessData.getVersion()) {
+                if (getVersionCode(GroooAppManager.getAppContext()) < checkUpdateSuccessData.getVersion()) {
                     showNoticeDialog(checkUpdateSuccessData.getContent());
                 }
             }

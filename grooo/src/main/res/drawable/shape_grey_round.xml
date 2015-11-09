@@ -4,10 +4,6 @@
     android:useLevel="false">>
     <corners android:radius="7px" />
 
-    <solid android:color="@color/colorPrimary" />
-
-    <size
-        android:width="30dp"
-        android:height="30dp" />
+    <solid android:color="@color/colorAccent" />
 
 </shape>

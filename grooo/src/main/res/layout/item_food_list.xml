@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/food_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/food_list_item_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="16dp"
+        android:contentDescription="@null"
+        android:minWidth="64dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/food_list_item_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/food_list_item_image"
+        android:gravity="center_vertical"
+        android:text="Grooo"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_size_medium" />
+
+    <TextView
+        android:id="@+id/food_list_item_buynums"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/food_list_item_name"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/food_list_item_image"
+        android:text="month_sold_num"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="@dimen/text_size_micro" />
+
+    <TextView
+        android:id="@+id/food_list_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/food_list_item_buynums"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/food_list_item_image"
+        android:text="price"
+        android:textColor="@color/red"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/food_list_item_price"
+        android:layout_toRightOf="@+id/food_list_item_price"
+        android:text="/份"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="@dimen/text_size_micro" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/food_list_item_price"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/food_list_item_minus"
+            android:layout_width="@dimen/bt_height"
+            android:layout_height="@dimen/bt_height"
+            android:text="-"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_large" />
+
+        <TextView
+            android:id="@+id/food_list_item_num"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/shape_grey_round"
+            android:gravity="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+            android:textColor="@color/white" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/food_list_item_add"
+            android:layout_width="@dimen/bt_height"
+            android:layout_height="@dimen/bt_height"
+            android:text="+"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size_large" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

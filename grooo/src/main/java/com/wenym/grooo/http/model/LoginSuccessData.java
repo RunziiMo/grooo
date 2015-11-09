@@ -2,17 +2,47 @@ package com.wenym.grooo.http.model;
 
 public class LoginSuccessData {
 
-    private String userBuilding;
-    private String buildingNum;
-    private String roomNum;
     private String userid;
+    private String username;
+    private String buildingNum;
+    private String email;
+    private int Score;
+    private String roomNum;
 
-    public String getUserBuilding() {
-        return userBuilding;
+    @Override
+    public String toString() {
+        return "LoginSuccessData{" +
+                "roomNum='" + roomNum + '\'' +
+                ", userid='" + userid + '\'' +
+                ", username='" + username + '\'' +
+                ", buildingNum='" + buildingNum + '\'' +
+                ", email='" + email + '\'' +
+                ", Score=" + Score +
+                '}';
     }
 
-    public void setUserBuilding(String userBuilding) {
-        this.userBuilding = userBuilding;
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int score) {
+        Score = score;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getBuildingNum() {
@@ -39,13 +69,4 @@ public class LoginSuccessData {
         this.userid = userid;
     }
 
-    @Override
-    public String toString() {
-        return "LoginSuccessData{" +
-                "userBuilding='" + userBuilding + '\'' +
-                ", buildingNum='" + buildingNum + '\'' +
-                ", roomNum='" + roomNum + '\'' +
-                ", userid='" + userid + '\'' +
-                '}';
-    }
 }
