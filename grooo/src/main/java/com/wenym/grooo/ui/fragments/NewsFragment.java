@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
 import com.wenym.grooo.ui.activities.WebViewActivity;
-import com.wenym.grooo.model.New;
+import com.wenym.grooo.model.app.New;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

@@ -1,6 +1,6 @@
 package com.wenym.grooo.utils;
 
-import com.wenym.grooo.model.Building;
+import com.wenym.grooo.model.app.Building;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.wenym.grooo.R;
 import com.wenym.grooo.ui.fragments.OrderListFragment;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.NoScrollViewPager;
 
 public class LookOrderActivity extends BaseActivity {

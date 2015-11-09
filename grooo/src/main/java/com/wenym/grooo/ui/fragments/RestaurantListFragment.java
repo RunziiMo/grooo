@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wenym.grooo.R;
 import com.wenym.grooo.adapters.RestaurantListAdapter;
-import com.wenym.grooo.model.Restaurant;
+import com.wenym.grooo.model.ecnomy.Restaurant;
 import com.wenym.grooo.provider.ExtraArgumentKeys;
 
 import java.util.ArrayList;

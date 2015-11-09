@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/logo_white"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/materialviewpager_logoHeight"
-    android:layout_gravity="center"
-    android:text="世界那么大，你想吃什么"
-    android:textColor="@android:color/white"
-    android:textSize="27sp" />

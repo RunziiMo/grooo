@@ -91,4 +91,8 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="activitylabel_suggest">吐槽</string>
+    <string name="activitylabel_delivery">咕噜快递</string>
+    <string name="activitylabel_regist">注册</string>
+
 </resources>

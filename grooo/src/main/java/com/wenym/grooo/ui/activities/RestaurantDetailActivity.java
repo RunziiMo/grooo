@@ -35,11 +35,11 @@ import com.wenym.grooo.http.model.GetMenuData;
 import com.wenym.grooo.http.model.GetMenuSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.Restaurant;
-import com.wenym.grooo.model.ShoppingBasket;
+import com.wenym.grooo.model.ecnomy.Restaurant;
+import com.wenym.grooo.provider.ShoppingBasket;
 import com.wenym.grooo.ui.fragments.ShopMenuFragment;
 import com.wenym.grooo.utils.PreferencesUtil;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.DividerItemDecoration;
 import com.wenym.grooo.widgets.Toasts;
 
@@ -50,7 +50,6 @@ import java.util.Set;
 public class RestaurantDetailActivity extends BaseActivity implements SlidingUpPanelLayout.PanelSlideListener {
 
     public static final int REQUESTCODE_CONFIRMPAY = 1;
-
 
 
     private SlidingUpPanelLayout mLayout;
@@ -233,7 +232,7 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
     }
 
 
-    private void setupViewPager(ViewPager viewPager, ArrayList<com.wenym.grooo.model.Menu> menus) {
+    private void setupViewPager(ViewPager viewPager, ArrayList<com.wenym.grooo.model.ecnomy.Menu> menus) {
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         menu_fragment = ShopMenuFragment.newInstance(menus);
         adapter.addFragment(menu_fragment, "菜单");
@@ -264,7 +263,7 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
         MenuItem isFavorite = menu.findItem(R.id.action_favorite);
         MenuItem isFavorited = menu.findItem(R.id.action_favorited);
         if (PreferencesUtil.getInstance().getFavoriteShops()
-                .contains(restaurant.getShopname())) {
+                .contains(restaurant.getId())) {
             isFavorite.setVisible(false);
         } else {
             isFavorited.setVisible(false);
@@ -281,10 +280,10 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
                 onBackPressed();
                 break;
             case R.id.action_favorite:
-                favorites.add(restaurant.getShopname());
+                favorites.add(restaurant.getId());
                 break;
             case R.id.action_favorited:
-                favorites.remove(restaurant.getShopname());
+                favorites.remove(restaurant.getId());
                 break;
             default:
                 return super.onOptionsItemSelected(item);

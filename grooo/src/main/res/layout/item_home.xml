@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/homeitem_avator"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="6dp"
@@ -45,7 +45,7 @@
             android:layout_marginBottom="2dp"
             android:text="标签类型"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_medium" />
 
         <TextView
             android:id="@+id/homeitem_content"
@@ -55,7 +55,7 @@
             android:layout_toRightOf="@+id/homeitem_avator"
             android:text="the content of this homeitem"
             android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_size_micro" />
+            android:textSize="@dimen/text_size_small" />
 
     </RelativeLayout>
 

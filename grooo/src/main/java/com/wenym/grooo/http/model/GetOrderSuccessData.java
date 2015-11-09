@@ -1,7 +1,7 @@
 package com.wenym.grooo.http.model;
 
-import com.wenym.grooo.model.DeliveryOrder;
-import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.model.ecnomy.DeliveryOrder;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
 
 import java.util.List;
 

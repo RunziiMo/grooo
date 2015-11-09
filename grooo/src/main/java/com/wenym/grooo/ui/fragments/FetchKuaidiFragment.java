@@ -16,30 +16,34 @@ import com.wenym.grooo.http.model.FetchKuaidiData;
 import com.wenym.grooo.http.model.FetchKuaidiSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.AppUser;
+import com.wenym.grooo.model.app.AppUser;
+import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.SmallTools;
 import com.wenym.grooo.widgets.Toasts;
 
-public class FetchKuaidiFragment extends Fragment {
+import butterknife.InjectView;
 
-    private View fetchLayout;
-    private Button fecthButton;
+public class FetchKuaidiFragment extends BaseFragment {
+
+    @InjectView(R.id.btn_confirmfetch)
+    Button fecthButton;
     private MaterialEditText[] editTexts = new MaterialEditText[7];
     private int[] editTextIds = {R.id.kuaidi_company, R.id.kuaidi_groupid,
             R.id.kuaidi_who, R.id.kuaidi_phone, R.id.kuaidi_building,
             R.id.kuaidi_roomnumber, R.id.kuaidi_remark};
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        fetchLayout = inflater.inflate(
-                R.layout.fragment_fetchkuaidi, container, false);
-        fecthButton = (Button) fetchLayout
-                .findViewById(R.id.btn_confirmfetch);
+    protected int getLayoutId() {
+        return R.layout.fragment_fetchkuaidi;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         for (int i = 0; i < editTexts.length; i++) {
-            editTexts[i] = (MaterialEditText) fetchLayout
-                    .findViewById(editTextIds[i]);
+            editTexts[i] = (MaterialEditText) findViewById(editTextIds[i]);
         }
         AppUser appUser = GroooAppManager.getAppUser();
         editTexts[4].setText(appUser.getUserBuilding());
@@ -109,6 +113,6 @@ public class FetchKuaidiFragment extends Fragment {
                 });
             }
         });
-        return fetchLayout;
     }
+
 }

@@ -21,9 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.wenym.grooo.ui.activities.FecthKuaidiActivity;
 import com.wenym.grooo.R;
-import com.wenym.grooo.ui.activities.RestaurantListActivity;
 import com.wenym.grooo.adapters.NewsPagerAdapter;
 import com.wenym.grooo.http.model.GetNewsData;
 import com.wenym.grooo.http.model.GetNewsSuccessData;
@@ -31,8 +29,9 @@ import com.wenym.grooo.http.model.SuggestData;
 import com.wenym.grooo.http.model.SuggestSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.CategoryEntity;
-import com.wenym.grooo.model.New;
+import com.wenym.grooo.model.app.CategoryEntity;
+import com.wenym.grooo.model.app.New;
+import com.wenym.grooo.ui.activities.RestaurantListActivity;
 import com.wenym.grooo.utils.ViewHolder;
 import com.wenym.grooo.widgets.CircleIndicator;
 import com.wenym.grooo.widgets.Toasts;
@@ -159,7 +158,6 @@ public class HomeFragment extends Fragment implements Callback {
                         intent.putExtra("isWaiMai", false);
                         break;
                     case 2:
-                        intent = new Intent(getActivity(), FecthKuaidiActivity.class);
                         break;
                     case 3:
                         break;

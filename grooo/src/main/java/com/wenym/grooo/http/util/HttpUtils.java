@@ -40,11 +40,11 @@ import com.wenym.grooo.http.model.RegistData;
 import com.wenym.grooo.http.model.RegistSuccessData;
 import com.wenym.grooo.http.model.SuggestData;
 import com.wenym.grooo.http.model.SuggestSuccessData;
-import com.wenym.grooo.model.AppUser;
+import com.wenym.grooo.model.app.AppUser;
+import com.wenym.grooo.model.ecnomy.Restaurant;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.utils.SmallTools;
-import com.wenym.grooo.widgets.Toasts;
 
 import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
@@ -114,7 +114,8 @@ public class HttpUtils {
 
                     @Override
                     public void onSuccess(int arg0, Header[] arg1, String arg2) {
-                        CheckUpdateSuccessData updateSuccessData = new Gson().fromJson(arg2, CheckUpdateSuccessData.class);
+                        String response = arg2.replaceAll("\\\\n", "\n");
+                        CheckUpdateSuccessData updateSuccessData = new Gson().fromJson(response, CheckUpdateSuccessData.class);
                         callBack.onSuccess(updateSuccessData);
                     }
 
@@ -152,7 +153,7 @@ public class HttpUtils {
                             Log.d("Login", response);
                             LoginSuccessData loginSuccessData = new Gson().fromJson(response, LoginSuccessData.class);
                             AppUser appUser = AppUser.fromString(response);
-                            appUser.setUserBuilding(SmallTools.buildingIdToText(GroooAppManager.getBuildings(),appUser.getBuildingNum()));
+                            appUser.setUserBuilding(SmallTools.buildingIdToText(GroooAppManager.getBuildings(), appUser.getBuildingNum()));
                             PreferencesUtil.getInstance().setAppUser(appUser);
                             callBack.onSuccess(loginSuccessData);
                         }
@@ -262,6 +263,20 @@ public class HttpUtils {
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 callBack.onSuccess(new GetRestaurantSuccessData(responseString));
+            }
+        });
+    }
+
+    public static void GetOneRestaurant(String shop_id, final HttpCallBack callBack) {
+        httpClient.post(HttpConstants.GETRESTAURANTURL + shop_id + "/", new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                callBack.onError(statusCode);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                callBack.onSuccess(Restaurant.fromJson(responseString));
             }
         });
     }

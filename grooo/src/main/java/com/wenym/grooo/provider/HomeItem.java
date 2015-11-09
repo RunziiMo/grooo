@@ -11,6 +11,9 @@ public enum HomeItem {
     DELIVERY("delivery"),
     ABOUT("aboutus"),
     SUGGEST("submit_suggestion"),
+    LOSTTHING("fint_lostthing"),
+    NEWS("grooo_news"),
+    FAVORITES("favorote_shop"),
     ORDER("last_order");
 
     private String text;

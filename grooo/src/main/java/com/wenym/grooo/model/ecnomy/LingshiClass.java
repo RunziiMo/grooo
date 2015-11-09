@@ -1,4 +1,4 @@
-package com.wenym.grooo.model;
+package com.wenym.grooo.model.ecnomy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

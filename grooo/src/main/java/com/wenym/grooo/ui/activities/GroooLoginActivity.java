@@ -9,21 +9,20 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.wenym.grooo.R;
+import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.RegisterFragment;
 import com.wenym.grooo.http.model.LoginData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
 import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.utils.UpdateAppManager;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.Toasts;
 
 public class GroooLoginActivity extends BaseActivity {
@@ -84,7 +83,6 @@ public class GroooLoginActivity extends BaseActivity {
         dialog = new MaterialDialog.Builder(this)
                 .content("正在登录")
                 .progress(true, 0).build();
-        new UpdateAppManager(this).checkUpdateInfo();
 
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
@@ -98,12 +96,10 @@ public class GroooLoginActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.abc_fade_in,
-                                R.anim.abc_fade_out)
-                        .replace(R.id.container, new RegisterFragment())
-                        .addToBackStack(null).commit();
+
+                Intent intent = new Intent(GroooLoginActivity.this, MyFragmentActivity.class);
+                intent.putExtra(ExtraActivityKeys.FRAGMENT.toString(), MyFragmentActivity.regist);
+                startActivity(intent);
             }
         });
         check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

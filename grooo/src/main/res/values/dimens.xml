@@ -16,7 +16,7 @@
     <dimen name="base_scrollview_top_height">50.0dip</dimen>
     <dimen name="bt_height">32dp</dimen>
 
-    <dimen name="list_gap">6dp</dimen>
+    <dimen name="list_gap">2dp</dimen>
     <dimen name="divider_height">@dimen/list_gap</dimen>
 
     <!--

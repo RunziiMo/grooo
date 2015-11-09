@@ -9,7 +9,7 @@ import android.view.View;
 import com.wenym.grooo.R;
 import com.wenym.grooo.utils.ImageProvider;
 import com.wenym.grooo.utils.SmallTools;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 
 import jp.co.cyberagent.android.gpuimage.GPUImageAlphaBlendFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;

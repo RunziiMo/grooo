@@ -16,18 +16,13 @@
 
 package com.wenym.grooo.ui.fragments;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -49,9 +44,9 @@ import com.google.gson.reflect.TypeToken;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
-import com.wenym.grooo.model.Food;
-import com.wenym.grooo.model.Menu;
-import com.wenym.grooo.model.ShoppingBasket;
+import com.wenym.grooo.model.ecnomy.Food;
+import com.wenym.grooo.model.ecnomy.Menu;
+import com.wenym.grooo.provider.ShoppingBasket;
 import com.wenym.grooo.provider.ExtraArgumentKeys;
 import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
 import com.wenym.grooo.utils.Tools;
@@ -131,14 +126,18 @@ public class ShopMenuFragment extends Fragment implements StickyListHeadersListV
         listAdpter = new MenuListViewAdapter();
         content.setAdapter(listAdpter);
         content.setOnScrollListener(new AbsListView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == 0) {
-                    ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
+                        ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(SlidingUpPanelLayout.PanelState.HIDDEN);
+                    } else {
+                        ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    }
                 } else {
                     ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(SlidingUpPanelLayout.PanelState.HIDDEN);
                 }
-
             }
 
             @Override
@@ -278,10 +277,6 @@ public class ShopMenuFragment extends Fragment implements StickyListHeadersListV
                         price += "(还差￥" + basket.getNeededPrice() + ")";
                     }
                     ((TextView) basketbar.findViewById(R.id.basket_cost)).setText(price);
-                    BadgeView add = new BadgeView(getActivity());
-                    add.setBackgroundResource(R.color.colorPrimaryDark);
-                    add.setText(String.valueOf(food.getPrice()));
-                    setAnim(add, start_location);// 开始执行动画
                     notifyDataSetChanged();
                     basket.getAdapter().notifyDataSetChanged();
                 }

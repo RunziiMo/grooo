@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
 import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
-import com.wenym.grooo.model.Restaurant;
+import com.wenym.grooo.model.ecnomy.Restaurant;
 
 import java.util.List;
 
@@ -67,9 +67,9 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantViewHo
     @Override
     public void onBindViewHolder(final RestaurantViewHolder holder, final int position) {
         final Restaurant restaurant = contents.get(position);
-        Log.d("Logo",restaurant.getSellerImageURL());
+        Log.d("Logo", restaurant.getSellerImageURL());
         Picasso.with(holder.logo.getContext()).load(restaurant.getSellerImageURL()).into(holder.logo);
-        holder.time.setText("他们不让加时间");
+        holder.time.setText("sb服务端不给时间属性");
         holder.announcement.setText(restaurant.getAnnouncement().equals("") ? "该店暂无公告" : restaurant.getAnnouncement());
         holder.buy_nums.setText("月售：" + restaurant.getNumPerMonth());
         holder.cover.setVisibility(restaurant.getStatus() ? View.GONE : View.VISIBLE);

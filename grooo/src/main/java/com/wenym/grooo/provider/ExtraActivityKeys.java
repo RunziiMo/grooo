@@ -7,7 +7,9 @@ package com.wenym.grooo.provider;
 public enum ExtraActivityKeys {
     SHOPKIND("shop_kind"),
     CONFIRMPAY("confirm_pay"),
-    PAYINFO("pay_info");
+    PAYINFO("pay_info"),
+    FRAGMENT("fragment_kind"),
+    SUGGESTION("suggestion_content");
 
     private String text;
 

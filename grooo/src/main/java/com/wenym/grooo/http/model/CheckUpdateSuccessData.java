@@ -7,6 +7,24 @@ public class CheckUpdateSuccessData {
 
     private int version;
     private String content;
+    private String source;
+
+    @Override
+    public String toString() {
+        return "CheckUpdateSuccessData{" +
+                "version=" + version +
+                ", content='" + content + '\'' +
+                ", source='" + source + '\'' +
+                '}';
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public int getVersion() {
         return version;
@@ -24,11 +42,4 @@ public class CheckUpdateSuccessData {
         this.content = content;
     }
 
-    @Override
-    public String toString() {
-        return "CheckUpdateSuccessData{" +
-                "version='" + version + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
 }

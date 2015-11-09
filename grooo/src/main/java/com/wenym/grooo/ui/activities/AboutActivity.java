@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.wenym.grooo.R;
 import com.wenym.grooo.ui.fragments.AboutUsFragment;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 
 /**
  * Created by runzii on 15-11-1.

@@ -1,0 +1,78 @@
+package com.wenym.grooo.ui.activities;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+
+import com.wenym.grooo.R;
+import com.wenym.grooo.provider.ExtraActivityKeys;
+import com.wenym.grooo.ui.base.BaseActivity;
+import com.wenym.grooo.ui.fragments.AboutUsFragment;
+import com.wenym.grooo.ui.fragments.FetchKuaidiFragment;
+import com.wenym.grooo.ui.fragments.RegisterFragment;
+import com.wenym.grooo.ui.fragments.SuggestFragment;
+
+/**
+ * Created by runzii on 15-11-9.
+ */
+public class MyFragmentActivity extends BaseActivity {
+
+    public final static int about = 1, suggest = 2, delivery = 3, regist = 4;
+
+    @Override
+    protected boolean isHideNavigationBar() {
+        return false;
+    }
+
+    @Override
+    protected boolean isDisplayHomeAsUp() {
+        return true;
+    }
+
+    @Override
+    protected boolean isEnableSwipe() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_base;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.frame_container);
+
+        if (fragment == null) {
+            fragment = createFragment();
+
+            fm.beginTransaction().add(R.id.frame_container, fragment).commit();
+        }
+    }
+
+    private Fragment createFragment() {
+        Fragment fragment = null;
+        switch (getIntent().getIntExtra(ExtraActivityKeys.FRAGMENT.toString(), 0)) {
+            case 1:
+                fragment = new AboutUsFragment();
+                break;
+            case 2:
+                fragment = new SuggestFragment();
+                break;
+            case 3:
+                fragment = new FetchKuaidiFragment();
+                getSupportActionBar().setTitle(R.string.activitylabel_delivery);
+                break;
+            case 4:
+                fragment = new RegisterFragment();
+                getSupportActionBar().setTitle(R.string.activitylabel_regist);
+                break;
+            default:
+                fragment = new AboutUsFragment();
+                break;
+        }
+        return fragment;
+    }
+}

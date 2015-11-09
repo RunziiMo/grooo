@@ -36,7 +36,9 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <activity android:name=".ui.activities.SplashActivity" >
+        <activity
+            android:name=".ui.activities.SplashActivity"
+            android:theme="@style/RestaurantListTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +48,8 @@
         </activity>
         <activity
             android:name=".ui.activities.GroooLoginActivity"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name"
+            android:theme="@style/RestaurantListTheme" />
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
@@ -61,7 +64,6 @@
             android:label="@string/my_order" />
         <activity android:name=".ui.activities.RestaurantDetailActivity" />
         <activity android:name=".ui.activities.WebViewActivity"></activity>
-        <activity android:name=".ui.activities.FecthKuaidiActivity"></activity>
         <activity
             android:name=".ui.activities.UserInfoActivity"
             android:label="@string/set_myinfo"></activity>
@@ -70,7 +72,15 @@
             android:label="@string/aboutus"></activity>
         <activity
             android:name=".ui.activities.ConfirmOrderActivity"
-            android:label="@string/confirmpay"></activity>
+            android:label="@string/confirmpay"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activities.SuggestActivity"
+            android:label="@string/activitylabel_suggest"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activities.MyFragmentActivity"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 

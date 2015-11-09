@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.wenym.grooo.ui.fragments.NewsFragment;
-import com.wenym.grooo.model.New;
+import com.wenym.grooo.model.app.New;
 
 import java.util.ArrayList;
 import java.util.Random;

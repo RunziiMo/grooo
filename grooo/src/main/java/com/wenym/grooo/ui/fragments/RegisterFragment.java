@@ -16,39 +16,41 @@ import com.wenym.grooo.http.model.RegistData;
 import com.wenym.grooo.http.model.RegistSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.SmallTools;
 import com.wenym.grooo.widgets.Toasts;
 
-public class RegisterFragment extends Fragment {
+import butterknife.InjectView;
+
+public class RegisterFragment extends BaseFragment {
 
     public static String phonePattern = "^1[0-9]{10}$";
     public static String emailPattern = "[a-zA-Z0-9_]{6,12}+@[a-zA-Z]+(\\.[a-zA-Z]+){1,3}";
-    private CardView registerCard;
-    private Button confirmRegister;
-    private MaterialEditText phone, building, roomnumber, email, password,
-            confirmpassword;
+    @InjectView(R.id.btn_confirmfetch)
+    Button confirmRegister;
+    @InjectView(R.id.register_phonenumber)
+    MaterialEditText phone;
+    @InjectView(R.id.register_building)
+    MaterialEditText building;
+    @InjectView(R.id.register_roomnumber)
+    MaterialEditText roomnumber;
+    @InjectView(R.id.register_email)
+    MaterialEditText email;
+    @InjectView(R.id.register_password)
+    MaterialEditText password;
+    @InjectView(R.id.register_password_confirm)
+    MaterialEditText confirmpassword;
     private StringBuilder sb;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        registerCard = (CardView) inflater.inflate(R.layout.fragment_register,
-                container, false);
-        phone = (MaterialEditText) registerCard
-                .findViewById(R.id.register_phonenumber);
-        building = (MaterialEditText) registerCard
-                .findViewById(R.id.register_building);
-        roomnumber = (MaterialEditText) registerCard
-                .findViewById(R.id.register_roomnumber);
-        email = (MaterialEditText) registerCard
-                .findViewById(R.id.register_email);
-        password = (MaterialEditText) registerCard
-                .findViewById(R.id.register_password);
-        confirmpassword = (MaterialEditText) registerCard
-                .findViewById(R.id.register_password_confirm);
-        confirmRegister = (Button) registerCard
-                .findViewById(R.id.btn_confirmfetch);
+    protected int getLayoutId() {
+        return R.layout.fragment_register;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         building.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
@@ -92,7 +94,6 @@ public class RegisterFragment extends Fragment {
                 }
             }
         });
-        return registerCard;
     }
 
     private boolean getData() {

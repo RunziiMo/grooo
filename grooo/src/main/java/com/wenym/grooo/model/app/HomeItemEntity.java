@@ -1,6 +1,8 @@
-package com.wenym.grooo.ui.models;
+package com.wenym.grooo.model.app;
 
 import com.wenym.grooo.provider.HomeItem;
+import com.wenym.grooo.utils.GroooAppManager;
+import com.wenym.grooo.utils.Tools;
 
 import java.util.Random;
 
@@ -16,7 +18,7 @@ public class HomeItemEntity {
     private String homeitem_content;
     private String homeitem_back;
     private String homeitem_avator;
-    private int homeiten_height = new Random().nextInt(200)+120;
+    private int homeiten_height = Tools.dip2px(GroooAppManager.getAppContext(),new Random().nextInt(50)+70);
 
     public int getHomeiten_height() {
         return homeiten_height;

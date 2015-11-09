@@ -2,48 +2,36 @@ package com.wenym.grooo.ui.fragments;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.github.florent37.materialviewpager.MaterialViewPager;
-import com.github.florent37.materialviewpager.header.MaterialViewPagerImageHelper;
+import com.google.gson.Gson;
 import com.jpardogo.listbuddies.lib.provider.ScrollConfigOptions;
 import com.jpardogo.listbuddies.lib.views.ListBuddiesLayout;
 import com.wenym.grooo.R;
 import com.wenym.grooo.adapters.CircularAdapter;
-import com.wenym.grooo.http.model.GetBaiduPictureData;
-import com.wenym.grooo.http.model.GetBaiduPictureSuccessData;
-import com.wenym.grooo.http.model.GetOrderData;
-import com.wenym.grooo.http.model.GetOrderSuccessData;
-import com.wenym.grooo.http.util.HttpCallBack;
-import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.model.app.HomeItemEntity;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
+import com.wenym.grooo.model.ecnomy.Restaurant;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.provider.ExtraArgumentKeys;
 import com.wenym.grooo.provider.HomeItem;
 import com.wenym.grooo.ui.activities.AboutActivity;
-import com.wenym.grooo.ui.activities.FecthKuaidiActivity;
 import com.wenym.grooo.ui.activities.LookOrderActivity;
+import com.wenym.grooo.ui.activities.MainActivity;
+import com.wenym.grooo.ui.activities.MyFragmentActivity;
+import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
 import com.wenym.grooo.ui.activities.RestaurantListActivity;
-import com.wenym.grooo.ui.models.HomeItemEntity;
+import com.wenym.grooo.ui.activities.SuggestActivity;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.OrderStatus;
 import com.wenym.grooo.utils.SmallTools;
-import com.wenym.grooo.utils.stackblur.StackBlurManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +58,7 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     ListBuddiesLayout mListBuddies;
     private List<HomeItemEntity> mImagesLeft = new ArrayList<HomeItemEntity>();
     private List<HomeItemEntity> mImagesRight = new ArrayList<HomeItemEntity>();
-    private HomeItemEntity currOrder;
+    private HomeItemEntity currOrder = null;
 
     public static ListBuddiesFragment newInstance(boolean isOpenActivitiesActivated) {
         ListBuddiesFragment fragment = new ListBuddiesFragment();
@@ -104,13 +92,12 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
 
     private void initHomeItems() {
 
-        HomeItemEntity takeout, market, delivery,about,suggest;
+        HomeItemEntity takeout, market, delivery, about, suggest, favorite = null;
         takeout = new HomeItemEntity();
         takeout.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_0));
         takeout.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
         takeout.setHomeitem_content("come and try our new specials");
         takeout.setHomeitem_title("咕噜外卖");
-        takeout.setHomeiten_height(new Random().nextInt(300) + 220);
         takeout.setKind(HomeItem.TAKEOUT);
 
         market = new HomeItemEntity();
@@ -118,7 +105,6 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         market.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
         market.setHomeitem_content("we have thousands of eats here,fit your mouth!");
         market.setHomeitem_title("咕噜超市");
-        market.setHomeiten_height(new Random().nextInt(300) + 220);
         market.setKind(HomeItem.MARKET);
 
         delivery = new HomeItemEntity();
@@ -126,7 +112,6 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         delivery.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
         delivery.setHomeitem_content("fetch the goddame deliveries for assholes");
         delivery.setHomeitem_title("咕噜快递");
-        delivery.setHomeiten_height(new Random().nextInt(300) + 220);
         delivery.setKind(HomeItem.DELIVERY);
 
         about = new HomeItemEntity();
@@ -134,28 +119,37 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         about.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
         about.setHomeitem_content("详情请拨１１０");
         about.setHomeitem_title("关于我们");
-        about.setHomeiten_height(new Random().nextInt(300) + 220);
         about.setKind(HomeItem.ABOUT);
 
         suggest = new HomeItemEntity();
         suggest.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_6));
         suggest.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
-        suggest.setHomeitem_content("建议、投诉……什么都可以哦");
+        suggest.setHomeitem_content("建议、投诉，爱干嘛干嘛");
         suggest.setHomeitem_title("吐槽");
-        suggest.setHomeiten_height(new Random().nextInt(300) + 220);
         suggest.setKind(HomeItem.SUGGEST);
         //If we do this we need to uncomment the container on the xml layout
         //createListBuddiesLayoutDinamically(rootView);
 
-        FoodOrder order = GroooAppManager.getTakeouts().get(0);
-        String des = "单号:" + order.getId() + "\n状态:" + OrderStatus.getStatus(order.getStatus());
-        currOrder = new HomeItemEntity();
-        currOrder.setKind(HomeItem.ORDER);
-        currOrder.setHomeitem_avator(order.getSellerImageURL());
-        currOrder.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
-        currOrder.setHomeitem_title(order.getSeller_name());
-        currOrder.setHomeitem_content(des);
-
+        if (GroooAppManager.getTakeouts() != null) {
+            FoodOrder order = GroooAppManager.getTakeouts().get(0);
+            String des = "单号:" + order.getId() + "\n状态:" + OrderStatus.getStatus(order.getStatus());
+            currOrder = new HomeItemEntity();
+            currOrder.setKind(HomeItem.ORDER);
+            currOrder.setHomeitem_avator(order.getSellerImageURL());
+            currOrder.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
+            currOrder.setHomeitem_title(order.getSeller_name());
+            currOrder.setHomeitem_content(des);
+        }
+        if (GroooAppManager.getFavorite() != null) {
+            Restaurant restaurant = GroooAppManager.getFavorite();
+            favorite = new HomeItemEntity();
+            favorite.setHomeitem_avator(restaurant.getSellerImageURL());
+            favorite.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
+            favorite.setHomeitem_content(restaurant.getAnnouncement());
+            favorite.setHomeitem_title(restaurant.getShopname());
+            favorite.setKind(HomeItem.FAVORITES);
+        }
+        addHomeItem(favorite);
         addHomeItem(suggest);
         addHomeItem(takeout);
         addHomeItem(market);
@@ -166,7 +160,10 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
     }
 
     private void addHomeItem(HomeItemEntity homeItemEntity) {
-        if (new Random().nextInt(2) == 0) {
+        if (homeItemEntity == null) {
+            return;
+        }
+        if (new Random().nextInt(50) <= 25) {
             mImagesLeft.add(new Random().nextInt(mImagesLeft.size() + 1), homeItemEntity);
         } else {
             mImagesRight.add(new Random().nextInt(mImagesRight.size() + 1), homeItemEntity);
@@ -206,7 +203,8 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
                     intent.putExtra(ExtraActivityKeys.SHOPKIND.toString(), RestaurantListActivity.MARKET);
                     break;
                 case DELIVERY:
-                    intent = new Intent(getActivity(), FecthKuaidiActivity.class);
+                    intent = new Intent(getActivity(), MyFragmentActivity.class);
+                    intent.putExtra(ExtraActivityKeys.FRAGMENT.toString(), MyFragmentActivity.delivery);
                     break;
                 case ORDER:
                     intent = new Intent(getActivity(), LookOrderActivity.class);
@@ -215,7 +213,12 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
                     intent = new Intent(getActivity(), AboutActivity.class);
                     break;
                 case SUGGEST:
-                    intent = new Intent(getActivity(), AboutActivity.class);
+                    intent = new Intent(getActivity(), SuggestActivity.class);
+                    getActivity().startActivityForResult(intent, MainActivity.REQUEST_CODE_SUGGEST);
+                    return;
+                case FAVORITES:
+                    intent = new Intent(getActivity(), RestaurantDetailActivity.class);
+                    intent.putExtra("entity", new Gson().toJson(GroooAppManager.getFavorite()));
                     break;
                 default:
                     break;
@@ -276,5 +279,6 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
                 .setManualScrollFaster(mScrollConfig[ScrollConfigOptions.LEFT.getConfigValue()])
                 .setDivider(getResources().getDrawable(R.drawable.list_divider));
     }
+
 
 }

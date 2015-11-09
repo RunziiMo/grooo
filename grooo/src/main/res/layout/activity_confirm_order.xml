@@ -55,8 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="false"
-                android:textSize="@dimen/text_size_medium"
                 android:hint="宿舍楼"
+                android:textSize="@dimen/text_size_medium"
                 app:met_floatingLabel="highlight"
                 app:met_iconLeft="@drawable/ic_room_white_36dp"
                 app:met_iconPadding="4dp"
@@ -90,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:editable="false"
-                android:textSize="@dimen/text_size_medium"
                 android:hint="取餐时间"
+                android:textSize="@dimen/text_size_medium"
                 android:visibility="gone"
                 app:met_floatingLabel="highlight"
                 app:met_iconLeft="@drawable/ic_room_white_36dp"
@@ -108,8 +108,14 @@
             android:background="@drawable/selector_green_button"
             android:text="@string/confirmpay"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_large" />
+            android:textSize="@dimen/text_size_medium" />
     </RelativeLayout>
 
+    <View
+        android:id="@+id/toolbar_dropshadow"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/toolbar"
+        android:background="@drawable/toolbar_dropshadow" />
 
 </RelativeLayout>

@@ -1,6 +1,6 @@
 package com.wenym.grooo.http.model;
 
-import com.wenym.grooo.model.OrderItem;
+import com.wenym.grooo.model.ecnomy.OrderItem;
 
 import java.util.List;
 

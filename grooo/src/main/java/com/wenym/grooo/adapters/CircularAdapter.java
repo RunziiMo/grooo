@@ -2,35 +2,24 @@ package com.wenym.grooo.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.florent37.materialviewpager.Utils;
 import com.jpardogo.listbuddies.lib.adapters.CircularLoopAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ArgbEvaluator;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
-import com.wenym.grooo.ui.models.HomeItemEntity;
-import com.wenym.grooo.utils.stackblur.StackBlurManager;
+import com.wenym.grooo.model.app.HomeItemEntity;
 import com.wenym.grooo.widgets.CircleTransformation;
 import com.wenym.grooo.widgets.ScaleToFitWidhtHeigthTransform;
-import com.wenym.grooo.widgets.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +59,7 @@ public class CircularAdapter extends CircularLoopAdapter {
         }
 
         if (entity.getHomeiten_height() != 0) {
-//            holder.back.setMinimumHeight(entity.getHomeiten_height());
+            holder.back.setMinimumHeight(entity.getHomeiten_height());
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_content())) {
             holder.content.setText(entity.getHomeitem_content());

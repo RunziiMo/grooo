@@ -1,4 +1,4 @@
-package com.wenym.grooo.model;
+package com.wenym.grooo.model.app;
 
 import com.google.gson.Gson;
 

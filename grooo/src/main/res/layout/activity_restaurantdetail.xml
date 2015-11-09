@@ -21,13 +21,13 @@
     android:gravity="bottom"
     app:umanoPanelHeight="?attr/actionBarSize"
     app:umanoParallaxOffset="?attr/actionBarSize"
-    app:umanoScrollableView="@+id/recyclerView"
     app:umanoShadowHeight="4dp">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
 
         <android.support.design.widget.AppBarLayout
@@ -42,7 +42,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <android.support.design.widget.TabLayout
@@ -52,11 +51,10 @@
 
         </android.support.design.widget.AppBarLayout>
 
-
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>

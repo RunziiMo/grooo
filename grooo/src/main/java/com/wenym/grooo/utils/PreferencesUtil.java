@@ -7,8 +7,8 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wenym.grooo.http.model.InitBuildingsSuccessData;
-import com.wenym.grooo.model.AppUser;
-import com.wenym.grooo.model.Building;
+import com.wenym.grooo.model.app.AppUser;
+import com.wenym.grooo.model.app.Building;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -3,8 +3,9 @@
 
 
     <style name="RestaurantListTheme" parent="AppTheme">
+
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
 </resources>

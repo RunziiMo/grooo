@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.wenym.grooo.R;
 import com.wenym.grooo.utils.GroooAppManager;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 
 
 /**

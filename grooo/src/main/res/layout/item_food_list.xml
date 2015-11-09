@@ -71,8 +71,8 @@
             android:layout_width="@dimen/bt_height"
             android:layout_height="@dimen/bt_height"
             android:text="-"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
-            android:textColor="@color/colorAccent"
+            android:background="@drawable/selector_border_button_add"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_large" />
 
         <TextView
@@ -90,9 +90,9 @@
             android:id="@+id/food_list_item_add"
             android:layout_width="@dimen/bt_height"
             android:layout_height="@dimen/bt_height"
+            android:background="@drawable/selector_border_button_add"
             android:text="+"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_large" />
 
     </LinearLayout>

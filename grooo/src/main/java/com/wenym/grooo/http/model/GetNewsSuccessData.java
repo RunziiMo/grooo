@@ -2,7 +2,7 @@ package com.wenym.grooo.http.model;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.wenym.grooo.model.New;
+import com.wenym.grooo.model.app.New;
 
 import java.util.ArrayList;
 

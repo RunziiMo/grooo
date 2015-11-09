@@ -21,10 +21,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.daimajia.swipe.util.Attributes;
 import com.wenym.grooo.R;
@@ -33,20 +33,27 @@ import com.wenym.grooo.http.model.GetOrderData;
 import com.wenym.grooo.http.model.GetOrderSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.DeliveryOrder;
-import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.model.ecnomy.DeliveryOrder;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
+import com.wenym.grooo.ui.base.BaseFragment;
+import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.widgets.Toasts;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
+import butterknife.InjectView;
 import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
 
-public class OrderListFragment extends Fragment {
+public class OrderListFragment extends BaseFragment {
 
     private static final String ARG_POSITION = "position";
 
-    private View currentView;
-    private RecyclerView mRecyclerView;
+    @InjectView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+    @InjectView(R.id.tv_emptyview)
+    TextView emptyView;
     private List<FoodOrder> mlist;
     private List<DeliveryOrder> mlistKuadi;
     @SuppressWarnings("rawtypes")
@@ -70,49 +77,64 @@ public class OrderListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        currentView = inflater.inflate(R.layout.fragment_recyclerview,
-                container, false);
-        ViewCompat.setElevation(currentView, 30);
-        mRecyclerView = (RecyclerView) currentView
-                .findViewById(R.id.recyclerView);
+    protected int getLayoutId() {
+        return R.layout.fragment_recyclerview;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         getDate();
-
-        return currentView;
     }
 
     private void getDate() {
-
-        HttpUtils.MakeAPICall(new GetOrderData(), getActivity(), new HttpCallBack() {
-            @Override
-            public void onSuccess(Object object) {
-                GetOrderSuccessData orderSuccessData = (GetOrderSuccessData) object;
-                mlist = orderSuccessData.getRestaurant();
-                mlistKuadi = orderSuccessData.getDelivery();
-                if (position == 0) {
-                    mAdapter = new OrderListAdapter(getActivity(), mlist);
-                    ((OrderListAdapter) mAdapter)
-                            .setMode(Attributes.Mode.Single);
-                    SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
-                            mAdapter);
-                    mRecyclerView
-                            .setAdapter(animationAdapter);
+        if (GroooAppManager.getTakeouts() == null) {
+            mlist = GroooAppManager.getTakeouts();
+            mlistKuadi = GroooAppManager.getDeliveries();
+            GroooAppManager.initOrders(getActivity());
+            setAdapter();
+        } else {
+            HttpUtils.MakeAPICall(new GetOrderData(), getActivity(), new HttpCallBack() {
+                @Override
+                public void onSuccess(Object object) {
+                    GetOrderSuccessData orderSuccessData = (GetOrderSuccessData) object;
+                    mlist = orderSuccessData.getRestaurant();
+                    mlistKuadi = orderSuccessData.getDelivery();
+                    setAdapter();
                 }
-            }
 
-            @Override
-            public void onFailed() {
-            }
+                @Override
+                public void onFailed() {
 
-            @Override
-            public void onError(int statusCode) {
-                Toasts.show(String.valueOf(statusCode));
+                }
+
+                @Override
+                public void onError(int statusCode) {
+                    Toasts.show(String.valueOf(statusCode));
+                }
+            });
+            // AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(
+            // mAdapter);
+        }
+    }
+
+    private void setAdapter() {
+        if (position == 0) {
+            if (mlist.size() == 0) {
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
             }
-        });
-        // AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(
-        // mAdapter);
+            mAdapter = new OrderListAdapter(getActivity(), mlist);
+            ((OrderListAdapter) mAdapter)
+                    .setMode(Attributes.Mode.Single);
+            SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
+                    mAdapter);
+            mRecyclerView
+                    .setAdapter(animationAdapter);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 }

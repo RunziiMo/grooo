@@ -1,9 +1,10 @@
-package com.wenym.grooo.model;
+package com.wenym.grooo.model.ecnomy;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.webkit.URLUtil;
+import android.text.Html;
+
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -143,7 +144,7 @@ public class Restaurant implements Serializable, Parcelable {
     }
 
     public String getAnnouncement() {
-        return Announcement;
+        return Html.fromHtml(Announcement).toString();
     }
 
     public void setAnnouncement(String announcement) {
@@ -208,6 +209,10 @@ public class Restaurant implements Serializable, Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public static Restaurant fromJson(String str) {
+        return new Gson().fromJson(str, Restaurant.class);
     }
 
     private Restaurant(Parcel in) {

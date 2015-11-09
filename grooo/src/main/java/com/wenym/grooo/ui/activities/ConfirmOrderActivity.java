@@ -2,22 +2,15 @@ package com.wenym.grooo.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.wenym.grooo.R;
@@ -25,19 +18,17 @@ import com.wenym.grooo.http.model.OrderFoodData;
 import com.wenym.grooo.http.model.OrderFoodSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.AppUser;
-import com.wenym.grooo.model.Food;
-import com.wenym.grooo.model.OrderItem;
-import com.wenym.grooo.model.ShoppingBasket;
+import com.wenym.grooo.model.app.AppUser;
+import com.wenym.grooo.model.ecnomy.Food;
+import com.wenym.grooo.model.ecnomy.OrderItem;
+import com.wenym.grooo.provider.ShoppingBasket;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.SmallTools;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.Toasts;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 

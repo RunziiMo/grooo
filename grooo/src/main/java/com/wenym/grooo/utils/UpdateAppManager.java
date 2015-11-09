@@ -4,19 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.MaterialDialog.ButtonCallback;
 import com.wenym.grooo.http.model.CheckUpdateData;
 import com.wenym.grooo.http.model.CheckUpdateSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
-import com.wenym.grooo.http.util.HttpConstants;
 import com.wenym.grooo.http.util.HttpUtils;
 import com.wenym.grooo.widgets.Toasts;
 
@@ -34,7 +32,7 @@ public class UpdateAppManager {
             + FILE_SEPARATOR
             + "autoupdate"
             + FILE_SEPARATOR;
-    private static final String FILE_NAME = FILE_PATH + "Groo.apk";
+    private static final String FILE_NAME = FILE_PATH + "Grooo.apk";
     private static final int INSTALL_TOKEN = 0x31;
 
     private Context context;
@@ -47,10 +45,13 @@ public class UpdateAppManager {
     public UpdateAppManager(Context context) {
         this.context = context;
         handler = new Handler() {
+
             @Override
             public void handleMessage(Message msg) {
+
                 switch (msg.what) {
                     case INSTALL_TOKEN:
+
                         installApp();
                         break;
                 }
@@ -63,13 +64,14 @@ public class UpdateAppManager {
             @Override
             public void onSuccess(Object object) {
                 CheckUpdateSuccessData checkUpdateSuccessData = (CheckUpdateSuccessData) object;
-                if (getVersionCode(GroooAppManager.getAppContext()) < checkUpdateSuccessData.getVersion()) {
-                    showNoticeDialog(checkUpdateSuccessData.getContent());
+                if (GroooAppManager.getVersionCode() < checkUpdateSuccessData.getVersion()) {
+                    showNoticeDialog(checkUpdateSuccessData.getContent(), checkUpdateSuccessData.getSource());
                 }
             }
 
             @Override
             public void onFailed() {
+
             }
 
             @Override
@@ -79,41 +81,25 @@ public class UpdateAppManager {
         });
     }
 
-    private int getVersionCode(Context context) {
-        int versionCode = 0;
-        try {
-            versionCode = context.getPackageManager().getPackageInfo(
-                    "com.wenym.grooo", 0).versionCode;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
-    }
 
-    /**
-     * ��ʾ��ʾ���¶Ի���
-     *
-     * @param string
-     */
-    private void showNoticeDialog(String string) {
-        new MaterialDialog.Builder(context).title("有可用更新")
-                .content(string + message).positiveText("确定")
-                .negativeText("下次吧").callback(new ButtonCallback() {
-
+    private void showNoticeDialog(String string, final String source) {
+        new AlertDialogWrapper.Builder(context).setTitle("有可用更新")
+                .setMessage(string + message)
+                .setNegativeButton("下次吧", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-            public void onPositive(MaterialDialog dialog) {
-                showDownloadDialog();
-                super.onPositive(dialog);
+            public void onClick(DialogInterface dialog, int which) {
+                startUpdate(source, context);
             }
         }).show();
     }
 
-    /**
-     * ��ʾ���ؽ�ȶԻ���
-     */
-    private void showDownloadDialog() {
+    private void showDownloadDialog(final String source) {
         new MaterialDialog.Builder(context).title("正在更新").content("更新中")
-                .contentGravity(GravityEnum.CENTER).progress(false, 250, true)
+                .contentGravity(GravityEnum.CENTER).progress(false, 100, true)
                 .showListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
@@ -127,7 +113,7 @@ public class UpdateAppManager {
                                 FileOutputStream out = null;
                                 HttpURLConnection conn = null;
                                 try {
-                                    url = new URL(HttpConstants.UPDATEURL);
+                                    url = new URL(source);
                                     conn = (HttpURLConnection) url
                                             .openConnection();
                                     conn.connect();
@@ -137,8 +123,7 @@ public class UpdateAppManager {
                                     if (!filePath.exists()) {
                                         filePath.mkdir();
                                     }
-                                    out = new FileOutputStream(new File(
-                                            FILE_NAME));
+                                    out = new FileOutputStream(new File(FILE_NAME));
                                     byte[] buffer = new byte[1024];
                                     int len = 0;
                                     long readedLength = 0l;
@@ -153,7 +138,7 @@ public class UpdateAppManager {
                                         if (readedLength >= fileLength) {
                                             dialog.setContent("更新完成");
                                             dialog.dismiss();
-                                            handler.sendEmptyMessage(INSTALL_TOKEN);
+                                            handler.sendMessage(handler.obtainMessage(INSTALL_TOKEN));
                                             break;
                                         }
                                     }
@@ -186,6 +171,7 @@ public class UpdateAppManager {
     }
 
     private void installApp() {
+        Toasts.show("fuck");
         File appFile = new File(FILE_NAME);
         if (!appFile.exists()) {
             return;
@@ -193,6 +179,17 @@ public class UpdateAppManager {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse("file://" + appFile.toString()),
                 "application/vnd.android.package-archive");
+        context.startActivity(intent);
+    }
+
+    /**
+     * 打开浏览器下载新版本
+     *
+     * @param context
+     */
+    public static void startUpdate(String source, Context context) {
+        Uri uri = Uri.parse(source);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         context.startActivity(intent);
     }
 }

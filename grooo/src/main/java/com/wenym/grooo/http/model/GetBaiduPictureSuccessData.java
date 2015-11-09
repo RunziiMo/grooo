@@ -1,6 +1,6 @@
 package com.wenym.grooo.http.model;
 
-import com.wenym.grooo.model.BaiduPicture;
+import com.wenym.grooo.model.app.BaiduPicture;
 
 import java.util.ArrayList;
 

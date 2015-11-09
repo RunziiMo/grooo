@@ -7,21 +7,22 @@ import android.graphics.Bitmap;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.wenym.grooo.R;
-import com.wenym.grooo.http.model.GetBaiduPictureSuccessData;
 import com.wenym.grooo.http.model.GetOrderData;
 import com.wenym.grooo.http.model.GetOrderSuccessData;
 import com.wenym.grooo.http.model.InitBuildingData;
 import com.wenym.grooo.http.model.InitBuildingsSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.AppUser;
-import com.wenym.grooo.model.Building;
-import com.wenym.grooo.model.DeliveryOrder;
-import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.model.app.AppUser;
+import com.wenym.grooo.model.app.Building;
+import com.wenym.grooo.model.ecnomy.DeliveryOrder;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
+import com.wenym.grooo.model.ecnomy.Restaurant;
 import com.wenym.grooo.widgets.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by runzii on 15-10-30.
@@ -32,6 +33,7 @@ public class GroooAppManager {
     private static ArrayList<Building> buildings;
     private static List<FoodOrder> takeouts;
     private static List<DeliveryOrder> deliveries;
+    private static Restaurant favorite;
 
     private static AppUser appUser = null;
 
@@ -54,6 +56,7 @@ public class GroooAppManager {
         initBuildings(appContext);
     }
 
+
     private static InitCallback callback;
 
     public static interface InitCallback {
@@ -67,14 +70,13 @@ public class GroooAppManager {
             @Override
             public void onSuccess(Object object) {
                 GetOrderSuccessData data = (GetOrderSuccessData) object;
-
                 if (data.getRestaurant().size() != 0) {
                     takeouts = data.getRestaurant();
                 }
                 if (data.getDelivery().size() != 0) {
                     deliveries = data.getDelivery();
                 }
-                callback.onSuccess();
+                initFavorite();
             }
 
             @Override
@@ -88,6 +90,39 @@ public class GroooAppManager {
             }
         });
 
+    }
+
+    public static synchronized void initFavorite() {
+
+        String shopid = "";
+
+        if (PreferencesUtil.getInstance().getFavoriteShops().size() != 0) {
+            shopid = PreferencesUtil.getInstance().getFavoriteShops().iterator().next();
+        }
+        HttpUtils.GetOneRestaurant(shopid, new HttpCallBack() {
+            @Override
+            public void onSuccess(Object object) {
+                favorite = (Restaurant) object;
+                if (callback != null) {
+                    callback.onSuccess();
+                }
+                callback = null;
+            }
+
+            @Override
+            public void onFailed() {
+
+            }
+
+            @Override
+            public void onError(int statusCode) {
+//                Toasts.show("initFavorite " + statusCode);
+                if (callback != null) {
+                    callback.onSuccess();
+                }
+                callback = null;
+            }
+        });
     }
 
     private static void initBuildings(final Context ctx) {
@@ -105,6 +140,8 @@ public class GroooAppManager {
 
                 if (appUser != null) {
                     initOrders(ctx);
+                } else {
+                   initSuccess();
                 }
             }
 
@@ -118,6 +155,13 @@ public class GroooAppManager {
                 Toasts.show("buildings " + statusCode);
             }
         });
+    }
+
+    private static void initSuccess() {
+        if (callback != null) {
+            callback.onSuccess();
+        }
+        callback = null;
     }
 
 
@@ -151,6 +195,13 @@ public class GroooAppManager {
         } else {
             return buildings;
         }
+    }
+
+    public static Restaurant getFavorite() {
+        if (favorite == null) {
+            initFavorite();
+        }
+        return favorite;
     }
 
     public static List<FoodOrder> getTakeouts() {
@@ -195,5 +246,16 @@ public class GroooAppManager {
         }
 
         return version;
+    }
+
+    public static int getVersionCode() {
+        int versionCode = 0;
+        try {
+            versionCode = appContext.getPackageManager().getPackageInfo(
+                    getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
     }
 }

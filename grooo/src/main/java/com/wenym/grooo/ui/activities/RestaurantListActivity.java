@@ -3,8 +3,6 @@ package com.wenym.grooo.ui.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
@@ -20,8 +18,8 @@ import com.wenym.grooo.http.model.InitRestaurantData;
 import com.wenym.grooo.http.model.InitRestaurantSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.Restaurant;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.model.ecnomy.Restaurant;
+import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.Toasts;
 
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ public class RestaurantListActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_takeorder;
+        return R.layout.activity_shoplist;
     }
 
     @Override

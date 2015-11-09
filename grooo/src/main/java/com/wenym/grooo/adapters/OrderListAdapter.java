@@ -28,7 +28,7 @@ import com.wenym.grooo.http.model.CancelOrderData;
 import com.wenym.grooo.http.model.CancelOrderSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.model.FoodOrder;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
 import com.wenym.grooo.utils.OrderStatus;
 import com.wenym.grooo.widgets.Toasts;
 
@@ -133,7 +133,7 @@ public class OrderListAdapter extends
                         }
                     }).show();
                 } else {
-                    new MaterialDialog.Builder(view.getContext()).title("不能申请退单，商家已接单或订单已无效。").show();
+                    new MaterialDialog.Builder(view.getContext()).content("不能申请退单，商家已接单或订单已无效。").show();
                 }
             }
         });

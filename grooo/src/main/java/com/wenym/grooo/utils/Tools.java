@@ -65,7 +65,7 @@ public class Tools {
      * @param pxValue
      * @return
      */
-    public int px2dip(Context context, float pxValue) {
+    public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
@@ -78,7 +78,7 @@ public class Tools {
      * @return
      */
 
-    public int dip2px(Context context, float dipValue) {
+    public static int dip2px(Context context, float dipValue) {
 
         final float scale = context.getResources().getDisplayMetrics().density;
 

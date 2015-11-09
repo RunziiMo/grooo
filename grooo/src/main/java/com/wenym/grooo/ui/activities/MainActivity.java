@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Handler.Callback;
 import android.os.HandlerThread;
-import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerImageHelper;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -31,12 +27,17 @@ import com.mikepenz.octicons_typeface_library.Octicons;
 import com.wenym.grooo.R;
 import com.wenym.grooo.http.model.GetBaiduPictureData;
 import com.wenym.grooo.http.model.GetBaiduPictureSuccessData;
+import com.wenym.grooo.http.model.SuggestData;
+import com.wenym.grooo.http.model.SuggestSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.ListBuddiesFragment;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.PreferencesUtil;
-import com.wenym.grooo.widgets.BaseActivity;
+import com.wenym.grooo.ui.base.BaseActivity;
+import com.wenym.grooo.utils.UpdateAppManager;
+import com.wenym.grooo.widgets.Toasts;
 
 import java.util.Random;
 import java.util.Timer;
@@ -47,7 +48,8 @@ import butterknife.InjectView;
 
 public class MainActivity extends BaseActivity {
 
-    public static final int LOGIN_SUCCESS = 10;
+    public static final int REQUEST_CODE_SUGGEST = 10;
+
     public static final int LOGIN_FAILED = 11;
     public static final int SHOW_LOGIN = 20;
     public static final int HAS_UPDATE = 30;
@@ -108,6 +110,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        new UpdateAppManager(this).checkUpdateInfo();
 
         HttpUtils.MakeAPICall(new GetBaiduPictureData(), this, new HttpCallBack() {
             @Override
@@ -250,4 +254,36 @@ public class MainActivity extends BaseActivity {
 
         super.onBackPressed();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_SUGGEST:
+                    SuggestData suggestData = new SuggestData();
+                    suggestData.setContent(data.getStringExtra(ExtraActivityKeys.SUGGESTION.toString()));
+                    HttpUtils.MakeAPICall(suggestData, this, new HttpCallBack() {
+                        @Override
+                        public void onSuccess(Object object) {
+                            SuggestSuccessData suggestSuccessData = (SuggestSuccessData) object;
+                            Toasts.show("建议已提交，我们会尽快反馈");
+                        }
+
+                        @Override
+                        public void onFailed() {
+
+                        }
+
+                        @Override
+                        public void onError(int statusCode) {
+                            Toasts.show("Suggest " + statusCode);
+                        }
+                    });
+                    break;
+            }
+        }
+    }
+
+
 }

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wenym.grooo.R;
-import com.wenym.grooo.model.Food;
-import com.wenym.grooo.model.ShoppingBasket;
+import com.wenym.grooo.model.ecnomy.Food;
+import com.wenym.grooo.provider.ShoppingBasket;
 
 import static com.wenym.grooo.R.id.food_name;
 
