@@ -70,9 +70,10 @@ public class UpdateAppManager {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
+
 
             @Override
             public void onError(int statusCode) {

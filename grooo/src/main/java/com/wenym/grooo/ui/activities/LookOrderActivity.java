@@ -5,22 +5,43 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.wenym.grooo.R;
+import com.wenym.grooo.http.model.GetOrderData;
+import com.wenym.grooo.http.model.GetOrderSuccessData;
+import com.wenym.grooo.http.util.HttpCallBack;
+import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.model.ecnomy.DeliveryOrder;
+import com.wenym.grooo.model.ecnomy.FoodOrder;
 import com.wenym.grooo.ui.fragments.OrderListFragment;
 import com.wenym.grooo.ui.base.BaseActivity;
+import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.widgets.NoScrollViewPager;
+import com.wenym.grooo.widgets.Toasts;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
 
 public class LookOrderActivity extends BaseActivity {
 
-    private AppBarLayout appbar;
-    private TabLayout tabs;
-    private NoScrollViewPager pager;
+    @InjectView(R.id.appbar)
+    AppBarLayout appbar;
+    @InjectView(R.id.tabs)
+    TabLayout tabs;
+    @InjectView(R.id.pager)
+    NoScrollViewPager pager;
     private MyPagerAdapter adapter;
-    private Toolbar toolbar;
+    private MaterialDialog dialog;
+
+    private List<FoodOrder> mlist = new ArrayList<>();
+    private List<DeliveryOrder> mlistKuadi = new ArrayList<>();
 
 
     @Override
@@ -47,28 +68,65 @@ public class LookOrderActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appbar = (AppBarLayout) findViewById(R.id.appbar);
+        dialog = new MaterialDialog.Builder(this)
+                .content("正在加载订单")
+                .cancelable(false)
+                .progress(true, -1).build();
+        dialog.show();
+
+        if (GroooAppManager.getTakeouts() == null) {
+            mlist = GroooAppManager.getTakeouts();
+            mlistKuadi = GroooAppManager.getDeliveries();
+            GroooAppManager.initOrders(this);
+            setAdapter();
+        } else {
+            HttpUtils.MakeAPICall(new GetOrderData(), this, new HttpCallBack() {
+                @Override
+                public void onSuccess(Object object) {
+                    GetOrderSuccessData orderSuccessData = (GetOrderSuccessData) object;
+                    mlist = orderSuccessData.getRestaurant();
+                    mlistKuadi = orderSuccessData.getDelivery();
+                    setAdapter();
+                }
+
+                @Override
+                public void onFailed(String reason) {
+                    Toasts.show(reason);
+                    setAdapter();
+                }
+
+                @Override
+                public void onError(int statusCode) {
+                    setAdapter();
+                    Toasts.show("getOrder" + statusCode);
+                }
+            });
+            // AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(
+            // mAdapter);
+        }
+
+
+    }
+
+    private void setAdapter() {
         adapter = new MyPagerAdapter(getSupportFragmentManager());
-        tabs = (TabLayout) findViewById(R.id.tabs);
-        pager = (NoScrollViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
-
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                break;
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            HttpUtils.CancelHttpTask();
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    public static class MyPagerAdapter extends FragmentStatePagerAdapter {
+    private class MyPagerAdapter extends FragmentPagerAdapter {
 
         private final String[] TITLES = {"外卖订单", "快递订单"};
 
@@ -88,7 +146,7 @@ public class LookOrderActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return OrderListFragment.newInstance(position);
+            return position == 0 ? OrderListFragment.newInstanceFood(mlist) : OrderListFragment.newInstanceDelivery(mlistKuadi);
         }
 
     }

@@ -73,6 +73,8 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
 
     private ShopMenuFragment menu_fragment;
 
+    private MaterialDialog dialog;
+
 
     @Override
     protected boolean isHideNavigationBar() {
@@ -184,7 +186,7 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
 
     private void initMenu() {
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+        dialog = new MaterialDialog.Builder(this)
                 .progress(true, -1)
                 .content("正在加载菜单")
                 .cancelable(false)
@@ -208,8 +210,8 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
@@ -296,7 +298,10 @@ public class RestaurantDetailActivity extends BaseActivity implements SlidingUpP
 
     @Override
     public void onBackPressed() {
-        if (mLayout != null &&
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            HttpUtils.CancelHttpTask();
+        } else if (mLayout != null &&
                 (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED
                         || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);

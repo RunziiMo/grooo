@@ -17,11 +17,11 @@
     android:background="@color/white"
     android:scrollbars="none">
 
-    <com.flaviofaria.kenburnsview.KenBurnsView
-        android:id="@+id/login_background"
+    <ImageView
+        android:id="@+id/spalash_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/vivian20" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:id="@+id/welcome_icon_ll"
@@ -30,7 +30,7 @@
         android:layout_marginTop="96.0dip"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/welcome_hint1"
@@ -58,6 +58,7 @@
         android:layout_gravity="bottom"
         android:gravity="bottom"
         android:orientation="vertical"
+        android:visibility="gone"
         android:paddingBottom="16dip">
 
 
@@ -78,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="1.0"
+            android:text="AmazeStudio.net"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_micro" />
     </LinearLayout>

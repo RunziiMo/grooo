@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.util.Attributes;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wenym.grooo.R;
 import com.wenym.grooo.adapters.OrderListAdapter;
 import com.wenym.grooo.http.model.GetOrderData;
@@ -35,12 +37,14 @@ import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
 import com.wenym.grooo.model.ecnomy.DeliveryOrder;
 import com.wenym.grooo.model.ecnomy.FoodOrder;
+import com.wenym.grooo.provider.ExtraArgumentKeys;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.widgets.Toasts;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -48,24 +52,31 @@ import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter
 
 public class OrderListFragment extends BaseFragment {
 
-    private static final String ARG_POSITION = "position";
 
     @InjectView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @InjectView(R.id.tv_emptyview)
     TextView emptyView;
-    private List<FoodOrder> mlist;
-    private List<DeliveryOrder> mlistKuadi;
+    private List<FoodOrder> mlist = null;
+    private List<DeliveryOrder> mlistDelivery = null;
     @SuppressWarnings("rawtypes")
     private RecyclerView.Adapter mAdapter;
 
 
-    private int position;
-
-    public static OrderListFragment newInstance(int position) {
+    public static OrderListFragment newInstanceFood(List<FoodOrder> objects) {
         OrderListFragment f = new OrderListFragment();
         Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
+        b.putBoolean(ExtraArgumentKeys.ISFOODORDER.toString(), true);
+        b.putString(ExtraArgumentKeys.ORDERS.toString(), new Gson().toJson(objects));
+        f.setArguments(b);
+        return f;
+    }
+
+    public static OrderListFragment newInstanceDelivery(List<DeliveryOrder> objects) {
+        OrderListFragment f = new OrderListFragment();
+        Bundle b = new Bundle();
+        b.putBoolean(ExtraArgumentKeys.ISFOODORDER.toString(), false);
+        b.putString(ExtraArgumentKeys.ORDERS.toString(), new Gson().toJson(objects));
         f.setArguments(b);
         return f;
     }
@@ -73,7 +84,14 @@ public class OrderListFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
+        String listStr = getArguments().getString(ExtraArgumentKeys.ORDERS.toString());
+        if (getArguments().getBoolean(ExtraArgumentKeys.ISFOODORDER.toString())) {
+            mlist = new Gson().fromJson(listStr, new TypeToken<ArrayList<FoodOrder>>() {
+            }.getType());
+        } else {
+            mlistDelivery = new Gson().fromJson(listStr, new TypeToken<ArrayList<DeliveryOrder>>() {
+            }.getType());
+        }
     }
 
     @Override
@@ -85,42 +103,12 @@ public class OrderListFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getDate();
+        setAdapter();
     }
 
-    private void getDate() {
-        if (GroooAppManager.getTakeouts() == null) {
-            mlist = GroooAppManager.getTakeouts();
-            mlistKuadi = GroooAppManager.getDeliveries();
-            GroooAppManager.initOrders(getActivity());
-            setAdapter();
-        } else {
-            HttpUtils.MakeAPICall(new GetOrderData(), getActivity(), new HttpCallBack() {
-                @Override
-                public void onSuccess(Object object) {
-                    GetOrderSuccessData orderSuccessData = (GetOrderSuccessData) object;
-                    mlist = orderSuccessData.getRestaurant();
-                    mlistKuadi = orderSuccessData.getDelivery();
-                    setAdapter();
-                }
-
-                @Override
-                public void onFailed() {
-
-                }
-
-                @Override
-                public void onError(int statusCode) {
-                    Toasts.show(String.valueOf(statusCode));
-                }
-            });
-            // AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(
-            // mAdapter);
-        }
-    }
 
     private void setAdapter() {
-        if (position == 0) {
+        if (mlist != null) {
             if (mlist.size() == 0) {
                 emptyView.setVisibility(View.VISIBLE);
             } else {

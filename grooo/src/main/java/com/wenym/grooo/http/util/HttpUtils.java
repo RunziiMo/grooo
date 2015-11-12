@@ -1,6 +1,9 @@
 package com.wenym.grooo.http.util;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -56,6 +59,7 @@ public class HttpUtils {
 
     private static AsyncHttpClient httpClient;
     private static SyncHttpClient syncHttpClient;
+    private static ConnectivityManager connectivityManager;
 
     public static void init(Context context) {
         httpClient = new AsyncHttpClient();
@@ -64,6 +68,7 @@ public class HttpUtils {
         httpClient.setEnableRedirects(true, true, true);
         syncHttpClient = new SyncHttpClient();
         syncHttpClient.setEnableRedirects(true, true, true);
+        connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     public static void CancelHttpTask() {
@@ -97,10 +102,6 @@ public class HttpUtils {
             @Override
             public void onSuccess(int statusCode, Header[] headers,
                                   String response) {
-                if (TextUtils.isEmpty(response)) {
-                    callBack.onFailed();
-                    return;
-                }
                 callBack.onSuccess(new InitRestaurantSuccessData(response));
             }
 
@@ -142,21 +143,17 @@ public class HttpUtils {
                     public void onFailure(int statusCode, Header[] headers,
                                           String response, Throwable throwable) {
                         callBack.onError(statusCode);
+                        PreferencesUtil.getInstance().clearAll();
                     }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String response) {
-                        if (statusCode == 401) {
-                            callBack.onFailed();
-                            PreferencesUtil.getInstance().clearAll();
-                        } else {
-                            Log.d("Login", response);
-                            LoginSuccessData loginSuccessData = new Gson().fromJson(response, LoginSuccessData.class);
-                            AppUser appUser = AppUser.fromString(response);
-                            appUser.setUserBuilding(SmallTools.buildingIdToText(GroooAppManager.getBuildings(), appUser.getBuildingNum()));
-                            PreferencesUtil.getInstance().setAppUser(appUser);
-                            callBack.onSuccess(loginSuccessData);
-                        }
+                        Log.d("Login", response);
+                        LoginSuccessData loginSuccessData = new Gson().fromJson(response, LoginSuccessData.class);
+                        AppUser appUser = AppUser.fromString(response);
+                        appUser.setUserBuilding(SmallTools.buildingIdToText(GroooAppManager.getBuildings(), appUser.getBuildingNum()));
+                        PreferencesUtil.getInstance().setAppUser(appUser);
+                        callBack.onSuccess(loginSuccessData);
                     }
                 });
     }
@@ -244,11 +241,7 @@ public class HttpUtils {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if ("退单成功".equals(responseString)) {
-                    callBack.onSuccess(new CancelOrderSuccessData(responseString));
-                } else {
-                    callBack.onFailed();
-                }
+                callBack.onSuccess(new CancelOrderSuccessData(responseString));
             }
         });
     }
@@ -358,6 +351,23 @@ public class HttpUtils {
     public static void MakeAPICall(Object data, Context context, final HttpCallBack callback) {
         if (httpClient == null) {
             init(context);
+        }
+        if (connectivityManager != null) {
+            // 获取NetworkInfo对象
+            boolean hasnet = false;
+            // 获取NetworkInfo对象
+            NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
+
+            for (int i = 0; i < networkInfo.length; i++) {
+                // 判断当前网络状态是否为连接状态
+                if (networkInfo[i].getState() == NetworkInfo.State.CONNECTED) {
+                    hasnet = true;
+                }
+            }
+            if (!hasnet) {
+                callback.onFailed("请检查网络连接");
+                return;
+            }
         }
         try {
             if (data instanceof CancelOrderData) {

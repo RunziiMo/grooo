@@ -80,9 +80,10 @@ public class GroooAppManager {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
+
 
             @Override
             public void onError(int statusCode) {
@@ -110,8 +111,8 @@ public class GroooAppManager {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
@@ -146,8 +147,8 @@ public class GroooAppManager {
             }
 
             @Override
-            public void onFailed() {
-                Toasts.show("没有获取到建筑");
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override

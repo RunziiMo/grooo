@@ -210,8 +210,8 @@ public class ConfirmOrderActivity extends BaseActivity implements TimePickerDial
                         }
 
                         @Override
-                        public void onFailed() {
-
+                        public void onFailed(String reason) {
+                            Toasts.show(reason);
                         }
 
                         @Override

@@ -35,6 +35,10 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+    <style name="LoginTheme" parent="AppTheme">
+    </style>
+
+
     <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- White arrow -->
         <item name="colorControlNormal">@android:color/white</item>
@@ -52,7 +56,6 @@
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
     </style>
-
 
 
 </resources>

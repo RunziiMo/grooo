@@ -25,28 +25,20 @@ import com.wenym.grooo.utils.UpdateAppManager;
 import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.Toasts;
 
+import butterknife.InjectView;
+
 public class GroooLoginActivity extends BaseActivity {
-
-    public static final int LOGIN_SUCCESS = 10;
-    public static final int LOGIN_FAILED = 11;
-
-    public static final int SHOW_LOGIN = 20;
-
-    public static final int HAS_UPDATE = 30;
-    public static final int NO_UPDATE = 31;
-
-    public static final int REGISTER = 40;
-
-    public static final int NO_INTERNET = 50;
 
     private MaterialDialog dialog;
 
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor editor;
-    private EditText editText, editText2;
-    private AppCompatButton button;
-    private SwitchCompat check1, check2;
-    private TextView register;
+    @InjectView(R.id.et_username)
+    EditText editText;
+    @InjectView(R.id.et_password)
+    EditText editText2;
+    @InjectView(R.id.btn_login)
+    AppCompatButton button;
+    @InjectView(R.id.btn_register)
+    TextView register;
 
     @Override
     protected boolean isHideNavigationBar() {
@@ -81,17 +73,10 @@ public class GroooLoginActivity extends BaseActivity {
         }
 
         dialog = new MaterialDialog.Builder(this)
+                .cancelable(false)
                 .content("正在登录")
                 .progress(true, 0).build();
 
-        mSharedPreferences = PreferenceManager
-                .getDefaultSharedPreferences(this);
-        editor = mSharedPreferences.edit();
-        check1 = (SwitchCompat) findViewById(R.id.switchView);
-        check2 = (SwitchCompat) findViewById(R.id.switchView1);
-        editText = (EditText) findViewById(R.id.et_username);
-        editText2 = (EditText) findViewById(R.id.et_password);
-        register = (TextView) findViewById(R.id.btn_register);
         register.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -102,33 +87,6 @@ public class GroooLoginActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean("isRememberPassword", isChecked);
-                editor.commit();
-            }
-        });
-        check2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                check1.setChecked(isChecked);
-                editor.putBoolean("isAutoLogin", isChecked);
-                editor.putBoolean("isRememberPassword", isChecked);
-                editor.commit();
-            }
-        });
-        if (mSharedPreferences.getBoolean("isAutoLogin", false)) {
-            check2.setChecked(true);
-            Login(mSharedPreferences.getString("username", null),
-                    mSharedPreferences.getString("password", null));
-        }
-        if (mSharedPreferences.getBoolean("isRememberPassword", false)) {
-            check1.setChecked(true);
-            editText.setText(mSharedPreferences.getString("username", null));
-            editText2.setText(mSharedPreferences.getString("password", null));
-        }
-        button = (AppCompatButton) findViewById(R.id.btn_login);
         button.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -176,13 +134,13 @@ public class GroooLoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailed() {
-                Toasts.show("用户名或密码错误");
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
             public void onError(int statusCode) {
-                Toasts.show("Login " + statusCode);
+                Toasts.show("用户名或密码错误,错误码" + statusCode);
             }
         });
     }

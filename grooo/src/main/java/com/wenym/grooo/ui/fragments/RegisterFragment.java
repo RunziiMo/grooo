@@ -82,8 +82,8 @@ public class RegisterFragment extends BaseFragment {
                         }
 
                         @Override
-                        public void onFailed() {
-
+                        public void onFailed(String reason) {
+                            Toasts.show(reason);
                         }
 
                         @Override

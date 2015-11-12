@@ -8,4 +8,8 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 </resources>

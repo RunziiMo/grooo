@@ -105,8 +105,8 @@ public class HomeFragment extends Fragment implements Callback {
                 }
 
                 @Override
-                public void onFailed() {
-
+                public void onFailed(String reason) {
+                    Toasts.show(reason);
                 }
 
                 @Override
@@ -188,8 +188,8 @@ public class HomeFragment extends Fragment implements Callback {
                                                     }
 
                                                     @Override
-                                                    public void onFailed() {
-
+                                                    public void onFailed(String reason) {
+                                                        Toasts.show(reason);
                                                     }
 
                                                     @Override

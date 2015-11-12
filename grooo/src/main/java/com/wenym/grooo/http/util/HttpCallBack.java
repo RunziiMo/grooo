@@ -9,7 +9,7 @@ public interface HttpCallBack {
     void onSuccess(Object object);
 
     //操作失败
-    void onFailed();
+    void onFailed(String reason);
 
     //网络连接错误
     void onError(int statusCode);

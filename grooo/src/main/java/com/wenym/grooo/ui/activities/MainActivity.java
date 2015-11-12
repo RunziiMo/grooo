@@ -124,8 +124,8 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
@@ -180,12 +180,12 @@ public class MainActivity extends BaseActivity {
                 .withToolbar(getToolbar())
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName("咕噜Grooo").withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1).withSelectable(true),
+                        new PrimaryDrawerItem().withName("咕噜Grooo").withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(1).withSelectable(false),
                         new SectionDrawerItem().withName("你的咕噜"),
                         new SecondaryDrawerItem().withName("查看订单").withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_event_note).withIdentifier(2).withSelectable(false),
                         new SecondaryDrawerItem().withName(GroooAppManager.getAppUser().getUsername()).withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_account_box).withIdentifier(3).withSelectable(false)
                 ).addStickyDrawerItems(
-                        new SecondaryDrawerItem().withName(R.string.aboutus).withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_extension).withIdentifier(4).withSelectable(true)
+                        new SecondaryDrawerItem().withName(R.string.aboutus).withTextColorRes(R.color.material_drawer_primary_text).withIcon(GoogleMaterial.Icon.gmd_extension).withIdentifier(4).withSelectable(false)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -271,10 +271,9 @@ public class MainActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onFailed() {
-
+                        public void onFailed(String reason) {
+                            Toasts.show(reason);
                         }
-
                         @Override
                         public void onError(int statusCode) {
                             Toasts.show("Suggest " + statusCode);

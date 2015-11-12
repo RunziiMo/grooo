@@ -22,24 +22,24 @@
                 android:id="@+id/btn_close"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/btn_close"
                 android:text="还没送到?"
-                android:layout_centerVertical="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="150dp"
-                android:layout_centerVertical="true"
                 android:layout_height="80dp"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:background="@color/white">
 
                 <LinearLayout
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_list_restaurant_name"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@+id/order_list_shop_icon"
                 android:ellipsize="marquee"
                 android:singleLine="true"
@@ -130,8 +130,9 @@
                 android:id="@+id/order_list_item_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/order_list_shop_icon"
                 android:layout_below="@+id/order_list_item_time"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@+id/order_list_shop_icon"
                 android:ellipsize="marquee"
                 android:gravity="center_vertical"

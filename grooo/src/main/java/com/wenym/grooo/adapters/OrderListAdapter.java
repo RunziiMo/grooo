@@ -111,9 +111,10 @@ public class OrderListAdapter extends
                                     notifyDataSetChanged();
                                 }
 
+
                                 @Override
-                                public void onFailed() {
-                                    Toasts.show("申请退单失败");
+                                public void onFailed(String reason) {
+                                    Toasts.show(reason);
                                     if (foodOrder.getStatus().equals("0")) {
                                         foodOrder.setStatus("1");
                                         notifyDataSetChanged();

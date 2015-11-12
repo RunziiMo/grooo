@@ -68,10 +68,10 @@ public class CircularAdapter extends CircularLoopAdapter {
             holder.title.setText(entity.getHomeitem_title());
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_back())) {
-            Picasso.with(mContext)
-                    .load(entity.getHomeitem_back())
-                    .transform(new ScaleToFitWidhtHeigthTransform(entity.getHomeiten_height(), true))
-                    .into(holder.back);
+//            Picasso.with(mContext)
+//                    .load(entity.getHomeitem_back())
+//                    .transform(new ScaleToFitWidhtHeigthTransform(entity.getHomeiten_height(), true))
+//                    .into(holder.back);
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_avator())) {
             Picasso.with(mContext)

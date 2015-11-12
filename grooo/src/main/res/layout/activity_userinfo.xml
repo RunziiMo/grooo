@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="enterAlways">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -85,6 +85,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                         <TextView
+                            android:id="@+id/tv_user_school"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="东北大学秦皇岛分校" />
@@ -112,6 +113,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                         <TextView
+                            android:id="@+id/tv_user_building"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="鹏远三号楼" />
@@ -139,6 +141,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                         <TextView
+                            android:id="@+id/tv_user_roomnumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="2004" />
@@ -166,6 +169,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                         <TextView
+                            android:id="@+id/tv_user_mail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="806478101@qq.com" />

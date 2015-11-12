@@ -7,6 +7,8 @@ package com.wenym.grooo.provider;
 public enum ExtraArgumentKeys {
     OPEN_ACTIVITES("OPEN_ACTIVITES"),
     SHOPS("shops"),
+    ISFOODORDER("what am i doing"),
+    ORDERS("orders"),
     MENUS("menus");
 
     private String text;

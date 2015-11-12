@@ -4,19 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.wenym.grooo.R;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.ui.base.BaseActivity;
+
+import butterknife.InjectView;
 
 
 /**
  * 开屏页
  */
 public class SplashActivity extends BaseActivity {
-    private FrameLayout rootLayout;
-    private TextView versionText, welcomehint1;
+
+    @InjectView(R.id.splash_root)
+    FrameLayout rootLayout;
+    @InjectView(R.id.tvVersion)
+    TextView versionText;
+    @InjectView(R.id.welcome_hint1)
+    TextView welcomehint1;
+    @InjectView(R.id.spalash_background)
+    ImageView back;
 
     private static final int sleepTime = 2000;
 
@@ -45,13 +56,14 @@ public class SplashActivity extends BaseActivity {
 //            finish();
 //        }
 
-        rootLayout = (FrameLayout) findViewById(R.id.splash_root);
         versionText = (TextView) findViewById(R.id.tvVersion);
         welcomehint1 = (TextView) findViewById(R.id.welcome_hint1);
 
-        versionText.setText("GROOO " + GroooAppManager.getVersion());
+        Picasso.with(this).load(R.drawable.grooo_spalash).into(back);
+
+//        versionText.setText("GROOO " + GroooAppManager.getVersion());
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
-        animation.setDuration(1500);
+        animation.setDuration(2500);
         rootLayout.startAnimation(animation);
     }
 

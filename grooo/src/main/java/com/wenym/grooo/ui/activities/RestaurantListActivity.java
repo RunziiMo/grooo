@@ -96,8 +96,8 @@ public class RestaurantListActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
@@ -125,8 +125,8 @@ public class RestaurantListActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailed() {
-
+            public void onFailed(String reason) {
+                Toasts.show(reason);
             }
 
             @Override
@@ -233,6 +233,15 @@ public class RestaurantListActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            HttpUtils.CancelHttpTask();
+        }
     }
 
     @Override
