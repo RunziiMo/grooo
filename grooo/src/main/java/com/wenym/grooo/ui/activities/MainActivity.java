@@ -1,6 +1,7 @@
 package com.wenym.grooo.ui.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerImageHelper;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -27,12 +29,15 @@ import com.mikepenz.octicons_typeface_library.Octicons;
 import com.wenym.grooo.R;
 import com.wenym.grooo.http.model.GetBaiduPictureData;
 import com.wenym.grooo.http.model.GetBaiduPictureSuccessData;
+import com.wenym.grooo.http.model.LoginData;
+import com.wenym.grooo.http.model.PushInfoData;
 import com.wenym.grooo.http.model.SuggestData;
 import com.wenym.grooo.http.model.SuggestSuccessData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.ListBuddiesFragment;
+import com.wenym.grooo.utils.Blur;
 import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.ui.base.BaseActivity;
@@ -44,6 +49,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class MainActivity extends BaseActivity {
@@ -111,16 +117,14 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new UpdateAppManager(this).checkUpdateInfo();
+        PushInfoData pushInfoData = new PushInfoData();
+        pushInfoData.setUserid(GroooAppManager.getAppUser().getUserid());
+        pushInfoData.setPushid(JPushInterface.getRegistrationID(this));
 
-        HttpUtils.MakeAPICall(new GetBaiduPictureData(), this, new HttpCallBack() {
+        HttpUtils.MakeAPICall(pushInfoData, this, new HttpCallBack() {
             @Override
             public void onSuccess(Object object) {
 
-                GetBaiduPictureSuccessData data = (GetBaiduPictureSuccessData) object;
-
-                MaterialViewPagerImageHelper
-                        .setImageUrl(home_back, data.getData().get(new Random().nextInt(data.getData().size())).getImage_url(), 500);
             }
 
             @Override
@@ -130,9 +134,22 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onError(int statusCode) {
-
+                Toasts.show("setPushInfo"+statusCode);
             }
         });
+
+        new UpdateAppManager(this).checkUpdateInfo();
+
+        MaterialViewPagerImageHelper.setImageLoadListener(new MaterialViewPager.OnImageLoadListener() {
+            @Override
+            public void OnImageLoad(ImageView imageView, Bitmap bitmap) {
+                imageView.setImageBitmap(Blur.fastblur(MainActivity.this, bitmap, 25));
+                MaterialViewPagerImageHelper.setImageLoadListener(null);
+            }
+        });
+        MaterialViewPagerImageHelper
+                .setImageUrl(home_back, GroooAppManager.getHome_back(), 500);
+
 
         final IProfile profile = new ProfileDrawerItem().withName(GroooAppManager.getAppUser().getUsername())
                 .withEmail(GroooAppManager.getAppUser().getUserBuilding() + GroooAppManager.getAppUser().getRoomNum()).withIcon(Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.responsible));
@@ -244,6 +261,7 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
+
     @Override
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
@@ -253,6 +271,12 @@ public class MainActivity extends BaseActivity {
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     @Override
@@ -274,6 +298,7 @@ public class MainActivity extends BaseActivity {
                         public void onFailed(String reason) {
                             Toasts.show(reason);
                         }
+
                         @Override
                         public void onError(int statusCode) {
                             Toasts.show("Suggest " + statusCode);

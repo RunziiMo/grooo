@@ -17,32 +17,21 @@
 package com.wenym.grooo.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.util.Attributes;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wenym.grooo.R;
-import com.wenym.grooo.adapters.OrderListAdapter;
-import com.wenym.grooo.http.model.GetOrderData;
-import com.wenym.grooo.http.model.GetOrderSuccessData;
-import com.wenym.grooo.http.util.HttpCallBack;
-import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.adapters.DeliveryOrderAdapter;
+import com.wenym.grooo.adapters.FoodOrderAdapter;
 import com.wenym.grooo.model.ecnomy.DeliveryOrder;
 import com.wenym.grooo.model.ecnomy.FoodOrder;
 import com.wenym.grooo.provider.ExtraArgumentKeys;
 import com.wenym.grooo.ui.base.BaseFragment;
-import com.wenym.grooo.utils.GroooAppManager;
-import com.wenym.grooo.widgets.Toasts;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,15 +103,26 @@ public class OrderListFragment extends BaseFragment {
             } else {
                 emptyView.setVisibility(View.GONE);
             }
-            mAdapter = new OrderListAdapter(getActivity(), mlist);
-            ((OrderListAdapter) mAdapter)
+            mAdapter = new FoodOrderAdapter(getActivity(), mlist);
+            ((FoodOrderAdapter) mAdapter)
                     .setMode(Attributes.Mode.Single);
             SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
                     mAdapter);
             mRecyclerView
                     .setAdapter(animationAdapter);
         } else {
-            emptyView.setVisibility(View.VISIBLE);
+            if (mlistDelivery.size() == 0) {
+                emptyView.setVisibility(View.VISIBLE);
+            } else {
+                emptyView.setVisibility(View.GONE);
+            }
+            mAdapter = new DeliveryOrderAdapter(getActivity(), mlistDelivery);
+            ((DeliveryOrderAdapter) mAdapter)
+                    .setMode(Attributes.Mode.Single);
+            SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
+                    mAdapter);
+            mRecyclerView
+                    .setAdapter(animationAdapter);
         }
     }
 }

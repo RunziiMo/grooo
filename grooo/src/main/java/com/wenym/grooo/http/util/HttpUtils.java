@@ -49,11 +49,14 @@ import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.utils.SmallTools;
 
-import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ContentType;
+import cz.msebera.android.httpclient.entity.StringEntity;
+
 
 public class HttpUtils {
 
@@ -77,6 +80,7 @@ public class HttpUtils {
 
     private static void InitBuildings(InitBuildingData data, final HttpCallBack callBack) {
         httpClient.post(HttpConstants.GETBUILDING, new TextHttpResponseHandler() {
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 callBack.onError(statusCode);
@@ -135,8 +139,10 @@ public class HttpUtils {
 //        for (Cookie cookie : cookies) {
 //            Toasts.show(cookie.getName() + " = " + cookie.getValue());
 //        }
-        httpClient.post(context, HttpConstants.LOGINURL, data.toStringEntity(),
-                HttpConstants.contentType, new TextHttpResponseHandler() {
+        httpClient.post(context, HttpConstants.LOGINURL
+                , data.toStringEntity(),
+                HttpConstants.contentType
+                , new TextHttpResponseHandler() {
 
 
                     @Override
@@ -163,8 +169,8 @@ public class HttpUtils {
         data.setUserid(GroooAppManager.getAppUser().getUserid());
         httpClient
                 .post(context, HttpConstants.SUGGESTUSURL,
-                        new StringEntity(new Gson().toJson(data)),
-                        HttpConstants.contentType,
+                        new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                        , HttpConstants.contentType,
                         new TextHttpResponseHandler() {
 
                             @Override
@@ -197,7 +203,11 @@ public class HttpUtils {
     private static void Regist(RegistData data, Context context,
                                final HttpCallBack callBack) throws UnsupportedEncodingException {
 
-        httpClient.post(context, HttpConstants.REGISTERURL, new StringEntity(data.getRegistdata()), HttpConstants.contentType, new TextHttpResponseHandler() {
+
+        httpClient.post(context, HttpConstants.REGISTERURL
+                , new StringEntity(data.getRegistdata())
+                , HttpConstants.contentType
+                , new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 callBack.onError(statusCode);
@@ -215,7 +225,10 @@ public class HttpUtils {
     private static void GetOrder(GetOrderData data, Context context,
                                  final HttpCallBack callBack) throws UnsupportedEncodingException {
         data.setUserid(GroooAppManager.getAppUser().getUserid());
-        httpClient.post(context, HttpConstants.GETORDERURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new JsonHttpResponseHandler() {
+        httpClient.post(context, HttpConstants.GETORDERURL
+                , new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                , HttpConstants.contentType
+                , new JsonHttpResponseHandler() {
 
             @Override
             public void onFailure(int statusCode, Header[] headers,
@@ -233,7 +246,10 @@ public class HttpUtils {
 
     private static void CancelOrder(CancelOrderData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
         data.setUserid(GroooAppManager.getAppUser().getUserid());
-        httpClient.post(context, HttpConstants.CANCELORDERURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
+        httpClient.post(context, HttpConstants.CANCELORDERURL
+                , new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                , HttpConstants.contentType
+                , new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 callBack.onError(statusCode);
@@ -290,23 +306,28 @@ public class HttpUtils {
 
     private static void OrderFood(OrderFoodData data, Context context, final HttpCallBack callBack) throws UnsupportedEncodingException {
         data.setUserid(GroooAppManager.getAppUser().getUserid());
-        httpClient.post(context, HttpConstants.ORDERFOODURL, new StringEntity(new Gson().toJson(data)),
-                HttpConstants.contentType, new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        callBack.onError(statusCode);
-                    }
+        httpClient.post(context, HttpConstants.ORDERFOODURL
+                , new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                , HttpConstants.contentType
+                , new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                callBack.onError(statusCode);
+            }
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        callBack.onSuccess(new OrderFoodSuccessData(responseString));
-                    }
-                });
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                callBack.onSuccess(new OrderFoodSuccessData(responseString));
+            }
+        });
     }
 
     private static void FetchKuaidi(FetchKuaidiData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
         data.setUserid(GroooAppManager.getAppUser().getUserid());
-        httpClient.post(context, HttpConstants.ORDERKUAIDIURL, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
+        httpClient.post(context, HttpConstants.ORDERKUAIDIURL
+                , new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                , HttpConstants.contentType
+                , new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 callback.onError(statusCode);
@@ -320,8 +341,11 @@ public class HttpUtils {
     }
 
     private static void SetPushInfo(PushInfoData data, Context context, final HttpCallBack callback) throws UnsupportedEncodingException {
-        data.setUid(GroooAppManager.getAppUser().getUserid());
-        httpClient.post(context, HttpConstants.SETPUSHINFO, new StringEntity(new Gson().toJson(data)), HttpConstants.contentType, new TextHttpResponseHandler() {
+        data.setUserid(GroooAppManager.getAppUser().getUserid());
+        httpClient.post(context, HttpConstants.SETPUSHINFO
+                , new StringEntity(new Gson().toJson(data), ContentType.APPLICATION_JSON)
+                , HttpConstants.contentType
+                , new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 callback.onError(statusCode);
@@ -349,6 +373,7 @@ public class HttpUtils {
     }
 
     public static void MakeAPICall(Object data, Context context, final HttpCallBack callback) {
+
         if (httpClient == null) {
             init(context);
         }

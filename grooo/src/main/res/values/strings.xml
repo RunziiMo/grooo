@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Grooo</string>
+    <string name="app_name">咕噜校园</string>
     <string name="app_info_welcome">最in的校园生活平台</string>
     <string name="copyright">©一个神奇的工作室</string>
     <string name="grooo_delivery">咕噜外卖</string>
@@ -94,5 +94,6 @@
     <string name="activitylabel_suggest">吐槽</string>
     <string name="activitylabel_delivery">咕噜快递</string>
     <string name="activitylabel_regist">注册</string>
+    <string name="activitylabel_home">咕噜校园</string>
 
 </resources>

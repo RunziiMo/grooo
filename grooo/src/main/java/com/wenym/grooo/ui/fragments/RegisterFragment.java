@@ -26,7 +26,7 @@ import butterknife.InjectView;
 public class RegisterFragment extends BaseFragment {
 
     public static String phonePattern = "^1[0-9]{10}$";
-    public static String emailPattern = "[a-zA-Z0-9_]{6,12}+@[a-zA-Z]+(\\.[a-zA-Z]+){1,3}";
+    public static String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
     @InjectView(R.id.btn_confirmfetch)
     Button confirmRegister;
     @InjectView(R.id.register_phonenumber)

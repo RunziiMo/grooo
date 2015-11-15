@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorPrimary">#FF03A9F4</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorPrimaryLight">#BBDEFB</color>
+    <color name="colorAccent">#7C4DFF</color>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorPrimaryLight">#FFCCBC</color>
     <color name="colorControlNormal">#FF78909C</color>
-    <color name="colorControlActivated">#FF03A9F4</color>
+    <color name="colorControlActivated">@color/colorAccent</color>
     <color name="colorSwitchThumbNormal">#FF78909C</color>
 
     <color name="textColorPrimary">#212121</color>

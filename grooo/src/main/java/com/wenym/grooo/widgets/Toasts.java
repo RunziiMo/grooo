@@ -11,6 +11,6 @@ import com.wenym.grooo.utils.GroooAppManager;
 public class Toasts {
 
     public static void show(String msg) {
-        Toast.makeText(GroooAppManager.getAppContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(GroooAppManager.getAppContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

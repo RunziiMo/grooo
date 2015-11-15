@@ -14,11 +14,11 @@ public class HomeItemEntity {
 
 
     private HomeItem kind;
-    private String homeitem_title;
-    private String homeitem_content;
+    private String homeitem_title = "";
+    private String homeitem_content = "";
     private String homeitem_back;
     private String homeitem_avator;
-    private int homeiten_height = Tools.dip2px(GroooAppManager.getAppContext(),new Random().nextInt(50)+70);
+    private int homeiten_height = Tools.dip2px(GroooAppManager.getAppContext(), new Random().nextInt(30) + 70);
 
     public int getHomeiten_height() {
         return homeiten_height;

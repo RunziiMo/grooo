@@ -5,16 +5,15 @@ package com.wenym.grooo.http.model;
  */
 public class PushInfoData {
 
-    private String uid;
     private String userid;
-    private String channelid;
+    private String pushid;
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
+    @Override
+    public String toString() {
+        return "PushInfoData{" +
+                "userid='" + userid + '\'' +
+                ", pushid='" + pushid + '\'' +
+                '}';
     }
 
     public String getUserid() {
@@ -25,20 +24,12 @@ public class PushInfoData {
         this.userid = userid;
     }
 
-    public String getChannelid() {
-        return channelid;
+    public String getPushid() {
+        return pushid;
     }
 
-    public void setChannelid(String channelid) {
-        this.channelid = channelid;
+    public void setPushid(String pushid) {
+        this.pushid = pushid;
     }
 
-    @Override
-    public String toString() {
-        return "PushInfoData{" +
-                "uid='" + uid + '\'' +
-                ", userid='" + userid + '\'' +
-                ", channelid='" + channelid + '\'' +
-                '}';
-    }
 }

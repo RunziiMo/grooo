@@ -63,9 +63,13 @@ public class CircularAdapter extends CircularLoopAdapter {
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_content())) {
             holder.content.setText(entity.getHomeitem_content());
+        }else {
+            holder.content.setText("");
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_title())) {
             holder.title.setText(entity.getHomeitem_title());
+        }else {
+            holder.title.setText("");
         }
         if (!TextUtils.isEmpty(entity.getHomeitem_back())) {
 //            Picasso.with(mContext)

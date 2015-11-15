@@ -56,131 +56,144 @@
         </android.support.design.widget.AppBarLayout>
 
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scroll"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scroll"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="24dp">
+                android:layout_height="match_parent">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/card_margin">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="24dp">
 
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/card_margin">
 
-                        <TextView
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="学校"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_user_school"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="东北大学秦皇岛分校" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="学校"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_user_school"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="东北大学秦皇岛分校" />
 
-                </android.support.v7.widget.CardView>
+                        </LinearLayout>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/card_margin"
-                    android:layout_marginLeft="@dimen/card_margin"
-                    android:layout_marginRight="@dimen/card_margin">
+                    </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
 
-                        <TextView
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="宿舍楼"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_user_building"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="鹏远三号楼" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="宿舍楼"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_user_building"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="鹏远三号楼" />
 
-                </android.support.v7.widget.CardView>
+                        </LinearLayout>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/card_margin"
-                    android:layout_marginLeft="@dimen/card_margin"
-                    android:layout_marginRight="@dimen/card_margin">
+                    </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
 
-                        <TextView
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="房间号"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_user_roomnumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="2004" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="房间号"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_user_roomnumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="2004" />
 
-                </android.support.v7.widget.CardView>
+                        </LinearLayout>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/card_margin"
-                    android:layout_marginLeft="@dimen/card_margin"
-                    android:layout_marginRight="@dimen/card_margin">
+                    </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
 
-                        <TextView
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="邮箱"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/tv_user_mail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="806478101@qq.com" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="邮箱"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:id="@+id/tv_user_mail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="806478101@qq.com" />
 
-                </android.support.v7.widget.CardView>
+                        </LinearLayout>
 
-            </LinearLayout>
+                    </android.support.v7.widget.CardView>
 
-        </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+            <View
+                android:id="@+id/toolbar_dropshadow"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow" />
+
+        </FrameLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"

@@ -6,7 +6,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.testin.agent.TestinAgent;
 import com.wenym.grooo.R;
+import com.wenym.grooo.http.model.GetBaiduPictureData;
+import com.wenym.grooo.http.model.GetBaiduPictureSuccessData;
 import com.wenym.grooo.http.model.GetOrderData;
 import com.wenym.grooo.http.model.GetOrderSuccessData;
 import com.wenym.grooo.http.model.InitBuildingData;
@@ -22,6 +25,7 @@ import com.wenym.grooo.widgets.Toasts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -34,6 +38,7 @@ public class GroooAppManager {
     private static List<FoodOrder> takeouts;
     private static List<DeliveryOrder> deliveries;
     private static Restaurant favorite;
+    private static String home_back;
 
     private static AppUser appUser = null;
 
@@ -44,7 +49,7 @@ public class GroooAppManager {
         options = new DisplayImageOptions.Builder().cacheOnDisk(true)
                 .cacheInMemory(true).showImageOnFail(R.drawable.responsible)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();
-
+        home_back = SmallTools.resourceIdToUri(R.drawable.grooo_spalash);
     }
 
     public static void initUserData(InitCallback callback) {
@@ -53,7 +58,10 @@ public class GroooAppManager {
                 .cacheInMemory(true).showImageOnFail(R.drawable.responsible)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();
         appUser = PreferencesUtil.getInstance().getAppUser();
-        initBuildings(appContext);
+        initBaidu(appContext);
+        if (appUser != null) {
+            TestinAgent.setUserInfo(appUser.getUsername());
+        }
     }
 
 
@@ -104,10 +112,7 @@ public class GroooAppManager {
             @Override
             public void onSuccess(Object object) {
                 favorite = (Restaurant) object;
-                if (callback != null) {
-                    callback.onSuccess();
-                }
-                callback = null;
+                initSuccess();
             }
 
             @Override
@@ -118,12 +123,39 @@ public class GroooAppManager {
             @Override
             public void onError(int statusCode) {
 //                Toasts.show("initFavorite " + statusCode);
-                if (callback != null) {
-                    callback.onSuccess();
-                }
-                callback = null;
+                initSuccess();
             }
         });
+    }
+
+    public static String getHome_back() {
+        return home_back;
+    }
+
+    private static void initBaidu(final Context ctx) {
+        HttpUtils.MakeAPICall(new GetBaiduPictureData(), ctx, new HttpCallBack() {
+            @Override
+            public void onSuccess(Object object) {
+
+                GetBaiduPictureSuccessData data = (GetBaiduPictureSuccessData) object;
+
+                home_back = data.getData().get(new Random().nextInt(10)).getImage_url();
+
+                initBuildings(ctx);
+
+            }
+
+            @Override
+            public void onFailed(String reason) {
+                Toasts.show(reason);
+            }
+
+            @Override
+            public void onError(int statusCode) {
+                initBuildings(ctx);
+            }
+        });
+
     }
 
     private static void initBuildings(final Context ctx) {
@@ -142,7 +174,7 @@ public class GroooAppManager {
                 if (appUser != null) {
                     initOrders(ctx);
                 } else {
-                   initSuccess();
+                    initSuccess();
                 }
             }
 
@@ -153,7 +185,11 @@ public class GroooAppManager {
 
             @Override
             public void onError(int statusCode) {
-                Toasts.show("buildings " + statusCode);
+                if (appUser != null) {
+                    initOrders(ctx);
+                } else {
+                    initSuccess();
+                }
             }
         });
     }

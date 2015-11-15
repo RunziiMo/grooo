@@ -94,23 +94,26 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
 
         HomeItemEntity takeout, market, delivery, about, suggest, favorite = null;
         takeout = new HomeItemEntity();
-        takeout.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_0));
+//        takeout.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_0));
+        takeout.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.login_logo));
         takeout.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
-        takeout.setHomeitem_content("come and try our new specials");
+//        takeout.setHomeitem_content("come and try our new specials");
         takeout.setHomeitem_title("咕噜外卖");
         takeout.setKind(HomeItem.TAKEOUT);
 
         market = new HomeItemEntity();
-        market.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_3));
+//        market.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_3));
+        market.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.homeitem_market_f));
         market.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
-        market.setHomeitem_content("we have thousands of eats here,fit your mouth!");
+//        market.setHomeitem_content("we have thousands of eats here,fit your mouth!");
         market.setHomeitem_title("咕噜超市");
         market.setKind(HomeItem.MARKET);
 
         delivery = new HomeItemEntity();
         delivery.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.ic_category_2));
+        delivery.setHomeitem_avator(SmallTools.resourceIdToUri(R.drawable.homeitem_delivery_f));
         delivery.setHomeitem_back(SmallTools.resourceIdToUri(images[new Random().nextInt(images.length)]));
-        delivery.setHomeitem_content("fetch the goddame deliveries for assholes");
+//        delivery.setHomeitem_content("fetch the goddame deliveries for assholes");
         delivery.setHomeitem_title("咕噜快递");
         delivery.setKind(HomeItem.DELIVERY);
 
@@ -163,10 +166,18 @@ public class ListBuddiesFragment extends Fragment implements ListBuddiesLayout.O
         if (homeItemEntity == null) {
             return;
         }
-        if (new Random().nextInt(50) <= 25) {
-            mImagesLeft.add(new Random().nextInt(mImagesLeft.size() + 1), homeItemEntity);
-        } else {
-            mImagesRight.add(new Random().nextInt(mImagesRight.size() + 1), homeItemEntity);
+        switch (homeItemEntity.getKind()) {
+            case TAKEOUT:
+            case DELIVERY:
+            case MARKET:
+                mImagesLeft.add(homeItemEntity);
+                break;
+            case SUGGEST:
+            case FAVORITES:
+            case ORDER:
+            case ABOUT:
+                mImagesRight.add(homeItemEntity);
+                break;
         }
     }
 

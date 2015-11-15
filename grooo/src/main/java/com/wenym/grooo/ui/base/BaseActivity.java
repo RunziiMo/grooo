@@ -19,6 +19,7 @@ import com.wenym.grooo.provider.FragmentTags;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.Optional;
+import cn.jpush.android.api.JPushInterface;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -105,6 +106,18 @@ public abstract class BaseActivity extends SwipeBackActivity {
 //            }
 //        }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 
     private static Handler sHandler;

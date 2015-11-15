@@ -8,10 +8,8 @@ public class DeliveryOrder {
     private String shop_icon;
     private String seller_name;
     private String time;
-    private String totalPrice = "未知";
-    private String order_status = "1";
     private String id;
-    private String PhoneNumber;
+    private String tophonenumber;
     private String remark;
     private String shopPhoneNumber = "18712788313";
 
@@ -39,22 +37,6 @@ public class DeliveryOrder {
         this.time = time;
     }
 
-    public String getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getOrder_status() {
-        return order_status;
-    }
-
-    public void setOrder_status(String order_status) {
-        this.order_status = order_status;
-    }
-
     public String getId() {
         return id;
     }
@@ -63,12 +45,25 @@ public class DeliveryOrder {
         this.id = id;
     }
 
-    public String getPhoneNumber() {
-        return PhoneNumber;
+    @Override
+    public String toString() {
+        return "DeliveryOrder{" +
+                "shop_icon='" + shop_icon + '\'' +
+                ", seller_name='" + seller_name + '\'' +
+                ", time='" + time + '\'' +
+                ", id='" + id + '\'' +
+                ", tophonenumber='" + tophonenumber + '\'' +
+                ", remark='" + remark + '\'' +
+                ", shopPhoneNumber='" + shopPhoneNumber + '\'' +
+                '}';
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+    public String getTophonenumber() {
+        return tophonenumber;
+    }
+
+    public void setTophonenumber(String tophonenumber) {
+        this.tophonenumber = tophonenumber;
     }
 
     public String getRemark() {
@@ -87,19 +82,4 @@ public class DeliveryOrder {
         this.shopPhoneNumber = shopPhoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "DeliveryOrder{" +
-                "shop_icon='" + shop_icon + '\'' +
-                ", seller_name='" + seller_name + '\'' +
-                ", time='" + time + '\'' +
-                ", totalPrice='" + totalPrice + '\'' +
-                ", order_status='" + order_status + '\'' +
-                ", id='" + id + '\'' +
-                ", PhoneNumber='" + PhoneNumber + '\'' +
-                ", remark='" + remark + '\'' +
-                ", remark='" + remark + '\'' +
-                ", shopPhoneNumber='" + shopPhoneNumber + '\'' +
-                '}';
-    }
 }

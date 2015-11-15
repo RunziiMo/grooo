@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.WindowManager;
 
 /*
  * 系统工具类
@@ -116,6 +118,26 @@ public class Tools {
 
         return (int) (spValue * fontScale + 0.5f);
 
+    }
+
+    public static int getScreenWidth(Context context) {
+        // 获取屏幕分辨率
+        WindowManager wm = (WindowManager) (context
+                .getSystemService(Context.WINDOW_SERVICE));
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int mScreenWidth = dm.widthPixels;
+        return mScreenWidth;
+    }
+
+    public static int getScreenHeight(Context context) {
+        // 获取屏幕分辨率
+        WindowManager wm = (WindowManager) (context
+                .getSystemService(Context.WINDOW_SERVICE));
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int mScreenHeigh = dm.heightPixels;
+        return mScreenHeigh;
     }
 
 }

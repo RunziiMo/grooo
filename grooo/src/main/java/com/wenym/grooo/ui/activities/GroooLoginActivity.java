@@ -20,12 +20,14 @@ import com.wenym.grooo.ui.fragments.RegisterFragment;
 import com.wenym.grooo.http.model.LoginData;
 import com.wenym.grooo.http.util.HttpCallBack;
 import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.utils.GroooAppManager;
 import com.wenym.grooo.utils.PreferencesUtil;
 import com.wenym.grooo.utils.UpdateAppManager;
 import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.widgets.Toasts;
 
 import butterknife.InjectView;
+import cn.jpush.android.api.JPushInterface;
 
 public class GroooLoginActivity extends BaseActivity {
 
@@ -120,7 +122,7 @@ public class GroooLoginActivity extends BaseActivity {
         if (!dialog.isShowing()) {
             dialog.show();
         }
-        LoginData loginData = new LoginData(username, password);
+        LoginData loginData = new LoginData(username, password, JPushInterface.getRegistrationID(GroooAppManager.getAppContext()));
         HttpUtils.MakeAPICall(loginData, this, new HttpCallBack() {
             @Override
             public void onSuccess(Object object) {
