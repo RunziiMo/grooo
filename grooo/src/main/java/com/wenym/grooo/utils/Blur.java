@@ -20,7 +20,7 @@ public class Blur {
     @SuppressLint("NewApi")
     public static Bitmap fastblur(Context context, Bitmap sentBitmap, int radius) {
 
-        if (Build.VERSION.SDK_INT > 16) {
+        if (Build.VERSION.SDK_INT > 16 && Build.VERSION.SDK_INT < 22) {
             Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
 
             final RenderScript rs = RenderScript.create(context);

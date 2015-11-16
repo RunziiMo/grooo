@@ -8,8 +8,8 @@ android {
         applicationId "com.wenym.grooo"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "2.0.3"
+        versionCode 5
+        versionName "2.0.4"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
