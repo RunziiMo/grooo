@@ -2,16 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "24.0.0 rc2"
 
     defaultConfig {
         applicationId "com.wenym.grooo"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 5
         versionName "2.0.4"
-        renderscriptTargetApi 23
-        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -42,7 +40,7 @@ dependencies {
     compile 'com.mikepenz.iconics:octicons-typeface:2.2.0@aar'
     compile 'com.etsy.android.grid:library:1.0.5'
 
-    compile('com.github.afollestad.material-dialogs:core:0.8.5.0@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
 

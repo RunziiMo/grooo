@@ -56,14 +56,6 @@ public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_SUGGEST = 10;
 
-    public static final int LOGIN_FAILED = 11;
-    public static final int SHOW_LOGIN = 20;
-    public static final int HAS_UPDATE = 30;
-    public static final int NO_UPDATE = 31;
-    public static final int ORDERFOOD_FAILED = 40;
-    public static final int ORDERFOOD_SUCCEED = 41;
-    public static final int BACK_PRESS = 60;
-    public static final int PAY_LINGSHI = 50;
     public static final int[] backgrounds = {R.drawable.bamboo,
             R.drawable.mat2, R.drawable.mat3, R.drawable.ny_light};
     public static Handler handler;
