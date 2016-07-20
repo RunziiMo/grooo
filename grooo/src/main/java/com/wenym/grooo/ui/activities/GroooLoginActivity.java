@@ -1,51 +1,31 @@
 package com.wenym.grooo.ui.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.SwitchCompat;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
+import com.wenym.grooo.databinding.ActivityLoginBinding;
+import com.wenym.grooo.http.NetworkWrapper;
+import com.wenym.grooo.model.app.Profile;
+import com.wenym.grooo.model.http.AuthUser;
 import com.wenym.grooo.provider.ExtraActivityKeys;
-import com.wenym.grooo.ui.fragments.RegisterFragment;
-import com.wenym.grooo.http.model.LoginData;
-import com.wenym.grooo.http.util.HttpCallBack;
-import com.wenym.grooo.http.util.HttpUtils;
-import com.wenym.grooo.utils.GroooAppManager;
-import com.wenym.grooo.utils.PreferencesUtil;
-import com.wenym.grooo.utils.UpdateAppManager;
-import com.wenym.grooo.ui.base.BaseActivity;
-import com.wenym.grooo.widgets.Toasts;
+import com.wenym.grooo.util.AppPreferences;
+import com.wenym.grooo.util.GroooAppManager;
 
-import butterknife.InjectView;
-import cn.jpush.android.api.JPushInterface;
+import rx.Observable;
+import rx.functions.Func2;
 
-public class GroooLoginActivity extends BaseActivity {
+public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
 
-    private MaterialDialog dialog;
-
-    @InjectView(R.id.et_username)
-    EditText editText;
-    @InjectView(R.id.et_password)
-    EditText editText2;
-    @InjectView(R.id.btn_login)
-    AppCompatButton button;
-    @InjectView(R.id.btn_register)
-    TextView register;
-
-    @Override
-    protected boolean isHideNavigationBar() {
-        return false;
-    }
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -66,7 +46,7 @@ public class GroooLoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PreferencesUtil.getInstance().getAppUser() != null) {
+        if (AppPreferences.get().getProfile() != null) {
             startActivity(new Intent(
                     GroooLoginActivity.this,
                     MainActivity.class));
@@ -74,76 +54,78 @@ public class GroooLoginActivity extends BaseActivity {
             return;
         }
 
-        dialog = new MaterialDialog.Builder(this)
-                .cancelable(false)
-                .content("正在登录")
-                .progress(true, 0).build();
+        bind.setLoginForm(new AuthUser());
 
-        register.setOnClickListener(new OnClickListener() {
+        Observable.combineLatest(RxTextView.textChanges(bind.etUsername).skip(1)
+                , RxTextView.textChanges(bind.etPassword).skip(1)
+                , (charSequence, charSequence2) -> !TextUtils.isEmpty(charSequence) && !TextUtils.isEmpty(charSequence2))
+                .subscribe(aBoolean -> bind.btnLogin.setEnabled(aBoolean));
+    }
 
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(GroooLoginActivity.this, MyFragmentActivity.class);
-                intent.putExtra(ExtraActivityKeys.FRAGMENT.toString(), MyFragmentActivity.regist);
-                startActivity(intent);
-            }
-        });
-        button.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // startActivity(new Intent(GroooLoginActivity.this,
-                // MainActivity.class));
-                // finish();
-                String username = editText.getText().toString();
-                String password = editText2.getText().toString();
-                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-                    Toasts.show("用户名或密码不能为空");
-                } else {
-                    Login(username, password);
+    private void Login() {
+        NetworkWrapper.get().getAuthToken(bind.getLoginForm())
+                .compose(bindToLifecycle())
+                .flatMap(authToken -> {
+                    GroooAppManager.setAuthToken(authToken.getToken());
+                    int id = authToken.getId();
+                    return NetworkWrapper.get().getProfile(id);
+                }).subscribe(profile -> {
+                    GroooAppManager.setProfile(profile);
+                    Intent intent = new Intent(GroooLoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
-            }
-        });
+                , throwable -> Snackbar.make(bind.loginForm, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()
+                , () -> showProgress(false));
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (dialog.isShowing()) {
-            HttpUtils.CancelHttpTask();
-            Toasts.show("登录被取消");
-            dialog.dismiss();
-        }
-        super.onBackPressed();
+
+    public void startRegist(View view) {
+
+        Intent intent = new Intent(GroooLoginActivity.this, MyFragmentActivity.class);
+        intent.putExtra(ExtraActivityKeys.FRAGMENT.toString(), MyFragmentActivity.regist);
+        startActivity(intent);
     }
 
-    private void Login(String username, String password) {
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
-        LoginData loginData = new LoginData(username, password, JPushInterface.getRegistrationID(GroooAppManager.getAppContext()));
-        HttpUtils.MakeAPICall(loginData, this, new HttpCallBack() {
-            @Override
-            public void onSuccess(Object object) {
-                startActivity(new Intent(
-                        GroooLoginActivity.this,
-                        MainActivity.class));
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
+    public void startLogin(View view) {
+        // startActivity(new Intent(GroooLoginActivity.this,
+        // MainActivity.class));
+        // finish();
+        showProgress(true);
+        Login();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            bind.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            bind.loginForm.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    bind.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
-                finish();
-            }
+            });
 
-            @Override
-            public void onFailed(String reason) {
-                Toasts.show(reason);
-            }
-
-            @Override
-            public void onError(int statusCode) {
-                Toasts.show("用户名或密码错误,错误码" + statusCode);
-            }
-        });
+            bind.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            bind.loginProgress.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    bind.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            bind.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            bind.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }

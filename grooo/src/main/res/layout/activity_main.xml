@@ -1,44 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+
+        <com.runzii.lib.ui.base.BottomNavViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_height="match_parent" />
 
-    </android.support.design.widget.AppBarLayout>
-
-    <ImageView
-        android:id="@+id/main_back"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/appbar"
-        android:scaleType="centerCrop" />
-
-    <View
-        android:id="@+id/toolbar_dropshadow"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/appbar"
-        android:background="@drawable/toolbar_dropshadow" />
-
-    <FrameLayout
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar"></FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 
-</RelativeLayout>
+</layout>

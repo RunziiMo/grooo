@@ -4,22 +4,58 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
-import butterknife.ButterKnife;
+import com.wenym.grooo.R;
+
+import rx.Subscription;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by runzii on 15-9-24.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
+
+    private CompositeSubscription mCompositeSubscription;
+
+
+    public CompositeSubscription getCompositeSubscription() {
+        if (this.mCompositeSubscription == null) {
+            this.mCompositeSubscription = new CompositeSubscription();
+        }
+
+        return this.mCompositeSubscription;
+    }
+
+    public void addSubscription(Subscription s) {
+        if (this.mCompositeSubscription == null) {
+            this.mCompositeSubscription = new CompositeSubscription();
+        }
+
+        this.mCompositeSubscription.add(s);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (this.mCompositeSubscription != null) {
+            this.mCompositeSubscription.unsubscribe();
+        }
+    }
 
     /**
      * 广播拦截器
@@ -30,26 +66,6 @@ public abstract class BaseFragment extends Fragment {
      * 当前页面是否可以销毁
      */
     private boolean isFinish = false;
-
-    protected abstract int getLayoutId();
-
-    @Nullable
-    @Override
-    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(getLayoutId(), container, false);
-        ButterKnife.inject(this,rootView);
-        return rootView;
-    }
-
-    /**
-     * 查找	View
-     *
-     * @return
-     * @param paramInt
-     */
-    public final View findViewById(int paramInt) {
-        return getView().findViewById(paramInt);
-    }
 
     /**
      * 如果子界面需要拦截处理注册的广播
@@ -62,6 +78,17 @@ public abstract class BaseFragment extends Fragment {
         // 广播处理
     }
 
+    protected abstract int getLayoutId();
+
+    protected T bind;
+
+    @Nullable
+    @Override
+    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(getLayoutId(), container, false);
+        bind = DataBindingUtil.bind(v);
+        return v;
+    }
 
     @Override
     public void onDetach() {
@@ -73,6 +100,9 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    protected Action1<Throwable> errorHandle() {
+        return throwable -> Snackbar.make(getView(), throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
     /**
      * 处理按钮按下事件
      *
@@ -181,6 +211,27 @@ public abstract class BaseFragment extends Fragment {
             if (localView != null && localView.getWindowToken() != null) {
                 inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             }
+        }
+    }
+
+    /**
+     * Called when a fragment will be displayed
+     */
+    public void willBeDisplayed() {
+        // Do what you want here, for example animate the content
+        if (getView() != null) {
+            Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+            getView().startAnimation(fadeIn);
+        }
+    }
+
+    /**
+     * Called when a fragment will be hidden
+     */
+    public void willBeHidden() {
+        if (getView() != null) {
+            Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+            getView().startAnimation(fadeOut);
         }
     }
 }

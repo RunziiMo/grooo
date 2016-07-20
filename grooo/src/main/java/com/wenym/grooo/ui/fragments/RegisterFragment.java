@@ -1,47 +1,40 @@
 package com.wenym.grooo.ui.fragments;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.wenym.grooo.R;
-import com.wenym.grooo.http.model.RegistData;
-import com.wenym.grooo.http.model.RegistSuccessData;
-import com.wenym.grooo.http.util.HttpCallBack;
-import com.wenym.grooo.http.util.HttpUtils;
+import com.wenym.grooo.databinding.FragmentRegisterBinding;
+import com.wenym.grooo.http.NetworkWrapper;
+import com.wenym.grooo.model.app.School;
+import com.wenym.grooo.model.http.RegistForm;
 import com.wenym.grooo.ui.base.BaseFragment;
-import com.wenym.grooo.utils.GroooAppManager;
-import com.wenym.grooo.utils.SmallTools;
-import com.wenym.grooo.widgets.Toasts;
 
-import butterknife.InjectView;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscription;
 
 public class RegisterFragment extends BaseFragment {
 
-    public static String phonePattern = "^1[0-9]{10}$";
-    public static String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
-    @InjectView(R.id.btn_confirmfetch)
-    Button confirmRegister;
-    @InjectView(R.id.register_phonenumber)
-    MaterialEditText phone;
-    @InjectView(R.id.register_building)
-    MaterialEditText building;
-    @InjectView(R.id.register_roomnumber)
-    MaterialEditText roomnumber;
-    @InjectView(R.id.register_email)
-    MaterialEditText email;
-    @InjectView(R.id.register_password)
-    MaterialEditText password;
-    @InjectView(R.id.register_password_confirm)
-    MaterialEditText confirmpassword;
-    private StringBuilder sb;
+    private static final String phonePattern = "^1[0-9]{10}$";
+    private static final String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
+    private static final String SCHOOLS = "SCHOOLS";
+
+    private FragmentRegisterBinding binding;
+
+    private ArrayList<School> schools = new ArrayList<>();
+
+    private ObservableBoolean enable = new ObservableBoolean(false);
+    private RegistForm form = new RegistForm();
 
     @Override
     protected int getLayoutId() {
@@ -49,99 +42,71 @@ public class RegisterFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+            schools = savedInstanceState.getParcelableArrayList(SCHOOLS);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(SCHOOLS, schools);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        building.setOnFocusChangeListener(new OnFocusChangeListener() {
+        binding = DataBindingUtil.bind(view);
+        binding.setRegistForm(form);
 
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    new MaterialDialog.Builder(getActivity())
-                            .items(SmallTools.toArrayBuildings(GroooAppManager.getBuildings()))
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog,
-                                                        View view, int which, CharSequence text) {
-                                    building.setText(text);
-                                }
-                            }).show();
-                }
-            }
-        });
-        confirmRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getData()) {
-                    RegistData registData = new RegistData();
-                    registData.setRegistdata(sb.toString());
-                    HttpUtils.MakeAPICall(registData, getActivity(), new HttpCallBack() {
-                        @Override
-                        public void onSuccess(Object object) {
-                            RegistSuccessData registSuccessData = (RegistSuccessData) object;
-                            Toasts.show(registSuccessData.getInfo());
-                        }
+        int layoutItemId = android.R.layout.simple_dropdown_item_1line;
+        ArrayAdapter<School> adapter = new ArrayAdapter<>(getContext(), layoutItemId, schools);
+        binding.etSchool.setAdapter(adapter);
 
-                        @Override
-                        public void onFailed(String reason) {
-                            Toasts.show(reason);
-                        }
-
-                        @Override
-                        public void onError(int statusCode) {
-                            Toasts.show("Registe " + statusCode);
-                        }
+        if (schools.size() == 0) {
+            Subscription s = NetworkWrapper.get().getSchools()
+                    .subscribe(schools1 -> {
+                        schools = schools1;
+                        adapter.notifyDataSetChanged();
                     });
-                }
-            }
+            addSubscription(s);
+        }
+
+        Observable<String> phoneOb = RxTextView.textChanges(binding.etPhone).skip(1).map(charSequence -> charSequence.toString());
+        Observable<String> passwordOb = RxTextView.textChanges(binding.etPassword).skip(1).map(charSequence -> charSequence.toString());
+        Observable<String> confirmPasswordOb = RxTextView.textChanges(binding.etConfirmPassword).skip(1).map(charSequence -> charSequence.toString());
+        Observable<School> schoolOb = RxTextView.textChanges(binding.etSchool).skip(1).map(charSequence -> schools.get(binding.etSchool.getListSelection()));
+        Observable.combineLatest(phoneOb, passwordOb, confirmPasswordOb, schoolOb,
+                (phone, password, confirmPassword, school) -> {
+                    binding.etPhone.setError(null);
+                    binding.etPassword.setError(null);
+                    binding.etSchool.setError(null);
+                    if (!phone.matches(phonePattern)) {
+                        binding.etPhone.setError("手机号格式不正确");
+                        return false;
+                    } else if (!password.equals(confirmPassword)) {
+                        binding.etConfirmPassword.setError("两次输入密码不一样");
+                    } else if (school == null) {
+                        binding.etSchool.setError("必须得选择学校");
+                        return false;
+                    }
+                    binding.getRegistForm().setSchool_id(school.getId());
+                    return true;
+                }).subscribe(aBoolean -> {
+            enable.set(aBoolean);
         });
+
+        Subscription regist = RxView.clicks(binding.btnRegist)
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> regist(binding.getRegistForm()));
+        addSubscription(regist);
     }
 
-    private boolean getData() {
-        sb = new StringBuilder();
-        String string = phone.getText().toString().trim();
-        if (string.matches(phonePattern)) {
-            sb.append("username=" + string);
-        } else {
-            phone.setError("请填写正确的手机号");
-            phone.requestFocus();
-            return false;
-        }
-        string = email.getText().toString().trim();
-        if (string.matches(emailPattern)) {
-            sb.append("&email=" + string);
-        } else {
-            email.setError("请填写正确的邮箱");
-            email.requestFocus();
-            return false;
-        }
-        string = building.getText().toString().trim();
-        if (!"".equals(string)) {
-            sb.append("&buildingNum=" + SmallTools.buildingtextToId(GroooAppManager.getBuildings(), string));
-        } else {
-            building.setError("请选择楼层");
-            building.requestFocus();
-            return false;
-        }
-        string = roomnumber.getText().toString().trim();
-        if (!"".equals(string)) {
-            sb.append("&roomNum=" + string);
-        } else {
-            roomnumber.setError("请填写宿舍号");
-            roomnumber.requestFocus();
-            return false;
-        }
-        string = password.getText().toString().trim();
-        if (string.length() >= 4
-                && string.equals(confirmpassword.getText().toString().trim())) {
-            sb.append("&password1=" + string);
-            sb.append("&password2=" + string);
-        } else {
-            password.setText("");
-            confirmpassword.setText("");
-            password.setError("两次密码不一致");
-            password.requestFocus();
-            return false;
-        }
-        return true;
+    private void regist(RegistForm registForm) {
+        Subscription s = NetworkWrapper.get().regist(registForm)
+                .subscribe(s1 -> Snackbar.make(getView(), s1, Snackbar.LENGTH_SHORT).show());
+        addSubscription(s);
     }
+
 }

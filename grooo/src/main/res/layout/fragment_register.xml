@@ -1,114 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_bg">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <data>
+
+        <variable
+            name="enable"
+            type="android.databinding.ObservableBoolean" />
+
+        <variable
+            name="registForm"
+            type="com.wenym.grooo.model.http.RegistForm" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_confirmfetch"
-        android:scrollbars="none"
-        android:layout_alignParentTop="true"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:background="@drawable/login_bg">
 
-        <LinearLayout
-            android:id="@+id/select_address"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_regist"
             android:layout_alignParentTop="true"
-            android:orientation="vertical">
+            android:padding="@dimen/activity_horizontal_margin"
+            android:scrollbars="none">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_phonenumber"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phonenumber"
-                android:inputType="phone"
-                android:maxLength="11"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_phone_white_36dp"
-                app:met_maxCharacters="11"
-                app:met_primaryColor="@color/blue"
-                app:met_singleLineEllipsis="true" />
+                android:layout_alignParentTop="true"
+                android:orientation="vertical">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_building"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                android:hint="@string/buildinghint"
-                android:maxLength="6"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_home_white_36dp"
-                app:met_maxCharacters="6"
-                app:met_primaryColor="@color/blue"
-                app:met_singleLineEllipsis="true" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phonenumber"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:text="@={registForm.username}"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_phone_white_36dp"
+                    app:met_maxCharacters="11"
+                    app:met_primaryColor="@color/blue"
+                    app:met_singleLineEllipsis="true" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_roomnumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/roomhint"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_room_white_36dp"
-                app:met_primaryColor="@color/blue"
-                app:met_singleLineEllipsis="true" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password_hint"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    android:text="@={registForm.password}"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
+                    app:met_maxCharacters="16"
+                    app:met_primaryColor="@color/blue"
+                    app:met_singleLineEllipsis="true" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_email_white_36dp"
-                app:met_primaryColor="@color/blue"
-                app:met_singleLineEllipsis="true" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_comfirmpassword_hint"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    app:met_clearButton="true"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
+                    app:met_maxCharacters="16"
+                    app:met_primaryColor="@color/blue" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/login_password_hint"
-                android:inputType="textPassword"
-                android:maxLength="16"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
-                app:met_maxCharacters="16"
-                app:met_primaryColor="@color/blue"
-                app:met_singleLineEllipsis="true" />
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/register_password_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/login_comfirmpassword_hint"
-                android:inputType="textPassword"
-                android:maxLength="16"
-                app:met_clearButton="true"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
-                app:met_maxCharacters="16"
-                app:met_primaryColor="@color/blue" />
+                <AutoCompleteTextView
+                    android:id="@+id/et_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="请选择学校"
+                    android:inputType="textPassword"
+                    android:maxLength="16"
+                    app:met_clearButton="true" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn_confirmfetch"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/selector_green_button"
-        android:text="@string/confirmregister"
-        android:textColor="@color/white" />
+        <Button
+            android:id="@+id/btn_regist"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/selector_green_button"
+            android:enabled="@{enable.get()}"
+            android:text="@string/confirmregister"
+            android:textColor="@color/white" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

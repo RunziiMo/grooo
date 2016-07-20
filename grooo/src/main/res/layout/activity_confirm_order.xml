@@ -1,123 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <data>
+
+        <variable
+            name="form"
+            type="com.wenym.grooo.model.http.OrderForm" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="match_parent">
 
-
-    <ScrollView
-        android:scrollbars="none"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/confirm_pay"
-        android:layout_below="@+id/toolbar">
-
-        <LinearLayout
-            android:id="@+id/above_confirm_pay"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin">
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/pay_remark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="备注"
-                android:textSize="@dimen/text_size_medium"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_home_white_36dp"
-                app:met_iconPadding="4dp"
-                app:met_maxCharacters="5" />
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/pay_room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="房间号"
-                android:inputType="number"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_room_white_36dp"
-                app:met_iconPadding="4dp"
-                app:met_maxCharacters="5" />
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/pay_building"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                android:hint="宿舍楼"
-                android:textSize="@dimen/text_size_medium"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_room_white_36dp"
-                app:met_iconPadding="4dp"
-                app:met_maxCharacters="5" />
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/confirm_pay"
+            android:layout_below="@+id/toolbar"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="@dimen/activity_horizontal_margin">
 
-                <TextView
-                    android:layout_width="0dp"
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/pay_remark"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:text="是否上门"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:hint="备注"
+                    android:text="@={form.remark}"
+                    android:textSize="@dimen/text_size_medium"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_home_white_36dp"
+                    app:met_iconPadding="4dp"
+                    app:met_maxCharacters="5" />
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/pay_to_door_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/pay_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="房间号"
+                    android:inputType="number"
+                    android:text="@={form.address}"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_room_white_36dp"
+                    app:met_iconPadding="4dp"
+                    app:met_maxCharacters="5" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/pay_building"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="宿舍楼"
+                    android:text="@={form.building}"
+                    android:textSize="@dimen/text_size_medium"
+                    app:met_floatingLabel="highlight"
+                    app:met_iconLeft="@drawable/ic_room_white_36dp"
+                    app:met_iconPadding="4dp"
+                    app:met_maxCharacters="5" />
 
             </LinearLayout>
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/pay_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                android:hint="取餐时间"
-                android:textSize="@dimen/text_size_medium"
-                android:visibility="gone"
-                app:met_floatingLabel="highlight"
-                app:met_iconLeft="@drawable/ic_room_white_36dp"
-                app:met_iconPadding="4dp"
-                app:met_maxCharacters="5" />
+        </ScrollView>
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/confirm_pay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:onClick="confirmOrder"
+            android:background="@drawable/selector_green_button"
+            android:text="@string/confirmpay"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium" />
 
-    </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@id/toolbar"
+            android:background="@drawable/toolbar_dropshadow" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/confirm_pay"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/selector_green_button"
-        android:text="@string/confirmpay"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium" />
+    </RelativeLayout>
+</layout>
 
-    <View
-        android:id="@+id/toolbar_dropshadow"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@id/toolbar"
-        android:background="@drawable/toolbar_dropshadow" />
-
-</RelativeLayout>

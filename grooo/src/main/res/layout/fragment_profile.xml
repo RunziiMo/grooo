@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="profile"
+            type="com.wenym.grooo.model.app.Profile" />
+
+        <variable
+            name="address"
+            type="com.wenym.grooo.model.app.Address" />
+    </data>
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="center_horizontal|bottom"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_scrollFlags="snap|exitUntilCollapsed"
+            app:title="@{profile.nickname}">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="pin">
+
+                <com.wenym.grooo.widgets.CircleImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="36dp"
+                    android:src="@drawable/responsible" />
+            </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingTop="24dp">
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/card_margin">
+
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="学校"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/tv_user_school"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="东北大学秦皇岛分校" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
+
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="宿舍楼"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/tv_user_building"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="鹏远三号楼" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
+
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="房间号"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/tv_user_roomnumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="2004" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/card_margin"
+                        android:layout_marginLeft="@dimen/card_margin"
+                        android:layout_marginRight="@dimen/card_margin">
+
+                        <LinearLayout
+                            style="@style/Widget.CardContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="邮箱"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                            <TextView
+                                android:id="@+id/tv_user_mail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="806478101@qq.com" />
+
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow" />
+
+        </FrameLayout>
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

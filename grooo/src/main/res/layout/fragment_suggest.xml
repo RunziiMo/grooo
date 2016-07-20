@@ -29,7 +29,7 @@
     </FrameLayout>
 
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

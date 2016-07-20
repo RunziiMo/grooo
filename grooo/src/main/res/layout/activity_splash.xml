@@ -1,86 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Copyright (c) 2013 The CCP project authors. All Rights Reserved.
- 
-   Use of this source code is governed by a Beijing Speedtong Information Technology Co.,Ltd license
-   that can be found in the LICENSE file in the root of the web site.
- 
-    				http://www.yuntongxun.com
- 
-   An additional intellectual property rights grant can be found
-   in the file PATENTS.  All contributing project authors may
-   be found in the AUTHORS file in the root of the source tree.
- -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/splash_root"
-    android:scrollbars="none">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:id="@+id/spalash_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
-    <LinearLayout
-        android:id="@+id/welcome_icon_ll"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96.0dip"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/welcome_hint1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32.0dip"
-            android:text="@string/app_name"
-            android:textStyle="bold"
-            android:textColor="#ffd9ffcc"
-            android:textSize="65.0dip" />
-
-        <TextView
-            android:id="@+id/welcome_hint2"
-            android:text="@string/app_info_welcome"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content"
-            android:textColor="#ffd9ffcc"
-            android:textSize="@dimen/text_size_medium" />
-    </LinearLayout>
-
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/splash_root"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:paddingBottom="16dip">
+        android:scrollbars="none">
 
+        <ImageView
+            android:id="@+id/spalash_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/tvCopyRight"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/copyright"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_marginTop="96.0dip"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tvVersion"
-            android:layout_width="wrap_content"
-            android:paddingTop="8dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="AmazeStudio.net"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_micro" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/welcome_hint1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32.0dip"
+                android:text="@string/app_name"
+                android:textColor="#ffd9ffcc"
+                android:textSize="65.0dip"
+                android:textStyle="bold" />
 
-</FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/app_info_welcome"
+                android:textColor="#ffd9ffcc"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:paddingBottom="16dip"
+            android:visibility="gone">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/copyright"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:text="AmazeStudio.net"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_micro" />
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

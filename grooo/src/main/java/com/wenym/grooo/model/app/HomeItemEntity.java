@@ -1,8 +1,8 @@
 package com.wenym.grooo.model.app;
 
 import com.wenym.grooo.provider.HomeItem;
-import com.wenym.grooo.utils.GroooAppManager;
-import com.wenym.grooo.utils.Tools;
+import com.wenym.grooo.util.GroooAppManager;
+import com.wenym.grooo.util.Tools;
 
 import java.util.Random;
 

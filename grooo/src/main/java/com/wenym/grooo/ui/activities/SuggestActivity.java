@@ -2,14 +2,14 @@ package com.wenym.grooo.ui.activities;
 
 import android.os.Bundle;
 
+import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.ui.fragments.SuggestFragment;
-import com.wenym.grooo.ui.base.BaseActivity;
 
 /**
  * Created by runzii on 15-11-1.
  */
-public class SuggestActivity extends BaseActivity{
+public class SuggestActivity extends BaseActivity {
 
     @Override
     protected boolean isEnableSwipe() {
@@ -19,11 +19,6 @@ public class SuggestActivity extends BaseActivity{
     @Override
     protected int getLayoutId() {
         return 0;
-    }
-
-    @Override
-    protected boolean isHideNavigationBar() {
-        return false;
     }
 
     @Override

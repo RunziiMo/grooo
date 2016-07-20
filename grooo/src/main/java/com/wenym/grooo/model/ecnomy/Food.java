@@ -2,12 +2,66 @@ package com.wenym.grooo.model.ecnomy;
 
 public class Food {
 
+
+    /**
+     * category : 巴氏消毒奶
+     * description :
+     * id : 10972
+     * logo :
+     * monthSold : 0
+     * name : 2-多人15天（每人赠一瓶鲜奶）
+     * price : 75
+     * remain : 99999
+     */
+
+    private String category;
+    private String description;
+    private int id;
+    private String logo;
+    private int monthSold;
     private String name;
     private String price;
-    private String packageprice;
-    private int id;
-    private int numpermonth;
-    private String image;
+    private int remain;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public int getMonthSold() {
+        return monthSold;
+    }
+
+    public void setMonthSold(int monthSold) {
+        this.monthSold = monthSold;
+    }
 
     public String getName() {
         return name;
@@ -25,47 +79,11 @@ public class Food {
         this.price = price;
     }
 
-    public String getPackageprice() {
-        return packageprice;
+    public int getRemain() {
+        return remain;
     }
 
-    public void setPackageprice(String packageprice) {
-        this.packageprice = packageprice;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getNumpermonth() {
-        return numpermonth;
-    }
-
-    public void setNumpermonth(int numpermonth) {
-        this.numpermonth = numpermonth;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public String toString() {
-        return "Food{" +
-                "name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", packageprice='" + packageprice + '\'' +
-                ", id=" + id +
-                ", numpermonth=" + numpermonth +
-                ", image='" + image + '\'' +
-                '}';
+    public void setRemain(int remain) {
+        this.remain = remain;
     }
 }

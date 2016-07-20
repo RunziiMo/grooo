@@ -20,67 +20,34 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
-import com.daimajia.swipe.util.Attributes;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.wenym.grooo.R;
-import com.wenym.grooo.adapters.DeliveryOrderAdapter;
-import com.wenym.grooo.adapters.FoodOrderAdapter;
-import com.wenym.grooo.model.ecnomy.DeliveryOrder;
-import com.wenym.grooo.model.ecnomy.FoodOrder;
-import com.wenym.grooo.provider.ExtraArgumentKeys;
+import com.wenym.grooo.databinding.FragmentRecyclerviewBinding;
+import com.wenym.grooo.http.NetworkWrapper;
+import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.ui.adapters.FoodOrderAdapter;
 import com.wenym.grooo.ui.base.BaseFragment;
+import com.wenym.grooo.util.RxJava.RxNetWorking;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.InjectView;
-import jp.wasabeef.recyclerview.animators.adapters.SlideInBottomAnimationAdapter;
-
-public class OrderListFragment extends BaseFragment {
+import rx.Observable;
+import rx.Subscription;
 
 
-    @InjectView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
-    @InjectView(R.id.tv_emptyview)
-    TextView emptyView;
-    private List<FoodOrder> mlist = null;
-    private List<DeliveryOrder> mlistDelivery = null;
-    @SuppressWarnings("rawtypes")
+public class OrderListFragment extends BaseFragment<FragmentRecyclerviewBinding> {
+
+
+    private List<Order> mlist = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
 
+    private Observable<List<Order>> orderOb;
 
-    public static OrderListFragment newInstanceFood(List<FoodOrder> objects) {
+    public static OrderListFragment newInstance() {
         OrderListFragment f = new OrderListFragment();
-        Bundle b = new Bundle();
-        b.putBoolean(ExtraArgumentKeys.ISFOODORDER.toString(), true);
-        b.putString(ExtraArgumentKeys.ORDERS.toString(), new Gson().toJson(objects));
-        f.setArguments(b);
         return f;
-    }
-
-    public static OrderListFragment newInstanceDelivery(List<DeliveryOrder> objects) {
-        OrderListFragment f = new OrderListFragment();
-        Bundle b = new Bundle();
-        b.putBoolean(ExtraArgumentKeys.ISFOODORDER.toString(), false);
-        b.putString(ExtraArgumentKeys.ORDERS.toString(), new Gson().toJson(objects));
-        f.setArguments(b);
-        return f;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String listStr = getArguments().getString(ExtraArgumentKeys.ORDERS.toString());
-        if (getArguments().getBoolean(ExtraArgumentKeys.ISFOODORDER.toString())) {
-            mlist = new Gson().fromJson(listStr, new TypeToken<ArrayList<FoodOrder>>() {
-            }.getType());
-        } else {
-            mlistDelivery = new Gson().fromJson(listStr, new TypeToken<ArrayList<DeliveryOrder>>() {
-            }.getType());
-        }
     }
 
     @Override
@@ -88,41 +55,38 @@ public class OrderListFragment extends BaseFragment {
         return R.layout.fragment_recyclerview;
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        orderOb = NetworkWrapper.get().getOrders()
+                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
+        bind.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        bind.recyclerView.setEmptyView(bind.tvEmptyview);
+        Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+                .subscribe(aVoid -> {
+                    loadOrder();
+                }, errorHandle());
+        addSubscription(rx);
         setAdapter();
+        loadOrder();
+    }
+
+
+    private void loadOrder() {
+        Subscription s = orderOb.
+                compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout))
+                .subscribe(orders -> {
+                    mlist.clear();
+                    mlist.addAll(orders);
+                    mAdapter.notifyDataSetChanged();
+                }, errorHandle());
+        addSubscription(s);
     }
 
 
     private void setAdapter() {
-        if (mlist != null) {
-            if (mlist.size() == 0) {
-                emptyView.setVisibility(View.VISIBLE);
-            } else {
-                emptyView.setVisibility(View.GONE);
-            }
-            mAdapter = new FoodOrderAdapter(getActivity(), mlist);
-            ((FoodOrderAdapter) mAdapter)
-                    .setMode(Attributes.Mode.Single);
-            SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
-                    mAdapter);
-            mRecyclerView
-                    .setAdapter(animationAdapter);
-        } else {
-            if (mlistDelivery.size() == 0) {
-                emptyView.setVisibility(View.VISIBLE);
-            } else {
-                emptyView.setVisibility(View.GONE);
-            }
-            mAdapter = new DeliveryOrderAdapter(getActivity(), mlistDelivery);
-            ((DeliveryOrderAdapter) mAdapter)
-                    .setMode(Attributes.Mode.Single);
-            SlideInBottomAnimationAdapter animationAdapter = new SlideInBottomAnimationAdapter(
-                    mAdapter);
-            mRecyclerView
-                    .setAdapter(animationAdapter);
-        }
+        mAdapter = new FoodOrderAdapter(getActivity(), mlist);
+        bind.recyclerView.setAdapter(mAdapter);
     }
 }

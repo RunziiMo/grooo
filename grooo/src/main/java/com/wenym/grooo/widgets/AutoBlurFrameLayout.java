@@ -7,9 +7,9 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 
-import com.wenym.grooo.utils.stackblur.StackBlurManager;
+import com.wenym.grooo.util.Toasts;
+import com.wenym.grooo.util.stackblur.StackBlurManager;
 
 
 /**

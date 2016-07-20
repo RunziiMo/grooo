@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "com.wenym.grooo.ui.activities.UserInfoActivity"/>
+        className = "com.wenym.grooo.ui.activities.ProfileFragment"/>
       <point      
         x = "1216"      
         y = "-72"/>

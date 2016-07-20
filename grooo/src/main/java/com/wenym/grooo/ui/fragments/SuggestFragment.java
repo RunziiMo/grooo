@@ -6,31 +6,30 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import com.rengwuxian.materialedittext.MaterialEditText;
+import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.base.BaseFragment;
-import com.wenym.grooo.widgets.Toasts;
 
-import butterknife.InjectView;
 
 public class SuggestFragment extends BaseFragment implements View.OnClickListener {
 
-    @InjectView(R.id.et_suggest)
-    MaterialEditText suggest;
-
-    @InjectView(R.id.btn_confirm)
-    Button confirm;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_suggest;
     }
 
+
+    private EditText suggest;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button confirm = (Button) view.findViewById(R.id.btn_confirm);
+        suggest = (EditText) view.findViewById(R.id.et_suggest);
         confirm.setOnClickListener(this);
     }
 

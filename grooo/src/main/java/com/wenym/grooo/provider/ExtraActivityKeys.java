@@ -5,7 +5,7 @@ package com.wenym.grooo.provider;
  * Created by jpardogo on 22/02/2014.
  */
 public enum ExtraActivityKeys {
-    SHOPKIND("shop_kind"),
+    BASKET("shop_kind"),
     CONFIRMPAY("confirm_pay"),
     PAYINFO("pay_info"),
     FRAGMENT("fragment_kind"),

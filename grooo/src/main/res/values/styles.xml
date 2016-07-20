@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <style name="AppBaseTheme" parent="MaterialDrawerTheme.Light.DarkToolbar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 

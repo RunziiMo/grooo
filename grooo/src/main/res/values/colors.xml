@@ -12,38 +12,13 @@
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#727272</color>
 
-    <color name="window_background">#F9F9F9</color>
-    <color name="msg_emote_divider">#ffa1a1a1</color>
-    <color name="color_bottom_bg">#272a2e</color>
-    <color name="color_bottom_text_normal">#9da0a4</color>
-    <color name="color_bottom_text_press">#4f9ef6</color>
     <color name="text_gray">#969696</color>
     <color name="transparent">#00000000</color>
-    <color name="msg_chat_bg">#eceff4</color>
-    <color name="theme_bg_color">#f0f2f5</color>
     <color name="color_theme">#489cfa</color>
-    <color name="alpha_c_f98800">#77ed4e23</color>
-    <color name="dialog_color_title">#f82c22</color>
-    <color name="guide_color">#898989</color>
-    <color name="common_bg">#fcfcfc</color>
-    <color name="orange_ff">#ffff6000</color>
-    <color name="alpha_orange_ff">#77ff6000</color>
-    <color name="red_light">#ffcd423a</color>
     <color name="color_d2">#fff2f2f2</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
-    <color name="color_6">#ff666666</color>
-    <color name="yellow">#FFFCD209</color>
-    <color name="blue_dark">#ff0c72a9</color>
-    <color name="blue_light">#ff3893cf</color>
-    <color name="gray_bg">#ffeeeeec</color>
-    <color name="gray_bg_2">#fff1f1f1</color>
-    <color name="grey_dark">#ff404850</color>
-    <color name="grey_dark_pressed">#ff363c43</color>
-    <color name="green_light">#ff4dc060</color>
     <color name="green_500">#4caf50</color>
     <color name="green_800">#2e7d32</color>
-    <color name="green_weixin_pressed">#ff3cae3b</color>
-    <color name="green_weixin_co_order">#ff4db232</color>
 
 </resources>

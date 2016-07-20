@@ -60,18 +60,8 @@
             android:label="@string/activitylabel_home"
             android:launchMode="singleTask"
             android:theme="@style/AppBaseTheme" />
-        <activity
-            android:name=".ui.activities.RestaurantListActivity"
-            android:label="@string/grooo_delivery"
-            android:theme="@style/RestaurantListTheme" />
-        <activity
-            android:name=".ui.activities.LookOrderActivity"
-            android:label="@string/my_order" />
         <activity android:name=".ui.activities.RestaurantDetailActivity" />
         <activity android:name=".ui.activities.WebViewActivity"></activity>
-        <activity
-            android:name=".ui.activities.UserInfoActivity"
-            android:label="@string/set_myinfo"></activity>
         <activity
             android:name=".ui.activities.AboutActivity"
             android:label="@string/aboutus"></activity>
@@ -100,10 +90,11 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.wenym.grooo" />
             </intent-filter>
@@ -113,8 +104,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -160,6 +150,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
 
@@ -178,6 +169,9 @@
             android:name="JPUSH_APPKEY"
             android:value="4bc64f99dc981b537f5feebe" />
         <!--  </>值来自开发者平台取得的AppKey-->
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="99ef45d87a3b2a9f1c2a8699e7a8eb0d" />
     </application>
 
 </manifest>

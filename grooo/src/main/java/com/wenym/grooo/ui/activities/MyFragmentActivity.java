@@ -1,14 +1,14 @@
 package com.wenym.grooo.ui.activities;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.provider.ExtraActivityKeys;
-import com.wenym.grooo.ui.base.BaseActivity;
 import com.wenym.grooo.ui.fragments.AboutUsFragment;
-import com.wenym.grooo.ui.fragments.FetchKuaidiFragment;
 import com.wenym.grooo.ui.fragments.RegisterFragment;
 import com.wenym.grooo.ui.fragments.SuggestFragment;
 
@@ -18,11 +18,6 @@ import com.wenym.grooo.ui.fragments.SuggestFragment;
 public class MyFragmentActivity extends BaseActivity {
 
     public final static int about = 1, suggest = 2, delivery = 3, regist = 4;
-
-    @Override
-    protected boolean isHideNavigationBar() {
-        return false;
-    }
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -36,7 +31,7 @@ public class MyFragmentActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_base;
+        return 0;
     }
 
     @Override
@@ -60,10 +55,6 @@ public class MyFragmentActivity extends BaseActivity {
                 break;
             case 2:
                 fragment = new SuggestFragment();
-                break;
-            case 3:
-                fragment = new FetchKuaidiFragment();
-                getSupportActionBar().setTitle(R.string.activitylabel_delivery);
                 break;
             case 4:
                 fragment = new RegisterFragment();
