@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.design.widget.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,7 @@ import com.runzii.lib.app.SwipeBackActivity;
 
 import cn.jpush.android.api.JPushInterface;
 import rx.Subscription;
+import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -45,17 +47,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
 
         setSwipeBackEnable(isEnableSwipe());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            sHandler = new Handler();
-            sHandler.post(mHideRunnable); // hide the navigation bar
-            final View decorView = getWindow().getDecorView();
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    sHandler.post(mHideRunnable); // hide the navigation bar
-                }
-            });
-        }
+
         if (isDisplayHomeAsUp() && getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(false);
@@ -86,31 +78,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
         JPushInterface.onResume(this);
     }
 
-    private static Handler sHandler;
-
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            int flags;
-            int curApiVersion = Build.VERSION.SDK_INT;
-            // This work only for android 4.4+
-            if (curApiVersion >= Build.VERSION_CODES.KITKAT) {
-                // This work only for android 4.4+
-                // hide navigation bar permanently in android activity
-                // touch the screen, the navigation bar will not show
-                flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE;
-
-            } else {
-                // touch the screen, the navigation bar will show
-                flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            }
-
-            // must be executed in main thread :)
-            getWindow().getDecorView().setSystemUiVisibility(flags);
-        }
-    };
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //handle the click on the back arrow click
@@ -138,5 +105,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
         }
     }
 
+
+    protected Action1<Throwable> errorHandle(String message) {
+        return throwable -> Snackbar.make(bind.getRoot(), message + ' ' + throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+    }
 
 }

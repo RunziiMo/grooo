@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.runzii.lib.constant.MyActions;
+import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
@@ -47,6 +48,7 @@ public class GroooAppManager {
                         setAuthToken(authToken1.getToken());
                     }, throwable -> {
                         appContext.sendBroadcast(new Intent(MyActions.ACTION_LOGOUT));
+                        Logs.d("获取登录token出错");
                         throwable.printStackTrace();
                     });
         }

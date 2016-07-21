@@ -44,7 +44,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_iconLeft="@drawable/ic_phone_white_36dp"
                     app:met_maxCharacters="11"
-                    app:met_primaryColor="@color/blue"
+                    app:met_primaryColor="@color/colorPrimary"
                     app:met_singleLineEllipsis="true" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -59,7 +59,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
                     app:met_maxCharacters="16"
-                    app:met_primaryColor="@color/blue"
+                    app:met_primaryColor="@color/colorPrimary"
                     app:met_singleLineEllipsis="true" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -73,7 +73,7 @@
                     app:met_floatingLabel="highlight"
                     app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"
                     app:met_maxCharacters="16"
-                    app:met_primaryColor="@color/blue" />
+                    app:met_primaryColor="@color/colorPrimary" />
 
                 <AutoCompleteTextView
                     android:id="@+id/et_school"

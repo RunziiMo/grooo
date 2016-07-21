@@ -77,10 +77,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         super.onCreate(savedInstanceState);
 
         Profile profile = GroooAppManager.getProfile();
-        profile.setPush_id(JPushInterface.getRegistrationID(this));
-        GroooAppManager.setProfile(profile);
-        NetworkWrapper.get().putProfile(profile).subscribe(s -> Toasts.show(s), throwable -> throwable.printStackTrace());
-
+        if(!JPushInterface.getRegistrationID(this).equals(profile.getPush_id())) {
+            profile.setPush_id(JPushInterface.getRegistrationID(this));
+            GroooAppManager.setProfile(profile);
+            NetworkWrapper.get().putProfile(profile).subscribe(s -> Toasts.show(s), errorHandle("设置个人推送信息"));
+        }
         FIR.checkForUpdateInFIR("487080b6240eab23c5e9b55a7712b23a", new VersionCheckCallback() {
 
             @Override
@@ -123,6 +124,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
 
         bind.pager.setAdapter(new BottomNavPagerAdapter(getSupportFragmentManager()));
+        bind.pager.setOffscreenPageLimit(2);
         setUpBottomNavigation(savedInstanceState);
 
     }

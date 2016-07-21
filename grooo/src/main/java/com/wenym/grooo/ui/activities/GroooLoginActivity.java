@@ -74,6 +74,7 @@ public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
                     GroooAppManager.setProfile(profile);
                     Intent intent = new Intent(GroooLoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 , throwable -> Snackbar.make(bind.loginForm, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()
                 , () -> showProgress(false));

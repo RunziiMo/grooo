@@ -17,39 +17,27 @@ import java.util.List;
  */
 public class BottomNavPagerAdapter extends FragmentPagerAdapter {
 
-    private List<Fragment> fragments = new ArrayList<>();
-    private Fragment currentFragment;
-
     public BottomNavPagerAdapter(FragmentManager fm) {
         super(fm);
-        fragments.clear();
-        fragments.add(ShopFragment.newInstance());
-        fragments.add(OrderListFragment.newInstance());
-        fragments.add(ProfileFragment.newInstance());
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        switch (position){
+            case 0:
+                return ShopFragment.newInstance();
+            case 1:
+                return OrderListFragment.newInstance();
+            case 2:
+                return ProfileFragment.newInstance();
+            default:
+                return ProfileFragment.newInstance();
+        }
     }
 
     @Override
     public int getCount() {
-        return fragments.size();
+        return 3;
     }
 
-    @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        if (getCurrentFragment() != object) {
-            currentFragment = ((Fragment) object);
-        }
-        super.setPrimaryItem(container, position, object);
-    }
-
-    /**
-     * Get the current fragment
-     */
-    public Fragment getCurrentFragment() {
-        return currentFragment;
-    }
 }

@@ -66,7 +66,7 @@ public class OrderListFragment extends BaseFragment<FragmentRecyclerviewBinding>
         Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
                 .subscribe(aVoid -> {
                     loadOrder();
-                }, errorHandle());
+                }, errorHandle("获取所有订单"));
         addSubscription(rx);
         setAdapter();
         loadOrder();
@@ -80,7 +80,7 @@ public class OrderListFragment extends BaseFragment<FragmentRecyclerviewBinding>
                     mlist.clear();
                     mlist.addAll(orders);
                     mAdapter.notifyDataSetChanged();
-                }, errorHandle());
+                }, errorHandle("加载所有订单"));
         addSubscription(s);
     }
 

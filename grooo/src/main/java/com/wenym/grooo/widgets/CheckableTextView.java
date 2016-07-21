@@ -31,7 +31,7 @@ public class CheckableTextView extends TextView implements Checkable {
     public void setChecked(boolean checked) {
         isChecked = checked;
         if (checked) {
-            setTextColor(getResources().getColor(R.color.red));
+            setTextColor(getResources().getColor(R.color.colorPrimary));
             setBackgroundResource(R.color.white);
         } else {
             setTextColor(getResources().getColor(R.color.textColorPrimary));

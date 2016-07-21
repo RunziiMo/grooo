@@ -100,9 +100,10 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         }
     }
 
-    protected Action1<Throwable> errorHandle() {
-        return throwable -> Snackbar.make(getView(), throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+    protected Action1<Throwable> errorHandle(String message) {
+        return throwable -> Snackbar.make(getView(), message + ' ' + throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
     }
+
     /**
      * 处理按钮按下事件
      *

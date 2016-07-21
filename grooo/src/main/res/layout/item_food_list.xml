@@ -74,7 +74,7 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/food_list_item_image"
             android:text="￥"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/food_list_item_price_des"
             android:text="@{food.price}"
-            android:textColor="@color/red"
+            android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             tools:text="价格" />
