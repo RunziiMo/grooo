@@ -32,8 +32,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="@null"
-                android:minWidth="100dp"
-                android:src="@drawable/ic_launcher" />
+                android:minWidth="100dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
