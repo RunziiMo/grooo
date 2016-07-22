@@ -106,8 +106,14 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
     }
 
 
-    protected Action1<Throwable> errorHandle(String message) {
-        return throwable -> Snackbar.make(bind.getRoot(), message + ' ' + throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+    protected Action1<Throwable> errorHandle(final String message) {
+        return new Action1<Throwable>() {
+
+            @Override
+            public void call(Throwable throwable) {
+                Snackbar.make(bind.getRoot(), message + ' ' + throwable.getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
+        };
     }
 
 }
