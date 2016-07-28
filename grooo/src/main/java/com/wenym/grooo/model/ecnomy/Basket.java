@@ -78,7 +78,7 @@ public enum Basket  {
         for (Food food : order.keySet()) {
             Order.DetailBean bean = new Order.DetailBean();
             bean.setName(food.getName());
-            bean.setCount(order.get(food));
+            bean.setCount(order.get(food).toString());
             beanList.add(bean);
         }
         form.setDetail(beanList);

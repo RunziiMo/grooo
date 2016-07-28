@@ -3,10 +3,6 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
 
-
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
-
         <!-- Material Theme -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -20,20 +16,15 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
 
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="RestaurantListTheme" parent="AppTheme">
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
+
     <style name="LoginTheme" parent="AppTheme">
-    </style>
 
-
-    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <!-- White arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
     </style>
 
 
@@ -43,6 +34,11 @@
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Widget.TextAppearance.None" parent="TextAppearance.AppCompat.Headline">
+
+        <item name="android:textColor">@android:color/transparent</item>
     </style>
 
 

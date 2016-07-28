@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/detail_item_count"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/detail_item_duck"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/detail_item_duck"
-            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

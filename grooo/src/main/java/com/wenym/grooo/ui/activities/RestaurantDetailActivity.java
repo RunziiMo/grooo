@@ -46,10 +46,15 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
     protected boolean isEnableSwipe() {
         return true;
     }
-    
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_shopdetail;
+    }
+
+    @Override
+    protected boolean isTranslucentStatus() {
+        return false;
     }
 
     @Override

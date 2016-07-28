@@ -41,7 +41,7 @@ public class BottomNavPagerAdapter extends FragmentPagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
         Fragment fragment = (Fragment) object;
-        if (fragment != curr) {
+        if (fragment != curr && curr != null) {
             curr = fragment;
             fragment.onResume();
         }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -12,6 +14,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.util.RxEvent.ScrollEvent;
+import com.wenym.grooo.util.RxJava.RxBus;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityMainBinding;
@@ -73,11 +77,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Profile profile = GroooAppManager.getProfile();
-        if(!JPushInterface.getRegistrationID(this).equals(profile.getPush_id())) {
+        if (!JPushInterface.getRegistrationID(this).equals(profile.getPush_id())) {
             profile.setPush_id(JPushInterface.getRegistrationID(this));
             GroooAppManager.setProfile(profile);
             NetworkWrapper.get().putProfile(profile).subscribe(s -> Toasts.show(s), errorHandle("设置个人推送信息"));
@@ -140,6 +149,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 bind.pager, savedInstanceState);
         mBottomBar.setItems(R.menu.menu_bottom_navigation);
 
+        mBottomBar.useOnlyStatusBarTopOffset();
+
         mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
 
 
@@ -164,6 +175,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             }
         });
+
+        RxBus.getDefault().toObserverable(ScrollEvent.class)
+                .compose(bindToLifecycle())
+                .subscribe(scrollEvent -> {
+                    switch (scrollEvent.getState()) {
+                        case RecyclerView.SCROLL_STATE_DRAGGING:
+                        case RecyclerView.SCROLL_STATE_SETTLING:
+                            mBottomBar.show();
+                            break;
+                        case RecyclerView.SCROLL_STATE_IDLE:
+                            mBottomBar.hide();
+                            break;
+                    }
+                });
     }
 
     @Override

@@ -43,6 +43,11 @@ public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return true;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

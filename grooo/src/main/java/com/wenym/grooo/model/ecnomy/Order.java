@@ -1,6 +1,9 @@
 package com.wenym.grooo.model.ecnomy;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.wenym.grooo.util.SmallTools;
 import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.util.OrderStatus;
@@ -160,16 +163,15 @@ public class Order {
         this.detail = detail;
     }
 
-
     public static class DetailBean {
-        private int count;
+        private String count;
         private String name;
 
-        public int getCount() {
+        public String getCount() {
             return count;
         }
 
-        public void setCount(int count) {
+        public void setCount(String count) {
             this.count = count;
         }
 

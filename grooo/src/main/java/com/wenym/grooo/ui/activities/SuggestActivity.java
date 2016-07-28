@@ -22,6 +22,11 @@ public class SuggestActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return false;
+    }
+
+    @Override
     protected boolean isDisplayHomeAsUp() {
         return true;
     }

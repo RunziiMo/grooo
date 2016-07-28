@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="LoginTheme" parent="AppTheme">
 
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-
 </resources>

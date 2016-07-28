@@ -61,7 +61,6 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
         pagerAdapter = new ShopViewPagerAdapter(getLayoutInflater(savedInstanceState));
         setUpViewPager();
         loadShop();
-        loadBackDrop();
     }
 
     private Handler shopHandler = new Handler(new Handler.Callback() {
@@ -99,11 +98,6 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
         bind.tabs.setupWithViewPager(bind.pager);
     }
 
-    private void loadBackDrop() {
-        String imageUrl = ImageBacks.getOne();
-        Log.d("ShopFragment", "imageUrl = " + imageUrl);
-        Glide.with(getActivity()).load(imageUrl).into(bind.backDrop);
-    }
 
     private void loadShop() {
         Subscription s = shopObservable
@@ -121,9 +115,10 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("ShopFragment","onResume()");
-        if (getActivity() instanceof AppCompatActivity)
+        if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(bind.toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.label_shop_list);
+        }
     }
 
 }

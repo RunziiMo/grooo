@@ -17,6 +17,7 @@
 package com.wenym.grooo.ui.fragments;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -88,5 +89,14 @@ public class OrderListFragment extends BaseFragment<FragmentRecyclerviewBinding>
     private void setAdapter() {
         mAdapter = new FoodOrderAdapter(getActivity(), mlist);
         bind.recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(bind.toolbar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.label_order_list);
+        }
     }
 }

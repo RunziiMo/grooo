@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemShopListDevBinding;
@@ -16,6 +17,7 @@ import com.wenym.grooo.util.SmallTools;
 import com.wenym.grooo.util.Toasts;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by florentchampigny on 24/04/15.
@@ -48,11 +50,13 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopVi
     public void onBindViewHolder(final ShopViewHolder holder, final int position) {
         final Shop shop = contents.get(position);
         holder.devBinding.setShop(shop);
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), RestaurantDetailActivity.class);
-            intent.putExtra("shopid", SmallTools.toGsonString(shop));
-            holder.itemView.getContext().startActivity(intent);
-        });
+        RxView.clicks(holder.itemView)
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> {
+                    Intent intent = new Intent(holder.itemView.getContext(), RestaurantDetailActivity.class);
+                    intent.putExtra("shopid", SmallTools.toGsonString(shop));
+                    holder.itemView.getContext().startActivity(intent);
+                });
     }
 
     public static class ShopViewHolder extends RecyclerView.ViewHolder {

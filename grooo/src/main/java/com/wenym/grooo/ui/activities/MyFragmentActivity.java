@@ -35,6 +35,11 @@ public class MyFragmentActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentManager fm = getSupportFragmentManager();

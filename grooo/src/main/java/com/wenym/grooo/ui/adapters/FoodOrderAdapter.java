@@ -1,17 +1,23 @@
 package com.wenym.grooo.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemOrderContentBinding;
 import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.ui.activities.OrderDetailActivity;
+import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
+import com.wenym.grooo.util.SmallTools;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FoodOrderAdapter extends
         RecyclerView.Adapter<FoodOrderAdapter.SimpleViewHolder> {
@@ -36,6 +42,13 @@ public class FoodOrderAdapter extends
                                  final int position) {
         final Order order = mDataset.get(position);
         viewHolder.binding.setOrder(order);
+        RxView.clicks(viewHolder.itemView)
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .subscribe(aVoid -> {
+                    Intent intent = new Intent(viewHolder.itemView.getContext(), OrderDetailActivity.class);
+                    intent.putExtra("order",SmallTools.toGsonString(order));
+                    viewHolder.itemView.getContext().startActivity(intent);
+                });
 //        viewHolder.buttonCall.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

@@ -36,6 +36,11 @@ public class ConfirmOrderActivity extends BaseActivity<ActivityConfirmOrderBindi
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return false;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

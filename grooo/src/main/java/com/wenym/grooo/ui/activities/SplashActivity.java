@@ -2,7 +2,10 @@ package com.wenym.grooo.ui.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 
 import com.bumptech.glide.Glide;
@@ -36,8 +39,14 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
     }
 
     @Override
+    protected boolean isTranslucentStatus() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
 
 
 //        if (AppPreferences.get().isFirstUse()) {

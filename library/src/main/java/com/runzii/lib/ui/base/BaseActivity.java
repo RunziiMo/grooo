@@ -5,11 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.runzii.lib.R;
@@ -34,6 +36,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
 
     protected abstract int getLayoutId();
 
+    protected abstract boolean isTranslucentStatus();
+
     protected T bind;
 
 
@@ -47,6 +51,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
 
         setSwipeBackEnable(isEnableSwipe());
 
+        Toolbar toolbar = (Toolbar) bind.getRoot().findViewById(R.id.toolbar);
+
+        if (toolbar != null)
+            setSupportActionBar(toolbar);
 
         if (isDisplayHomeAsUp() && getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,6 +65,15 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
             if (findViewById(R.id.toolbar_dropshadow) != null) {
                 findViewById(R.id.toolbar_dropshadow).setVisibility(View.GONE);
             }
+        }
+
+        //透明状态栏
+        if (isTranslucentStatus() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = getWindow();
+            // Translucent status bar
+            window.setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
     }
