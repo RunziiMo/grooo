@@ -23,7 +23,7 @@ public class BottomNavPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return ShopFragment.newInstance();
             case 1:
@@ -32,6 +32,18 @@ public class BottomNavPagerAdapter extends FragmentPagerAdapter {
                 return ProfileFragment.newInstance();
             default:
                 return ProfileFragment.newInstance();
+        }
+    }
+
+    private Fragment curr;
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+        Fragment fragment = (Fragment) object;
+        if (fragment != curr) {
+            curr = fragment;
+            fragment.onResume();
         }
     }
 

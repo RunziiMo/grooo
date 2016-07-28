@@ -22,16 +22,12 @@ public class AboutUsFragment extends Fragment {
         // TODO Auto-generated method stub
         View v = inflater.inflate(R.layout.fragment_aboutus, container, false);
         gotoWeb = (TextView) v.findViewById(R.id.btn_gotoweb);
-        gotoWeb.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("http://www.grooo.cn/");
-                intent.setData(content_url);
-                startActivity(intent);
-            }
+        gotoWeb.setOnClickListener(v1 -> {
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse("http://www.grooo.cn/");
+            intent.setData(content_url);
+            startActivity(intent);
         });
         return v;
     }

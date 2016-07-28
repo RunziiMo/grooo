@@ -23,13 +23,11 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 
-public class RegisterFragment extends BaseFragment {
+public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
 
     private static final String phonePattern = "^1[0-9]{10}$";
     private static final String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
     private static final String SCHOOLS = "SCHOOLS";
-
-    private FragmentRegisterBinding binding;
 
     private ArrayList<School> schools = new ArrayList<>();
 
@@ -57,12 +55,11 @@ public class RegisterFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = DataBindingUtil.bind(view);
-        binding.setRegistForm(form);
+        bind.setRegistForm(form);
 
         int layoutItemId = android.R.layout.simple_dropdown_item_1line;
         ArrayAdapter<School> adapter = new ArrayAdapter<>(getContext(), layoutItemId, schools);
-        binding.etSchool.setAdapter(adapter);
+        bind.etSchool.setAdapter(adapter);
 
         if (schools.size() == 0) {
             Subscription s = NetworkWrapper.get().getSchools()
@@ -73,33 +70,33 @@ public class RegisterFragment extends BaseFragment {
             addSubscription(s);
         }
 
-        Observable<String> phoneOb = RxTextView.textChanges(binding.etPhone).skip(1).map(charSequence -> charSequence.toString());
-        Observable<String> passwordOb = RxTextView.textChanges(binding.etPassword).skip(1).map(charSequence -> charSequence.toString());
-        Observable<String> confirmPasswordOb = RxTextView.textChanges(binding.etConfirmPassword).skip(1).map(charSequence -> charSequence.toString());
-        Observable<School> schoolOb = RxTextView.textChanges(binding.etSchool).skip(1).map(charSequence -> schools.get(binding.etSchool.getListSelection()));
+        Observable<String> phoneOb = RxTextView.textChanges(bind.etPhone).skip(1).map(charSequence -> charSequence.toString());
+        Observable<String> passwordOb = RxTextView.textChanges(bind.etPassword).skip(1).map(charSequence -> charSequence.toString());
+        Observable<String> confirmPasswordOb = RxTextView.textChanges(bind.etConfirmPassword).skip(1).map(charSequence -> charSequence.toString());
+        Observable<School> schoolOb = RxTextView.textChanges(bind.etSchool).skip(1).map(charSequence -> schools.get(bind.etSchool.getListSelection()));
         Observable.combineLatest(phoneOb, passwordOb, confirmPasswordOb, schoolOb,
                 (phone, password, confirmPassword, school) -> {
-                    binding.etPhone.setError(null);
-                    binding.etPassword.setError(null);
-                    binding.etSchool.setError(null);
+                    bind.etPhone.setError(null);
+                    bind.etPassword.setError(null);
+                    bind.etSchool.setError(null);
                     if (!phone.matches(phonePattern)) {
-                        binding.etPhone.setError("手机号格式不正确");
+                        bind.etPhone.setError("手机号格式不正确");
                         return false;
                     } else if (!password.equals(confirmPassword)) {
-                        binding.etConfirmPassword.setError("两次输入密码不一样");
+                        bind.etConfirmPassword.setError("两次输入密码不一样");
                     } else if (school == null) {
-                        binding.etSchool.setError("必须得选择学校");
+                        bind.etSchool.setError("必须得选择学校");
                         return false;
                     }
-                    binding.getRegistForm().setSchool_id(school.getId());
+                    bind.getRegistForm().setSchool_id(school.getId());
                     return true;
                 }).subscribe(aBoolean -> {
             enable.set(aBoolean);
         });
 
-        Subscription regist = RxView.clicks(binding.btnRegist)
+        Subscription regist = RxView.clicks(bind.btnRegist)
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> regist(binding.getRegistForm()));
+                .subscribe(aVoid -> regist(bind.getRegistForm()));
         addSubscription(regist);
     }
 

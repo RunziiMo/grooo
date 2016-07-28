@@ -1,10 +1,18 @@
 package com.wenym.grooo.ui.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
+import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentShoplistBinding;
 import com.wenym.grooo.http.NetworkWrapper;
@@ -13,7 +21,9 @@ import com.wenym.grooo.provider.ImageBacks;
 import com.wenym.grooo.ui.adapters.ShopViewPagerAdapter;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.util.GroooAppManager;
+import com.wenym.grooo.util.RxJava.RxNetWorking;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,22 +51,31 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shopObservable = NetworkWrapper.get()
-                .getAllShop(GroooAppManager.getProfile().getSchool().getId());
-//                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
-//        Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
-//                .subscribe(aVoid -> {
-//                    loadShop();
-//                }, errorHandle());
-//        addSubscription(rx);
+                .getAllShop(GroooAppManager.getProfile().getSchool().getId())
+                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
+        Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+                .subscribe(aVoid -> {
+                    loadShop();
+                });
+        addSubscription(rx);
+        pagerAdapter = new ShopViewPagerAdapter(getLayoutInflater(savedInstanceState));
         setUpViewPager();
-        view.post(() -> loadShop());
+        loadShop();
         loadBackDrop();
     }
 
+    private Handler shopHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            Bundle b = message.getData();
+            if (b != null && pagerAdapter != null) {
+                pagerAdapter.setShops(b.getParcelableArrayList("shops"));
+            }
+            return false;
+        }
+    });
+
     private void setUpViewPager() {
-        pagerAdapter = new ShopViewPagerAdapter(getFragmentManager());
-//        bind.toolbar.setTitle("世界那么大，你想吃什么");
-//        bind.toolbar.setNavigationIcon(null);
         bind.pager.setAdapter(pagerAdapter);
         bind.pager.setOffscreenPageLimit(2);
         Random random = new Random();
@@ -80,15 +99,31 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
         bind.tabs.setupWithViewPager(bind.pager);
     }
 
-    private void loadBackDrop(){
-        Glide.with(getActivity()).load(ImageBacks.getOne()).into(bind.backDrop);
+    private void loadBackDrop() {
+        String imageUrl = ImageBacks.getOne();
+        Log.d("ShopFragment", "imageUrl = " + imageUrl);
+        Glide.with(getActivity()).load(imageUrl).into(bind.backDrop);
     }
 
     private void loadShop() {
         Subscription s = shopObservable
-                .subscribe(shops -> pagerAdapter.setShops(shops)
+                .subscribe(shops -> {
+                            Message msg = new Message();
+                            Bundle b = new Bundle();
+                            b.putParcelableArrayList("shops", new ArrayList<>(shops));
+                            msg.setData(b);
+                            shopHandler.sendMessage(msg);
+                        }
                         , errorHandle("获取所有商家"));
         addSubscription(s);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("ShopFragment","onResume()");
+        if (getActivity() instanceof AppCompatActivity)
+            ((AppCompatActivity) getActivity()).setSupportActionBar(bind.toolbar);
     }
 
 }

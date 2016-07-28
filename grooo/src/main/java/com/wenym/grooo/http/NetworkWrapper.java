@@ -226,7 +226,7 @@ public class NetworkWrapper {
         public T call(HttpResult<T> httpResult) {
             if (httpResult.getCode() >= 300) {
                 Toasts.show(httpResult.getMessage());
-//                throw new RuntimeException(httpResult.getMessage());
+                throw new RuntimeException(httpResult.getMessage());
             }
             return httpResult.getData();
         }
