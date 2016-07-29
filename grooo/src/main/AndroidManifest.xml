@@ -64,6 +64,7 @@
             android:label="@string/aboutus" />
         <activity
             android:name=".ui.activities.OrderDetailActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".ui.activities.ConfirmOrderActivity"

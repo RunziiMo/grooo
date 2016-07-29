@@ -39,5 +39,4 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium" />
 
-
 </RelativeLayout>

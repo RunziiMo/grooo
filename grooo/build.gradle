@@ -53,4 +53,5 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     compile 'com.wdullaer:materialdatetimepicker:2.0.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+
 }

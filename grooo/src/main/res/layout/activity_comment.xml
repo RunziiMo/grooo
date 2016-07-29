@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textImeMultiLine"
+                android:maxLines="5"
+                android:minLines="5" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <RatingBar
+            android:id="@+id/order_detail_order_rating1"
+            style="@style/Widget.AppCompat.RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_comment"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:numStars="5"
+            android:rating="@{comment.rating}"
+            android:stepSize="0.1"
+            tools:rating="2.6" />
+
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/selector_green_button"
+            android:text="@string/confirmpay"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium" />
+
+    </RelativeLayout>
+
+</layout>

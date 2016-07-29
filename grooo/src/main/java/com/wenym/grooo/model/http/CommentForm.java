@@ -13,7 +13,7 @@ public class CommentForm {
      */
 
     private String order_id;
-    private int rating;
+    private float rating;
     private String rating_remark;
 
     public String getOrder_id() {
@@ -24,11 +24,11 @@ public class CommentForm {
         this.order_id = order_id;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
