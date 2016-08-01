@@ -206,9 +206,9 @@
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignBaseline="@+id/order_detail_order_price"
+                            android:layout_alignBaseline="@+id/order_detail_order_time_duck"
                             android:layout_marginStart="8dp"
-                            android:layout_toLeftOf="@id/order_detail_order_price"
+                            android:layout_toLeftOf="@+id/order_detail_order_price"
                             android:text="￥"
                             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                             android:textColor="@color/colorPrimary" />
@@ -313,6 +313,22 @@
                             android:textSize="@dimen/md_title_textsize"
                             android:visibility="@{order.status==31?View.GONE:View.VISIBLE}" />
                     </RelativeLayout>
+
+                    <FrameLayout
+                        android:id="@+id/order_detail_comment_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/restaurant_list_item_disable"
+                        android:visibility="gone">
+
+                        <ProgressBar
+                            style="@style/Widget.AppCompat.ProgressBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
+                    </FrameLayout>
 
                 </android.support.v7.widget.CardView>
 

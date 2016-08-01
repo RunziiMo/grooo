@@ -64,8 +64,8 @@
             android:label="@string/aboutus" />
         <activity
             android:name=".ui.activities.OrderDetailActivity"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".ui.activities.ConfirmOrderActivity"
             android:label="@string/confirmpay"
@@ -73,6 +73,9 @@
         <activity
             android:name=".ui.activities.SuggestActivity"
             android:label="@string/activitylabel_suggest"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activities.CommentActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activities.MyFragmentActivity"

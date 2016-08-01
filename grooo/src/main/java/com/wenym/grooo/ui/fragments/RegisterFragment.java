@@ -1,6 +1,5 @@
 package com.wenym.grooo.ui.fragments;
 
-import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

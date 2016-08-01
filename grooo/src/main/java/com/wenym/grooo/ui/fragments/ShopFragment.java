@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.R;
@@ -79,22 +81,22 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
         bind.pager.setOffscreenPageLimit(2);
         Random random = new Random();
         int color = 0xff000000 | random.nextInt(0x00ffffff);
-//        bind.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                bind.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
-//            }
-//        });
+        bind.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                bind.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+            }
+        });
         bind.tabs.setupWithViewPager(bind.pager);
     }
 

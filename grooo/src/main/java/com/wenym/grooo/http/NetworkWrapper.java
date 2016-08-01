@@ -3,6 +3,7 @@ package com.wenym.grooo.http;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.BuildConfig;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,6 +54,12 @@ public class NetworkWrapper {
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            httpClientBuilder.addInterceptor(logging);
+        }
 
         retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
@@ -200,7 +208,7 @@ public class NetworkWrapper {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ResponseBody> postComment(CommentForm commentForm) {
+    public Observable<Boolean> postComment(CommentForm commentForm) {
         return groooService.postComment(GroooAppManager.getAuthToken(), commentForm)
                 .onErrorResumeNext(new CheckAuth<ResponseBody>() {
                     @Override
@@ -208,7 +216,7 @@ public class NetworkWrapper {
                         return groooService.postComment(finalToken, commentForm);
                     }
                 })
-                .map(new HttpResultFunc<>())
+                .map(responseBodyHttpResult -> responseBodyHttpResult.getCode() < 300)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

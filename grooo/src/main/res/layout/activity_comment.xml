@@ -1,53 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="comment"
+            type="com.wenym.grooo.model.http.CommentForm" />
+    </data>
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_comment"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textImeMultiLine"
-                android:maxLines="5"
-                android:minLines="5" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <RatingBar
-            android:id="@+id/order_detail_order_rating1"
-            style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_comment"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:numStars="5"
-            android:rating="@{comment.rating}"
-            android:stepSize="0.1"
-            tools:rating="2.6" />
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
-        <Button
-            android:id="@+id/btn_confirm"
+        </android.support.design.widget.AppBarLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/selector_green_button"
-            android:text="@string/confirmpay"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="8dp">
+
+                <EditText
+                    android:id="@+id/et_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/transparent"
+                    android:gravity="left|start"
+                    android:hint="您的评论将作为其他用户选择商家的依据"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:shadowDx="0.0"
+                    android:shadowDy="1.0"
+                    android:shadowRadius="1.0"
+                    android:text="@={comment.rating_remark}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    tools:text="测试评论" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:numStars="5"
+                        android:rating="@={comment.rating}"
+                        android:stepSize="1"
+                        tools:rating="3" />
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        tools:text="3.7" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/selector_green_button"
+                android:onClick="completeComment"
+                android:text="@string/confirmpay"
+                android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

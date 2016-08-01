@@ -54,4 +54,5 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:2.0.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
 
+    compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 }

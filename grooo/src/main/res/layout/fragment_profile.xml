@@ -18,41 +18,50 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleGravity="center_horizontal|bottom"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_scrollFlags="snap|exitUntilCollapsed"
-            app:title="@{profile.nickname}">
+            android:layout_height="256dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <FrameLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_collapseMode="pin">
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="snap|exitUntilCollapsed|scroll"
+                app:title="@{profile.nickname}">
 
-                <com.wenym.grooo.widgets.CircleImageView
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="36dp"
-                    android:src="@drawable/responsible" />
-            </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="pin">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    <com.flaviofaria.kenburnsview.KenBurnsView
+                        android:id="@+id/backdrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/responsible" />
 
+                    <com.wenym.grooo.widgets.CircleImageView
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="36dp"
+                        android:src="@drawable/responsible" />
+                </FrameLayout>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/transparent"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
 
         <FrameLayout
@@ -68,131 +77,104 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingTop="24dp">
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
 
-                    <android.support.v7.widget.CardView
+
+                    <TextView
+                        android:id="@+id/tv_user_school"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/card_margin">
+                        android:layout_height="?attr/actionBarSize"
+                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="东北大学秦皇岛分校" />
 
-                        <LinearLayout
-                            style="@style/Widget.CardContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="学校"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                            <TextView
-                                android:id="@+id/tv_user_school"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="东北大学秦皇岛分校" />
-
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/card_margin"
-                        android:layout_marginLeft="@dimen/card_margin"
-                        android:layout_marginRight="@dimen/card_margin">
+                        android:background="@color/mdtp_line_background"
+                        android:layout_height="1dp"/>
 
-                        <LinearLayout
-                            style="@style/Widget.CardContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="宿舍楼"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                            <TextView
-                                android:id="@+id/tv_user_building"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="鹏远三号楼" />
-
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <TextView
+                        android:id="@+id/tv_user_school1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/card_margin"
-                        android:layout_marginLeft="@dimen/card_margin"
-                        android:layout_marginRight="@dimen/card_margin">
+                        android:layout_height="?attr/actionBarSize"
+                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="东北大学秦皇岛分校" />
 
-                        <LinearLayout
-                            style="@style/Widget.CardContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="房间号"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                            <TextView
-                                android:id="@+id/tv_user_roomnumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="2004" />
-
-                        </LinearLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/card_margin"
-                        android:layout_marginLeft="@dimen/card_margin"
-                        android:layout_marginRight="@dimen/card_margin">
+                        android:background="@color/mdtp_line_background"
+                        android:layout_height="1dp"/>
 
-                        <LinearLayout
-                            style="@style/Widget.CardContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_user_school2"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="东北大学秦皇岛分校" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="邮箱"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/mdtp_line_background"
+                        android:layout_height="1dp"/>
 
-                            <TextView
-                                android:id="@+id/tv_user_mail"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="806478101@qq.com" />
+                    <TextView
+                        android:id="@+id/tv_user_school3"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="东北大学秦皇岛分校" />
 
-                        </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/mdtp_line_background"
+                        android:layout_height="1dp"/>
 
-                    </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/tv_user_school4"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:text="东北大学秦皇岛分校" />
 
                 </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow" />
-
         </FrameLayout>
 
+        <com.github.jorgecastilloprz.FABProgressCircle
+            android:id="@+id/fabProgressCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:arcColor="@color/colorAccent"
+            app:arcWidth="7dp"
+            app:finalIcon="@drawable/ic_action_done"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|right|end">
 
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:clickable="true"
+                android:src="@drawable/ic_phone_white_36dp" />
+
+
+        </com.github.jorgecastilloprz.FABProgressCircle>
 
     </android.support.design.widget.CoordinatorLayout>
+
 
 </layout>
