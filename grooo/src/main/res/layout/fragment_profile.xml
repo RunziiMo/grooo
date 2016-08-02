@@ -11,6 +11,10 @@
         <variable
             name="address"
             type="com.wenym.grooo.model.app.Address" />
+
+        <variable
+            name="editng"
+            type="android.databinding.ObservableBoolean" />
     </data>
 
 
@@ -49,7 +53,8 @@
                         android:layout_height="128dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="36dp"
-                        android:src="@drawable/responsible" />
+                        android:src="@drawable/responsible"
+                        app:logo="@{profile.avatar}" />
                 </FrameLayout>
 
                 <android.support.v7.widget.Toolbar
@@ -80,40 +85,44 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin">
 
-
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_user_school"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:background="@null"
+                        android:enabled="@{editng.get()}"
+                        android:drawableLeft="@drawable/ic_social_location_city"
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="东北大学秦皇岛分校" />
 
-
                     <View
                         android:layout_width="match_parent"
-                        android:background="@color/mdtp_line_background"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/mdtp_line_background" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_user_school1"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:drawableLeft="@drawable/ic_maps_store_mall_directory"
+                        android:background="@null"
+                        android:enabled="@{editng.get()}"
+                        android:drawableLeft="@drawable/ic_social_location_city"
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
                         android:text="东北大学秦皇岛分校" />
 
                     <View
                         android:layout_width="match_parent"
-                        android:background="@color/mdtp_line_background"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/mdtp_line_background" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_user_school2"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
+                        android:background="@null"
+                        android:enabled="@{editng.get()}"
                         android:drawableLeft="@drawable/ic_maps_store_mall_directory"
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
@@ -121,13 +130,15 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:background="@color/mdtp_line_background"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/mdtp_line_background" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_user_school3"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
+                        android:background="@null"
+                        android:enabled="@{editng.get()}"
                         android:drawableLeft="@drawable/ic_maps_store_mall_directory"
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
@@ -135,13 +146,15 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:background="@color/mdtp_line_background"
-                        android:layout_height="1dp"/>
+                        android:layout_height="1dp"
+                        android:background="@color/mdtp_line_background" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/tv_user_school4"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
+                        android:background="@null"
+                        android:enabled="@{editng.get()}"
                         android:drawableLeft="@drawable/ic_maps_store_mall_directory"
                         android:drawablePadding="16dp"
                         android:gravity="center_vertical"
@@ -169,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:clickable="true"
-                android:src="@drawable/ic_phone_white_36dp" />
+                android:src="@drawable/ic_content_create" />
 
 
         </com.github.jorgecastilloprz.FABProgressCircle>

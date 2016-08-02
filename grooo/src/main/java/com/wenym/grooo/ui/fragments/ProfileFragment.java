@@ -50,18 +50,21 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bind.setEditng(editing);
         loadBackDrop();
         RxView.clicks(bind.fab).debounce(500, TimeUnit.MILLISECONDS)
                 .map((aVoid) -> editing.get())
-                .flatMap(new Func1<Boolean, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Boolean aBoolean) {
-                        return null;
-                    }
+                .flatMap(aBoolean -> {
+                    if (aBoolean) {
+                        bind.fab.setImageResource(R.drawable.ic_file_cloud_upload);
+                        return NetworkWrapper.get().putProfile(bind.getProfile());
+                    } else
+                        editing.set(true);
+                    return null;
                 })
     }
 
-    private ObservableBoolean editing;
+    private ObservableBoolean editing = new ObservableBoolean(false);
 
     private void loadBackDrop() {
 
