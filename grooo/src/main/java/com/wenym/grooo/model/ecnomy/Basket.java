@@ -1,5 +1,6 @@
 package com.wenym.grooo.model.ecnomy;
 
+import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.model.http.OrderForm;
@@ -72,8 +73,8 @@ public enum Basket  {
 
     public OrderForm getOrder() {
         OrderForm form = new OrderForm();
-        form.setAddress(GroooAppManager.getAddresses().getAddress());
-        form.setBuilding(GroooAppManager.getAddresses().getBuilding());
+        form.setAddress(AppPreferences.get().getAddress().getAddress());
+        form.setBuilding(AppPreferences.get().getAddress().getBuilding());
         List<Order.DetailBean> beanList = new LinkedList<>();
         for (Food food : order.keySet()) {
             Order.DetailBean bean = new Order.DetailBean();

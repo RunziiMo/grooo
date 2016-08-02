@@ -24,5 +24,6 @@
     <string name="activitylabel_home">咕噜校园</string>
     <string name="label_shop_list">世界这么大，你想吃什么</string>
     <string name="label_order_list">订单</string>
+    <string name="label_profile">个人信息</string>
 
 </resources>

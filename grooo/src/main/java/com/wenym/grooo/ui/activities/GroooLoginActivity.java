@@ -72,11 +72,11 @@ public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
         NetworkWrapper.get().getAuthToken(bind.getLoginForm())
                 .compose(bindToLifecycle())
                 .flatMap(authToken -> {
-                    GroooAppManager.setAuthToken(authToken.getToken());
+                    AppPreferences.get().setAuth(authToken.getToken());
                     int id = authToken.getId();
                     return NetworkWrapper.get().getProfile(id);
                 }).subscribe(profile -> {
-                    GroooAppManager.setProfile(profile);
+                    AppPreferences.get().setProfile(profile);
                     Intent intent = new Intent(GroooLoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

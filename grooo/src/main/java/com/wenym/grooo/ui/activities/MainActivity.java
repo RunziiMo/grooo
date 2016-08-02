@@ -14,6 +14,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.RxEvent.ScrollEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
 import com.wenym.grooo.util.Toasts;
@@ -85,10 +86,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Profile profile = GroooAppManager.getProfile();
+        Profile profile = AppPreferences.get().getProfile();
         if (!JPushInterface.getRegistrationID(this).equals(profile.getPush_id())) {
             profile.setPush_id(JPushInterface.getRegistrationID(this));
-            GroooAppManager.setProfile(profile);
+            AppPreferences.get().setProfile(profile);
             NetworkWrapper.get().putProfile(profile).subscribe(s -> Toasts.show(s), errorHandle("设置个人推送信息"));
         }
         FIR.checkForUpdateInFIR("487080b6240eab23c5e9b55a7712b23a", new VersionCheckCallback() {

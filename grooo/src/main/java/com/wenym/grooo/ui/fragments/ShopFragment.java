@@ -22,6 +22,7 @@ import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.provider.ImageBacks;
 import com.wenym.grooo.ui.adapters.ShopViewPagerAdapter;
 import com.wenym.grooo.ui.base.BaseFragment;
+import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.GroooAppManager;
 import com.wenym.grooo.util.RxJava.RxNetWorking;
 
@@ -53,7 +54,7 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         shopObservable = NetworkWrapper.get()
-                .getAllShop(GroooAppManager.getProfile().getSchool().getId())
+                .getAllShop(AppPreferences.get().getProfile().getSchool().getId())
                 .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
         Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
                 .subscribe(aVoid -> {

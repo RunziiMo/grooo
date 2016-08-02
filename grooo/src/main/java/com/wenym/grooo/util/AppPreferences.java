@@ -1,10 +1,15 @@
 package com.wenym.grooo.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.runzii.lib.constant.MyActions;
+import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.model.http.AuthUser;
@@ -22,7 +27,18 @@ public class AppPreferences {
     private static final String USER_ADDRESS = "grooo_address";
 
     public String getAuth() {
-        return sh.getString(AUTH, "");
+        String authToken = sh.getString(AUTH, "");
+        if (TextUtils.isEmpty(authToken)) {
+            NetworkWrapper.get().getAuthToken(getAuthUser())
+                    .subscribe(authToken1 -> {
+                        setAuth(authToken1.getToken());
+                    }, throwable -> {
+                        GroooAppManager.getAppContext().sendBroadcast(new Intent(MyActions.ACTION_LOGOUT));
+                        Logs.d("获取登录token出错");
+                        throwable.printStackTrace();
+                    });
+        }
+        return authToken;
     }
 
     public boolean setAuth(String auth) {

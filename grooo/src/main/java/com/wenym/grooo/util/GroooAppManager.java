@@ -20,58 +20,12 @@ import java.util.List;
  */
 public class GroooAppManager {
 
-    private static Address addresses;
-    private static List<Order> orders;
-    private static String authToken;
-
-    private static Profile profile;
-
     private static Context appContext = null;
 
 
     public static void init(Context ctx) {
         appContext = ctx;
         pkgName = ctx.getPackageName();
-        profile = AppPreferences.get().getProfile();
-        addresses = AppPreferences.get().getAddress();
-        authToken = AppPreferences.get().getAuth();
-    }
-
-    public static Profile getProfile() {
-        return profile;
-    }
-
-    public static String getAuthToken() {
-        if (TextUtils.isEmpty(authToken)) {
-            NetworkWrapper.get().getAuthToken(AppPreferences.get().getAuthUser())
-                    .subscribe(authToken1 -> {
-                        setAuthToken(authToken1.getToken());
-                    }, throwable -> {
-                        appContext.sendBroadcast(new Intent(MyActions.ACTION_LOGOUT));
-                        Logs.d("获取登录token出错");
-                        throwable.printStackTrace();
-                    });
-        }
-        return authToken;
-    }
-
-    public static void setAuthToken(String authToken) {
-        GroooAppManager.authToken = authToken;
-        AppPreferences.get().setAuth(authToken);
-    }
-
-    public static void setProfile(Profile user) {
-        AppPreferences.get().setProfile(user);
-        profile = user;
-    }
-
-    public static Address getAddresses() {
-        return addresses;
-    }
-
-    public static void setAddresses(Address addresses) {
-        AppPreferences.get().setAddress(addresses);
-        GroooAppManager.addresses = addresses;
     }
 
     public static Context getAppContext() {

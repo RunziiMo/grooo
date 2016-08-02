@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivitySplashBinding;
+import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.GroooAppManager;
 
 
@@ -69,7 +70,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
             }
-            if (GroooAppManager.getProfile() != null) {
+            if (AppPreferences.get().getProfile() != null) {
                 //进入主页面
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();

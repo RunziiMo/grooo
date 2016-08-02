@@ -120,7 +120,7 @@ public class NetworkWrapper {
     }
 
     public Observable<String> putProfile(Profile profile) {
-        return groooService.putProfile(GroooAppManager.getAuthToken(), profile)
+        return groooService.putProfile(AppPreferences.get().getAuth(), profile)
                 .map(responseBodyHttpResult -> responseBodyHttpResult.getMessage())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -128,7 +128,7 @@ public class NetworkWrapper {
     }
 
     public Observable<List<Order>> getOrders() {
-        return groooService.getOrders(GroooAppManager.getAuthToken())
+        return groooService.getOrders(AppPreferences.get().getAuth())
                 .onErrorResumeNext(new CheckAuth<List<Order>>() {
                     @Override
                     protected Observable<HttpResult<List<Order>>> getObservable(String finalToken) {
@@ -142,7 +142,7 @@ public class NetworkWrapper {
     }
 
     public Observable<Address> getAddress() {
-        return groooService.getAddress(GroooAppManager.getAuthToken())
+        return groooService.getAddress(AppPreferences.get().getAuth())
                 .onErrorResumeNext(new CheckAuth<Address>() {
                     @Override
                     protected Observable<HttpResult<Address>> getObservable(String finalToken) {
@@ -157,7 +157,7 @@ public class NetworkWrapper {
 
 
     public Observable<ResponseBody> putAddress(Address address) {
-        return groooService.putAddress(GroooAppManager.getAuthToken(), address)
+        return groooService.putAddress(AppPreferences.get().getAuth(), address)
                 .onErrorResumeNext(new CheckAuth<ResponseBody>() {
                     @Override
                     protected Observable<HttpResult<ResponseBody>> getObservable(String finalToken) {
@@ -195,7 +195,7 @@ public class NetworkWrapper {
     }
 
     public Observable<String> postOrder(OrderForm orderForm) {
-        return groooService.postOrder(GroooAppManager.getAuthToken(), orderForm)
+        return groooService.postOrder(AppPreferences.get().getAuth(), orderForm)
                 .onErrorResumeNext(new CheckAuth<ResponseBody>() {
                     @Override
                     protected Observable<HttpResult<ResponseBody>> getObservable(String finalToken) {
@@ -209,7 +209,7 @@ public class NetworkWrapper {
     }
 
     public Observable<Boolean> postComment(CommentForm commentForm) {
-        return groooService.postComment(GroooAppManager.getAuthToken(), commentForm)
+        return groooService.postComment(AppPreferences.get().getAuth(), commentForm)
                 .onErrorResumeNext(new CheckAuth<ResponseBody>() {
                     @Override
                     protected Observable<HttpResult<ResponseBody>> getObservable(String finalToken) {
