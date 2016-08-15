@@ -27,7 +27,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <ImageView
+            <com.wenym.grooo.widgets.CircleImageView
                 android:id="@+id/order_item_avater"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -46,29 +46,6 @@
                 android:layout_toRightOf="@+id/order_item_avater"
                 android:text="@{order.seller.name}"
                 tools:text="鹏远三号楼" />
-
-
-            <TextView
-                android:id="@+id/order_item_building"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/order_item_seller"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/order_item_seller"
-                android:text="@{order.building}"
-                tools:text="鹏远三号楼" />
-
-            <TextView
-                android:id="@+id/order_item_address"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/order_item_seller"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/order_item_building"
-                android:text="@{order.address}"
-                tools:text="2007" />
 
 
             <TextView
@@ -136,48 +113,6 @@
                 android:text="@{order.price}"
                 android:textColor="@color/colorPrimary"
                 tools:text="12.0" />
-
-            <RelativeLayout
-                android:id="@+id/order_item_detail_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/order_item_duck"
-                android:layout_below="@+id/order_item_duck"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/order_item_detail_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:entries_order_detail="@{order.detail}" />
-
-                <Button
-                    android:id="@+id/order_item_confirm"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@+id/order_item_detail_list"
-                    android:layout_below="@+id/order_item_detail_list"
-                    android:text="确认" />
-
-                <Button
-                    android:id="@+id/order_item_cancel"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_item_detail_list"
-                    android:layout_toLeftOf="@+id/order_item_confirm"
-                    android:text="取消" />
-
-                <Button
-                    android:id="@+id/order_item_dial"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_item_detail_list"
-                    android:layout_toLeftOf="@+id/order_item_cancel"
-                    android:text="联系" />
-            </RelativeLayout>
 
 
         </RelativeLayout>

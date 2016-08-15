@@ -1,29 +1,21 @@
 package com.wenym.grooo.ui.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.jakewharton.rxbinding.support.v4.view.RxViewPager;
 import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
-import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentShoplistBinding;
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.provider.ImageBacks;
 import com.wenym.grooo.ui.adapters.ShopViewPagerAdapter;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.util.AppPreferences;
-import com.wenym.grooo.util.GroooAppManager;
 import com.wenym.grooo.util.RxJava.RxNetWorking;
 
 import java.util.ArrayList;

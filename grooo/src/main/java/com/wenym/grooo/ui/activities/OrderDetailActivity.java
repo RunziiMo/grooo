@@ -113,7 +113,7 @@ public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding
             NetworkWrapper.get().postComment(form)
                     .doOnSubscribe(() -> bind.orderDetailCommentProgress.setVisibility(View.VISIBLE))
                     .doOnCompleted(() -> bind.orderDetailCommentProgress.setVisibility(View.GONE))
-                    .doOnError((throwble) -> bind.orderDetailCommentProgress.setVisibility(View.GONE))
+                    .doOnError((throwable) -> bind.orderDetailCommentProgress.setVisibility(View.GONE))
                     .compose(bindToLifecycle())
                     .subscribe(aBoolean -> {
                         if (aBoolean) {

@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.jakewharton.rxbinding.view.RxMenuItem;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityCommentBinding;
@@ -53,11 +57,24 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
         bind.setComment(commentForm);
     }
 
-    public void completeComment(View view) {
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_send_msg, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.send_msg)
+            completeComment();
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void completeComment() {
         CommentForm form = bind.getComment();
         if (form == null || TextUtils.isEmpty(form.getRating_remark())) {
-            Snackbar.make(bind.coordinatorLayout, "订单评论为空", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(bind.coordinatorLayout, "订单评论为空"  , Snackbar.LENGTH_SHORT).show();
             return;
         }
         if (form.getOrder_id() == null) {

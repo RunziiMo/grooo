@@ -37,6 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -44,8 +46,6 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="8dp">
 
                 <EditText
@@ -55,7 +55,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@color/transparent"
                     android:gravity="left|start"
-                    android:hint="您的评论将作为其他用户选择商家的依据"
+                    android:hint="在此输入评价"
                     android:lines="5"
                     android:maxLines="5"
                     android:shadowDx="0.0"
@@ -71,36 +71,20 @@
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:isIndicator="false"
-                        android:numStars="5"
-                        android:rating="@={comment.rating}"
-                        android:stepSize="1"
-                        tools:rating="3" />
-
-                    <TextView
-                        android:id="@+id/tv_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        tools:text="3.7" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/selector_green_button"
-                android:onClick="completeComment"
-                android:text="@string/confirmpay"
-                android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
-                android:textColor="@color/white" />
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="@={comment.rating}"
+                android:stepSize="1"
+                tools:rating="3" />
 
         </RelativeLayout>
 
