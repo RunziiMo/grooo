@@ -6,11 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.jakewharton.rxbinding.view.RxMenuItem;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityCommentBinding;
@@ -41,10 +39,10 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
         return true;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
@@ -55,6 +53,11 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
         if (!TextUtils.isEmpty(id))
             commentForm.setOrder_id(id);
         bind.setComment(commentForm);
+
+        RxTextView.textChanges(bind.etComment)
+                .map(charSequence -> 140 - charSequence.length())
+                .subscribe(integer -> bind.tvAbleCount
+                        .setText(String.format(getString(R.string.commentFormat), integer)));
     }
 
 
@@ -74,7 +77,7 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
     public void completeComment() {
         CommentForm form = bind.getComment();
         if (form == null || TextUtils.isEmpty(form.getRating_remark())) {
-            Snackbar.make(bind.coordinatorLayout, "订单评论为空"  , Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(bind.coordinatorLayout, "订单评论为空", Snackbar.LENGTH_SHORT).show();
             return;
         }
         if (form.getOrder_id() == null) {
