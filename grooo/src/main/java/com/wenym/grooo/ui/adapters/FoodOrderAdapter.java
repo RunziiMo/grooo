@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import com.jakewharton.rxbinding.view.RxView;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemOrderContentBinding;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.ui.activities.OrderDetailActivity;
-import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
-import com.wenym.grooo.util.SmallTools;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +44,7 @@ public class FoodOrderAdapter extends
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe(aVoid -> {
                     Intent intent = new Intent(viewHolder.itemView.getContext(), OrderDetailActivity.class);
-                    intent.putExtra("order",SmallTools.toGsonString(order));
+                    intent.putExtra("order",order);
                     viewHolder.itemView.getContext().startActivity(intent);
                 });
 //        viewHolder.buttonCall.setOnClickListener(new View.OnClickListener() {

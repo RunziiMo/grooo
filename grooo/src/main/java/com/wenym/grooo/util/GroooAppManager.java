@@ -1,19 +1,8 @@
 package com.wenym.grooo.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
-
-import com.runzii.lib.constant.MyActions;
-import com.runzii.lib.utils.Logs;
-import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.app.Address;
-import com.wenym.grooo.model.app.Profile;
-import com.wenym.grooo.model.ecnomy.Order;
-
-import java.util.List;
 
 /**
  * Created by runzii on 15-10-30.

@@ -1,6 +1,5 @@
 package com.wenym.grooo.ui.activities;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +9,6 @@ import com.wenym.grooo.R;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.AboutUsFragment;
 import com.wenym.grooo.ui.fragments.RegisterFragment;
-import com.wenym.grooo.ui.fragments.SuggestFragment;
 
 /**
  * Created by runzii on 15-11-9.
@@ -57,9 +55,6 @@ public class MyFragmentActivity extends BaseActivity {
         switch (getIntent().getIntExtra(ExtraActivityKeys.FRAGMENT.toString(), 0)) {
             case 1:
                 fragment = new AboutUsFragment();
-                break;
-            case 2:
-                fragment = new SuggestFragment();
                 break;
             case 4:
                 fragment = new RegisterFragment();

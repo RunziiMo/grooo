@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.wenym.grooo.ui.fragments.ProfileFragment;
+import com.wenym.grooo.ui.profile.ProfileFragment;
 import com.wenym.grooo.ui.fragments.OrderListFragment;
 import com.wenym.grooo.ui.fragments.ShopFragment;
 
@@ -17,22 +17,18 @@ import java.util.List;
  */
 public class BottomNavPagerAdapter extends FragmentPagerAdapter {
 
+    private List<Fragment> fragments = new ArrayList<>();
+
     public BottomNavPagerAdapter(FragmentManager fm) {
         super(fm);
+        fragments.add(ShopFragment.newInstance());
+        fragments.add(OrderListFragment.newInstance());
+        fragments.add(ProfileFragment.newInstance());
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return ShopFragment.newInstance();
-            case 1:
-                return OrderListFragment.newInstance();
-            case 2:
-                return ProfileFragment.newInstance();
-            default:
-                return ProfileFragment.newInstance();
-        }
+        return fragments.get(position);
     }
 
     private Fragment curr;
@@ -47,9 +43,13 @@ public class BottomNavPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    public Fragment getFragment(int position) {
+        return fragments.get(position);
+    }
+
     @Override
     public int getCount() {
-        return 3;
+        return fragments.size();
     }
 
 }

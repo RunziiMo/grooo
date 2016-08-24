@@ -5,7 +5,7 @@
 
         <variable
             name="detail"
-            type="com.wenym.grooo.model.ecnomy.Order.DetailBean" />
+            type="com.wenym.grooo.model.app.Order.DetailBean" />
     </data>
 
     <RelativeLayout

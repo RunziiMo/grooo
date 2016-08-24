@@ -4,8 +4,8 @@ import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.model.app.School;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.model.ecnomy.Food;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Food;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.model.http.AuthToken;
 import com.wenym.grooo.model.http.AuthUser;
 import com.wenym.grooo.model.http.ChangePwdForm;
@@ -50,7 +50,7 @@ public interface GroooService {
     Observable<HttpResult<Profile>> getProfile(@Path("id") int userId);
 
     @PUT("accounts/{id}/profile")
-    Observable<HttpResult<ResponseBody>> putProfile(@Header("Authorization") String auth, @Body Profile profile);
+    Observable<HttpResult<ResponseBody>> putProfile(@Header("Authorization") String auth,@Path("id") int userId, @Body Profile profile);
 
     @GET("shops/user/order")
     Observable<HttpResult<List<Order>>> getOrders(@Header("Authorization") String auth);

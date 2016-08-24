@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemOrderDetailBinding;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Order;
 
 import java.util.List;
 

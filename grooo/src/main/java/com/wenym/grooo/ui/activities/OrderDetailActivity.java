@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.util.Property;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 
@@ -14,20 +13,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.runzii.lib.ui.base.BaseActivity;
-import com.runzii.lib.widgets.PathPoint;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityOrderDetailBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.model.http.CommentForm;
 import com.wenym.grooo.provider.ImageBacks;
-import com.wenym.grooo.util.SmallTools;
 import com.wenym.grooo.util.stackblur.StackBlurManager;
-
-import okhttp3.ResponseBody;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Action1;
 
 public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding> {
 
@@ -56,7 +48,9 @@ public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        bind.setOrder(SmallTools.fromGson(getIntent().getStringExtra("order"), Order.class));
+        Order order = (Order) getIntent().getSerializableExtra("order");
+
+        bind.setOrder(order);
 
         loadBackDrop();
 
@@ -88,7 +82,6 @@ public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding
     }
 
     public void postComment(View view) {
-
 
     }
 

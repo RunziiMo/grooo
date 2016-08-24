@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
 import com.wenym.grooo.R;
+import com.wenym.grooo.model.viewmodel.BaseViewModel;
 
 import rx.Subscription;
 import rx.functions.Action1;

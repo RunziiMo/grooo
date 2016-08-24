@@ -7,7 +7,7 @@
 
         <variable
             name="order"
-            type="com.wenym.grooo.model.ecnomy.Order" />
+            type="com.wenym.grooo.model.app.Order" />
     </data>
 
 

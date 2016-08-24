@@ -2,14 +2,12 @@ package com.wenym.grooo.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 
-import com.github.jorgecastilloprz.FABProgressCircle;
 import com.wenym.grooo.R;
 
 /**
@@ -32,13 +30,14 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<CircleImageV
     private float mAvatarMaxSize;
     private float mFinalLeftAvatarPadding;
     private float mStartPosition;
-    private int mStartXPosition;
+    private float mStartXPosition;
+    private float mStartYPosition;
     private float mStartToolbarPosition;
-    private int mStartYPosition;
+    private float mStartDependencyY;
     private int mFinalYPosition;
     private int mStartHeight;
     private int mFinalXPosition;
-    private float mChangeBehaviorPoint;
+    private float mChangeBehaviorY;
 
     public AvatarImageBehavior(Context context, AttributeSet attrs) {
         mContext = context;
@@ -70,61 +69,57 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<CircleImageV
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, CircleImageView child, View dependency) {
-        return dependency instanceof AppBarLayout;
+        return dependency instanceof FrameLayout;
     }
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, CircleImageView child, View dependency) {
         maybeInitProperties(child, dependency);
 
-        Log.e("AvatarImageBehavior", dependency.getY() + "");
+        Log.e("AvatarImageBehavior", dependency.getY() + " " + mFinalXPosition + dependency);
         final int maxScrollDistance = (int) (mStartToolbarPosition);
-        float expandedPercentageFactor = dependency.getY() / maxScrollDistance;
+        float expandedPercentageFactor = 1 - (dependency.getY() - getActionBarHeight()) / (mChangeBehaviorY - getActionBarHeight());
 
-        if (expandedPercentageFactor < mChangeBehaviorPoint) {
-            float heightFactor = (mChangeBehaviorPoint - expandedPercentageFactor) / mChangeBehaviorPoint;
+        if (dependency.getY() < mChangeBehaviorY) {
 
-            float distanceXToSubtract = ((mStartXPosition - mFinalXPosition)
-                    * heightFactor) + (child.getHeight() / 2);
-            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-                    * (1f - expandedPercentageFactor)) + (child.getHeight() / 2);
-
+//
+//            child.setY(mStartYPosition - distanceYToSubtract);
+//
+//            float heightToSubtract = ((mStartHeight - mCustomFinalHeight) * heightFactor);
+//
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+            lp.height = lp.width = (int) (mStartHeight - (mStartHeight - mCustomFinalHeight) * expandedPercentageFactor);
+            child.setLayoutParams(lp);
+            float distanceXToSubtract = (mStartXPosition - mFinalXPosition) * expandedPercentageFactor;
             child.setX(mStartXPosition - distanceXToSubtract);
-            child.setY(mStartYPosition - distanceYToSubtract);
-
-            float heightToSubtract = ((mStartHeight - mCustomFinalHeight) * heightFactor);
-
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            lp.width = (int) (mStartHeight - heightToSubtract);
-            lp.height = (int) (mStartHeight - heightToSubtract);
-            child.setLayoutParams(lp);
+            child.setY(mFinalYPosition);
         } else {
-            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-                    * (1f - expandedPercentageFactor)) + (mStartHeight / 2);
-
-            child.setX(mStartXPosition - child.getWidth() / 2);
-            child.setY(mStartYPosition - distanceYToSubtract);
-
+            child.setY(mStartYPosition - (mStartDependencyY - dependency.getY()));
+            child.setX(mStartXPosition);
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            lp.width = (int) (mStartHeight);
-            lp.height = (int) (mStartHeight);
+            lp.width = mStartHeight;
+            lp.height = mStartHeight;
             child.setLayoutParams(lp);
+
         }
         return true;
     }
 
     private void maybeInitProperties(CircleImageView child, View dependency) {
-        if (mStartYPosition == 0)
-            mStartYPosition = (int) (dependency.getY());
+        if (mStartDependencyY == 0)
+            mStartDependencyY = dependency.getY();
 
         if (mFinalYPosition == 0)
-            mFinalYPosition = (dependency.getHeight() / 2);
+            mFinalYPosition = (int) ((getActionBarHeight() - mCustomFinalHeight) / 2);
 
         if (mStartHeight == 0)
             mStartHeight = child.getHeight();
 
         if (mStartXPosition == 0)
-            mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
+            mStartXPosition = child.getX();
+
+        if (mStartYPosition == 0)
+            mStartYPosition = child.getY();
 
         if (mFinalXPosition == 0)
             mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
@@ -132,8 +127,8 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<CircleImageV
         if (mStartToolbarPosition == 0)
             mStartToolbarPosition = dependency.getY();
 
-        if (mChangeBehaviorPoint == 0) {
-            mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
+        if (mChangeBehaviorY == 0) {
+            mChangeBehaviorY = dependency.getY() - child.getY() + mFinalYPosition;
         }
     }
 
@@ -145,5 +140,9 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<CircleImageV
             result = mContext.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public int getActionBarHeight() {
+        return mContext.getResources().getDimensionPixelSize(R.dimen.actionBarSize);
     }
 }

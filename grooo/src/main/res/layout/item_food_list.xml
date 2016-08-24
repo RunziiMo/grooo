@@ -10,7 +10,7 @@
 
         <variable
             name="food"
-            type="com.wenym.grooo.model.ecnomy.Food" />
+            type="com.wenym.grooo.model.app.Food" />
     </data>
 
     <RelativeLayout

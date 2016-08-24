@@ -9,8 +9,8 @@ import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.model.app.School;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.model.ecnomy.Food;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Food;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.model.http.AuthToken;
 import com.wenym.grooo.model.http.AuthUser;
 import com.wenym.grooo.model.http.ChangePwdForm;
@@ -19,7 +19,6 @@ import com.wenym.grooo.model.http.HttpResult;
 import com.wenym.grooo.model.http.OrderForm;
 import com.wenym.grooo.model.http.RegistForm;
 import com.wenym.grooo.util.AppPreferences;
-import com.wenym.grooo.util.GroooAppManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class NetworkWrapper {
 
     public Observable<String> regist(RegistForm registForm) {
         return groooService.regist(registForm)
-                .map(responseBodyHttpResult -> responseBodyHttpResult.getMessage())
+                .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -81,7 +80,7 @@ public class NetworkWrapper {
 
     public Observable<String> changePwd(ChangePwdForm changePwdForm) {
         return groooService.changePwd(changePwdForm)
-                .map(responseBodyHttpResult -> responseBodyHttpResult.getMessage())
+                .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -120,8 +119,8 @@ public class NetworkWrapper {
     }
 
     public Observable<String> putProfile(Profile profile) {
-        return groooService.putProfile(AppPreferences.get().getAuth(), profile)
-                .map(responseBodyHttpResult -> responseBodyHttpResult.getMessage())
+        return groooService.putProfile(AppPreferences.get().getAuth(), profile.getId(), profile)
+                .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -202,7 +201,7 @@ public class NetworkWrapper {
                         return groooService.postOrder(finalToken, orderForm);
                     }
                 })
-                .map(responseBodyHttpResult -> responseBodyHttpResult.getMessage())
+                .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -263,7 +262,7 @@ public class NetworkWrapper {
 
 
     private boolean isHttp401Error(Throwable throwable) {
-        return "HTTP 401 Unauthorized".equals(throwable.getMessage()) ? true : false;
+        return "HTTP 401 Unauthorized".equals(throwable.getMessage());
     }
 
     //在访问HttpMethods时创建单例

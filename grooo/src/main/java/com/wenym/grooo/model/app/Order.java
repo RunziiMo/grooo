@@ -1,4 +1,4 @@
-package com.wenym.grooo.model.ecnomy;
+package com.wenym.grooo.model.app;
 
 
 import android.os.Parcel;
@@ -8,10 +8,11 @@ import com.wenym.grooo.util.SmallTools;
 import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.util.OrderStatus;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Order {
+public class Order implements Serializable  {
 
 
     /**
@@ -163,7 +164,7 @@ public class Order {
         this.detail = detail;
     }
 
-    public static class DetailBean {
+    public static class DetailBean implements Serializable {
         private String count;
         private String name;
 

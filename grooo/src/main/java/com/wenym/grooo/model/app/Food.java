@@ -1,4 +1,4 @@
-package com.wenym.grooo.model.ecnomy;
+package com.wenym.grooo.model.app;
 
 public class Food {
 

@@ -26,4 +26,5 @@
     <string name="label_order_list">订单</string>
     <string name="label_profile">个人信息</string>
     <string name="commentFormat">你还能评价 %d 个字</string>
+    <string name="title_activity_school">选择学校</string>
 </resources>

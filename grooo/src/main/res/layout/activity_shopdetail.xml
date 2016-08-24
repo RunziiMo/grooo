@@ -28,7 +28,7 @@
 
         <variable
             name="basket"
-            type="com.wenym.grooo.model.ecnomy.Basket" />
+            type="com.wenym.grooo.model.app.Basket" />
 
     </data>
 

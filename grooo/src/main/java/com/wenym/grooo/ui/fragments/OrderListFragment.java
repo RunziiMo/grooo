@@ -26,7 +26,7 @@ import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentRecyclerviewBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.ui.adapters.FoodOrderAdapter;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.util.RxJava.RxNetWorking;

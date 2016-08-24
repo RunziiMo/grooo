@@ -1,10 +1,8 @@
-package com.wenym.grooo.model.ecnomy;
+package com.wenym.grooo.model.app;
 
 import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.Toasts;
-import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.model.http.OrderForm;
-import com.wenym.grooo.util.GroooAppManager;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;

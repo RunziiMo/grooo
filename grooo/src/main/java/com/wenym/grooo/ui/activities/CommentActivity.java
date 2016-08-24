@@ -3,6 +3,7 @@ package com.wenym.grooo.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -46,10 +47,12 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
-        CommentForm commentForm = new CommentForm();
-        if (!TextUtils.isEmpty(title))
-            getSupportActionBar().setTitle(title);
         String id = intent.getStringExtra("order_id");
+        CommentForm commentForm = new CommentForm();
+        ActionBar actionBar = getSupportActionBar();
+        if (!TextUtils.isEmpty(title) && actionBar != null) {
+            getSupportActionBar().setTitle(title);
+        }
         if (!TextUtils.isEmpty(id))
             commentForm.setOrder_id(id);
         bind.setComment(commentForm);

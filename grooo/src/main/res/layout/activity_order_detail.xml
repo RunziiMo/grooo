@@ -27,7 +27,7 @@
 
         <variable
             name="order"
-            type="com.wenym.grooo.model.ecnomy.Order" />
+            type="com.wenym.grooo.model.app.Order" />
 
         <variable
             name="comment"
@@ -353,6 +353,7 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"
+                            tools:listitem="@layout/item_order_detail"
                             android:layout_height="wrap_content"
                             app:entries_order_detail="@{order.detail}" />
 

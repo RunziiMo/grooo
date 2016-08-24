@@ -11,7 +11,7 @@ import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityConfirmOrderBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.ecnomy.Basket;
+import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.http.OrderForm;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 

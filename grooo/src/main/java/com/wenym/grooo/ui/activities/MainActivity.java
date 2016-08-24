@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.model.app.School;
+import com.wenym.grooo.ui.profile.ProfileFragment;
 import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.RxEvent.ScrollEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
@@ -37,6 +40,8 @@ import im.fir.sdk.VersionCheckCallback;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     public static final int REQUEST_CODE_SUGGEST = 10;
+    public static final int REQUEST_CODE_SCHOOL = 0x30;
+    public static final int REQUEST_CODE_EMAIL = 0x31;
 
     private static Boolean isExit = false;
 
@@ -133,7 +138,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             }
         });
 
-        bind.pager.setAdapter(new BottomNavPagerAdapter(getSupportFragmentManager()));
+        adapter = new BottomNavPagerAdapter(getSupportFragmentManager());
+
+        bind.pager.setAdapter(adapter);
         bind.pager.setOffscreenPageLimit(2);
         setUpBottomNavigation(savedInstanceState);
 
@@ -142,6 +149,37 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_SCHOOL:
+                    if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
+                        School school = data.getParcelableExtra("school");
+                        Profile profile = AppPreferences.get().getProfile();
+                        if (school != null && !school.getName().equals(profile.getSchool().getName())) {
+                            ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
+                            profile.setSchool(school);
+                            fragment.model.setProfile(profile);
+                        }
+                    }
+                    break;
+                case REQUEST_CODE_EMAIL:
+                    if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
+                        String email = data.getStringExtra("edit_result");
+                        Profile profile = AppPreferences.get().getProfile();
+                        if (!TextUtils.isEmpty(email) && !email.equals(profile.getEmail())) {
+                            ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
+                            profile.setEmail(email);
+                            fragment.model.setProfile(profile);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 
     private void setUpBottomNavigation(Bundle savedInstanceState) {

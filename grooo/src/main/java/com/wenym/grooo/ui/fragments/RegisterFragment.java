@@ -25,7 +25,7 @@ import rx.Subscription;
 public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
 
     private static final String phonePattern = "^1[0-9]{10}$";
-    private static final String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
+    public static final String emailPattern = "[a-zA-Z0-9_]+@.+([a-zA-Z]+){2,5}";
     private static final String SCHOOLS = "SCHOOLS";
 
     private ArrayList<School> schools = new ArrayList<>();

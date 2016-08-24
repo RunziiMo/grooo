@@ -1,10 +1,7 @@
 package com.wenym.grooo.model.http;
 
-import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.wenym.grooo.BR;
 
 /**
  * Created by runzii on 16-7-2.

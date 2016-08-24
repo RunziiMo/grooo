@@ -3,13 +3,14 @@ package com.wenym.grooo.model.app;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
  * Created by runzii on 16-7-2.
  */
-public class Shop implements Parcelable {
+public class Shop implements Parcelable,Serializable {
 
     private String activity;
     private float basePrice;

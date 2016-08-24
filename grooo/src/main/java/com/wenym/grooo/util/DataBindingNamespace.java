@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.model.ecnomy.Basket;
-import com.wenym.grooo.model.ecnomy.Order;
+import com.wenym.grooo.model.app.Basket;
+import com.wenym.grooo.model.app.Order;
 import com.wenym.grooo.ui.adapters.OrderDetailAdapter;
 import com.wenym.grooo.ui.adapters.PayListAdapter;
 import com.wenym.grooo.ui.adapters.ShopListAdapter;
@@ -58,7 +58,7 @@ public class DataBindingNamespace {
     }
 
     @BindingAdapter("logo")
-    public static void entries(ImageView imageView, String logo) {
+    public static void setLogo(ImageView imageView, String logo) {
         if (!TextUtils.isEmpty(logo))
             Glide.with(imageView.getContext()).load(logo).into(imageView);
     }

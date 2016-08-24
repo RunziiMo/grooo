@@ -16,7 +16,7 @@ import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityShopdetailBinding;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.model.ecnomy.Basket;
+import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.ShopMenuFragment;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
