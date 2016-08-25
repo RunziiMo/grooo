@@ -176,7 +176,11 @@
         <activity
             android:name=".ui.profile.SchoolActivity"
             android:label="@string/title_activity_school"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.profile.BuildingActivity"
+            android:label="@string/title_activity_building"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

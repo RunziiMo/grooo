@@ -12,10 +12,15 @@ import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.ui.activities.EditActivity;
 import com.wenym.grooo.ui.activities.MainActivity;
+import com.wenym.grooo.ui.profile.BuildingActivity;
 import com.wenym.grooo.ui.profile.SchoolActivity;
 import com.wenym.grooo.util.AppPreferences;
+import com.wenym.grooo.util.Toasts;
 
+import cn.jpush.android.api.JPushInterface;
+import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func1;
 
 /**
  * Created by runzii on 16-8-23.
@@ -32,9 +37,17 @@ public class ProfileViewModel extends BaseViewModel {
 
     public ProfileViewModel(Activity activity) {
         super(activity);
-        processProfile(AppPreferences.get().getProfile());
+        Profile profile = AppPreferences.get().getProfile();
+        processProfile(profile);
         processAddress(AppPreferences.get().getAddress());
-        loadInfo();
+        //如果推送id和本机不一样就先设置推送id
+        profile.setPush_id(JPushInterface.getRegistrationID(activity));
+        NetworkWrapper.get().putProfile(profile)
+                .flatMap(s -> loadInfo())
+                .subscribe(address -> {
+                    AppPreferences.get().setAddress(address);
+                    processAddress(address);
+                }, errorHandle("获取个人信息"));
     }
 
     public void logout(View view) {
@@ -42,28 +55,37 @@ public class ProfileViewModel extends BaseViewModel {
         activity.finish();
     }
 
+    public void setNick(View view) {
+        EditActivity.lanuch(activity, "请在此输入昵称", "修改昵称", EditActivity.NICK, MainActivity.REQUEST_CODE_NICK);
+    }
+
     public void setSchool(View view) {
-        Intent intent = new Intent(activity, SchoolActivity.class);
-        activity.startActivityForResult(intent, MainActivity.REQUEST_CODE_SCHOOL);
+        Toasts.show("暂不支持更改学校");
+//        Intent intent = new Intent(activity, SchoolActivity.class);
+//        activity.startActivityForResult(intent, MainActivity.REQUEST_CODE_SCHOOL);
     }
 
     public void setEmail(View view) {
-        EditActivity.lanuch(activity,"请在此输入邮箱","修改邮箱",EditActivity.EMAIL,MainActivity.REQUEST_CODE_EMAIL);
+        EditActivity.lanuch(activity, "请在此输入邮箱", "修改邮箱", EditActivity.EMAIL, MainActivity.REQUEST_CODE_EMAIL);
     }
 
-    private void loadInfo() {
-        Subscription s = NetworkWrapper.get()
+    public void setBuilding(View view) {
+        Intent intent = new Intent(activity, BuildingActivity.class);
+        activity.startActivityForResult(intent, MainActivity.REQUEST_CODE_BUILDING);
+    }
+
+    public void setRoom(View view) {
+        EditActivity.lanuch(activity, "请在此输入寝室号", "修改寝室号", EditActivity.ROOM, MainActivity.REQUEST_CODE_ROOM);
+    }
+
+    private Observable<Address> loadInfo() {
+        return NetworkWrapper.get()
                 .getProfile(AppPreferences.get().getProfile().getId())
                 .flatMap(profile -> {
                     AppPreferences.get().setProfile(profile);
                     processProfile(profile);
                     return NetworkWrapper.get().getAddress();
-                })
-                .subscribe(address -> {
-                    AppPreferences.get().setAddress(address);
-                    processAddress(address);
-                }, errorHandle("获取个人信息"));
-        addSubscription(s);
+                });
     }
 
     public void setProfile(Profile profile) {
@@ -72,6 +94,7 @@ public class ProfileViewModel extends BaseViewModel {
                 .subscribe(s1 -> {
                     Log.d("SetProfile", s1);
                     processProfile(profile);
+                    AppPreferences.get().setProfile(profile);
                 }, errorHandle("设置个人信息"));
         addSubscription(s);
     }
@@ -80,8 +103,9 @@ public class ProfileViewModel extends BaseViewModel {
         Subscription s = NetworkWrapper.get()
                 .putAddress(address)
                 .subscribe(s1 -> {
-                    Log.d("setAddress", s1.toString());
+                    Log.d("setAddress", s1);
                     processAddress(address);
+                    AppPreferences.get().setAddress(address);
                 }, errorHandle("设置地址"));
         addSubscription(s);
     }

@@ -176,6 +176,11 @@
                                 android:text="@{model.email}"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 tools:text="806478101@qq.com" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:src="@drawable/ic_image_navigate_next"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                         <View
@@ -240,6 +245,7 @@
                             android:background="?attr/selectableItemBackground"
                             android:clickable="true"
                             android:focusable="true"
+                            android:onClick="@{model::setBuilding}"
                             android:gravity="center_vertical">
 
                             <TextView
@@ -256,6 +262,11 @@
                                 android:text="@{model.building}"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 tools:text="鹏远三号楼" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:src="@drawable/ic_image_navigate_next"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                         <View
@@ -268,6 +279,7 @@
                             android:layout_height="@dimen/base_action_bar_height"
                             android:background="?attr/selectableItemBackground"
                             android:clickable="true"
+                            android:onClick="@{model::setRoom}"
                             android:focusable="true"
                             android:gravity="center_vertical">
 
@@ -285,6 +297,11 @@
                                 android:text="@{model.room}"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                                 tools:text="5022" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:src="@drawable/ic_image_navigate_next"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -315,6 +332,7 @@
             android:src="@drawable/responsible"
             app:finalHeight="32dp"
             app:finalYPosition="2dp"
+            android:onClick="@{model::setNick}"
             app:layout_anchor="@id/profile_nickname"
             app:layout_anchorGravity="center_horizontal"
             app:logo="@{model.avatar}"

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
@@ -21,6 +22,8 @@ import com.wenym.grooo.util.Toasts;
 public class EditActivity extends BaseActivity<ActivityEditBinding> {
 
     public static final String EMAIL = "EMAIL";
+    public static final String ROOM = "ROOM";
+    public static final String NICK = "NICK";
 
     public static void lanuch(Activity activity, String hint, String title, String editType, int requestCode) {
         Intent intent = new Intent(activity, EditActivity.class);
@@ -85,16 +88,21 @@ public class EditActivity extends BaseActivity<ActivityEditBinding> {
             Toasts.show("输入文本不能为空");
             return;
         }
+        Intent intent = new Intent();
         switch (editType) {
             case EMAIL:
                 if (!text.matches(RegisterFragment.emailPattern)) {
                     Snackbar.make(bind.getRoot(), "请输入正确格式的邮箱地址", Snackbar.LENGTH_SHORT).show();
                     return;
-                }
+                } else intent.putExtra("edit_result", text);
+                break;
+            case ROOM:
+                intent.putExtra("room", text);
+                break;
+            case NICK:
+                intent.putExtra("nick", text);
                 break;
         }
-        Intent intent = new Intent();
-        intent.putExtra("edit_result", text);
         setResult(RESULT_OK, intent);
         finish();
     }

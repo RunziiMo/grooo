@@ -8,7 +8,6 @@ import com.google.gson.Gson;
  */
 public class Profile {
 
-
     /**
      * avatar : http://o8ihshope.bkt.clouddn.com/1?v=1465762144361
      * email : 412416565@qq.com

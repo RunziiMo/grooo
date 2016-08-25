@@ -13,12 +13,12 @@ import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityRecyclerViewBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.app.School;
+import com.wenym.grooo.util.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> implements SchoolAdapter.OnItemClickListener {
+public class BuildingActivity extends BaseActivity<ActivityRecyclerViewBinding> implements BuildingAdapter.OnItemClickListener {
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -40,22 +40,22 @@ public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> im
         return false;
     }
 
-    private SchoolAdapter adapter;
-    private List<School> schools = new ArrayList<>();
+    private BuildingAdapter adapter;
+    private List<String> buildings = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new SchoolAdapter(schools, this);
+        adapter = new BuildingAdapter(buildings, this);
         bind.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         bind.recyclerView.setAdapter(adapter);
 
-        NetworkWrapper.get().getSchools()
+        NetworkWrapper.get().getBuildings(AppPreferences.get().getProfile().getSchool().getId())
                 .compose(bindToLifecycle())
-                .subscribe(schools -> {
-                    SchoolActivity.this.schools = schools;
-                    adapter.update(schools);
+                .subscribe(buildings -> {
+                    BuildingActivity.this.buildings = buildings;
+                    adapter.update(buildings);
                 });
 
     }
@@ -63,7 +63,7 @@ public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> im
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_confirm_edit, menu);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -90,12 +90,12 @@ public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> im
         if (adapter == null)
             return;
         if (TextUtils.isEmpty(s))
-            adapter.update(schools);
+            adapter.update(buildings);
         else {
-            List<School> tmpList = new ArrayList<>();
-            for (School school : schools) {
-                if (school.getName().toLowerCase().contains(s.toString().toLowerCase()))
-                    tmpList.add(school);
+            List<String> tmpList = new ArrayList<>();
+            for (String building : buildings) {
+                if (building.toLowerCase().contains(s.toString().toLowerCase()))
+                    tmpList.add(building);
             }
             adapter.update(tmpList);
         }
@@ -103,15 +103,15 @@ public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> im
 
 
     @Override
-    public void onItemClick(School school) {
-        if (school != null) {
+    public void onItemClick(String building) {
+        if (!TextUtils.isEmpty(building)) {
             new MaterialDialog.Builder(this)
-                    .content("确定选择" + school.getName() + "为你的学校吗？")
+                    .content("确定选择" + building + "为你的楼层吗？")
                     .positiveText(android.R.string.yes)
                     .negativeText(android.R.string.no)
                     .onPositive((dialog, which) -> {
                         Intent intent = new Intent();
-                        intent.putExtra("school", school);
+                        intent.putExtra("building", building);
                         setResult(RESULT_OK, intent);
                         finish();
                     })

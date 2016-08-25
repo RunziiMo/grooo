@@ -21,10 +21,10 @@
 
     <string name="activitylabel_suggest">吐槽</string>
     <string name="activitylabel_regist">注册</string>
-    <string name="activitylabel_home">咕噜校园</string>
     <string name="label_shop_list">世界这么大，你想吃什么</string>
     <string name="label_order_list">订单</string>
     <string name="label_profile">个人信息</string>
     <string name="commentFormat">你还能评价 %d 个字</string>
     <string name="title_activity_school">选择学校</string>
+    <string name="title_activity_building">选择楼层</string>
 </resources>

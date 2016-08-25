@@ -15,6 +15,7 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import com.runzii.lib.ui.base.BaseActivity;
 import com.runzii.lib.utils.Logs;
+import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.School;
 import com.wenym.grooo.ui.profile.ProfileFragment;
 import com.wenym.grooo.util.AppPreferences;
@@ -42,6 +43,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public static final int REQUEST_CODE_SUGGEST = 10;
     public static final int REQUEST_CODE_SCHOOL = 0x30;
     public static final int REQUEST_CODE_EMAIL = 0x31;
+    public static final int REQUEST_CODE_BUILDING = 0x32;
+    public static final int REQUEST_CODE_ROOM = 0x33;
+    public static final int REQUEST_CODE_NICK = 0X34;
 
     private static Boolean isExit = false;
 
@@ -91,12 +95,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Profile profile = AppPreferences.get().getProfile();
-        if (!JPushInterface.getRegistrationID(this).equals(profile.getPush_id())) {
-            profile.setPush_id(JPushInterface.getRegistrationID(this));
-            AppPreferences.get().setProfile(profile);
-            NetworkWrapper.get().putProfile(profile).subscribe(s -> Toasts.show(s), errorHandle("设置个人推送信息"));
-        }
         FIR.checkForUpdateInFIR("487080b6240eab23c5e9b55a7712b23a", new VersionCheckCallback() {
 
             @Override
@@ -156,6 +154,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
+                case REQUEST_CODE_NICK:
+                    if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
+                        String nick = data.getStringExtra("nick");
+                        Profile profile = AppPreferences.get().getProfile();
+                        if (!TextUtils.isEmpty(nick) && !nick.equals(profile.getNickname())) {
+                            ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
+                            profile.setNickname(nick);
+                            fragment.model.setProfile(profile);
+                        }
+                    }
+                    break;
                 case REQUEST_CODE_SCHOOL:
                     if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
                         School school = data.getParcelableExtra("school");
@@ -175,6 +184,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                             ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
                             profile.setEmail(email);
                             fragment.model.setProfile(profile);
+                        }
+                    }
+                    break;
+                case REQUEST_CODE_BUILDING:
+                    if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
+                        String building = data.getStringExtra("building");
+                        Address address = AppPreferences.get().getAddress();
+                        if (!TextUtils.isEmpty(building) && !building.equals(address.getBuilding())) {
+                            ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
+                            address.setBuilding(building);
+                            fragment.model.setAddress(address);
+                        }
+                    }
+                    break;
+                case REQUEST_CODE_ROOM:
+                    if (adapter != null && adapter.getFragment(bind.pager.getCurrentItem()) instanceof ProfileFragment) {
+                        String room = data.getStringExtra("room");
+                        Address address = AppPreferences.get().getAddress();
+                        if (!TextUtils.isEmpty(room) && !room.equals(address.getAddress())) {
+                            ProfileFragment fragment = (ProfileFragment) adapter.getFragment(bind.pager.getCurrentItem());
+                            address.setAddress(room);
+                            fragment.model.setAddress(address);
                         }
                     }
                     break;

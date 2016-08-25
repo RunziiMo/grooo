@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="school"
-            type="com.wenym.grooo.model.app.School" />
+            name="building"
+            type="java.lang.String" />
     </data>
 
     <LinearLayout
@@ -21,19 +21,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{school.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            tools:text="东北大学秦皇岛分校" />
+            android:layout_height="wrap_content"
+            android:text="@{building}"
+            tools:text="鹏远三号楼" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:gravity="right|end"
-            android:text="@{String.valueOf(school.id)}"
-            tools:text="001" />
     </LinearLayout>
 
 </layout>

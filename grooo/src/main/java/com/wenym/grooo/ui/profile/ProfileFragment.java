@@ -22,8 +22,6 @@ import com.wenym.grooo.util.stackblur.StackBlurManager;
  */
 public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
 
-    private static final int EDITING_PROFILE = 0x303;
-
     public ProfileViewModel model;
 
     @Override

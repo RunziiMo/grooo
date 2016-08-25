@@ -155,7 +155,7 @@ public class NetworkWrapper {
     }
 
 
-    public Observable<ResponseBody> putAddress(Address address) {
+    public Observable<String> putAddress(Address address) {
         return groooService.putAddress(AppPreferences.get().getAuth(), address)
                 .onErrorResumeNext(new CheckAuth<ResponseBody>() {
                     @Override
@@ -163,7 +163,7 @@ public class NetworkWrapper {
                         return groooService.putAddress(finalToken, address);
                     }
                 })
-                .map(new HttpResultFunc<>())
+                .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
