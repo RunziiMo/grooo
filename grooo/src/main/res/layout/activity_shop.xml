@@ -23,6 +23,10 @@
         <import type="java.util.List" />
 
         <variable
+            name="viewModel"
+            type="com.wenym.grooo.model.viewmodel.ShopViewModel" />
+
+        <variable
             name="shop"
             type="com.wenym.grooo.model.app.Shop" />
 
@@ -72,12 +76,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            app:layout_anchor="@+id/basket_form"
-            android:onClick="showBottomOrBuy"
-            android:src="@drawable/ic_navigation_expand_less"
-            app:layout_anchorGravity="end|right"
+            android:backgroundTint="@{viewModel.isBottomExpanded? @color/white : @color/colorAccent}"
             android:clickable="true"
+            android:tint="@{viewModel.isBottomExpanded? @color/colorAccent : @color/white}"
+            android:onClick="showBottomOrBuy"
+            android:src="@drawable/ic_action_shopping_cart"
             app:elevation="17dp"
+            app:layout_anchor="@+id/basket_form"
+            app:layout_anchorGravity="end|right"
             app:layout_behavior="com.wenym.grooo.widgets.FabBottomSheetBehavior" />
 
         <!-- Bottom Sheet -->
@@ -97,8 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                app:animation="@{viewModel.isBottomExpanded}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -106,10 +111,11 @@
                     android:id="@+id/basket_costname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical"
                     android:text="花了：￥"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:textColor="@android:color/black"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
                     android:textSize="@dimen/text_size_large" />
 
                 <TextView
@@ -121,16 +127,9 @@
                     android:gravity="center_vertical|left"
                     android:text="@{basket.totalPrice}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    android:textColor="@color/black"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
                     android:textSize="@dimen/text_size_large"
                     android:textStyle="bold|italic" />
-
-                <ImageView
-                    android:id="@+id/basket_icon"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="@dimen/fab_margin" />
 
             </LinearLayout>
 
@@ -139,25 +138,9 @@
                 android:id="@+id/basket_List"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/confirm_order"
                 android:layout_below="@+id/basket_info"
                 android:padding="@dimen/activity_horizontal_margin"
                 app:entries_basket="@{basket}" />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/confirm_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/relative_space"
-                android:background="@drawable/selector_alpha_button_order"
-                android:onClick="goPay"
-                android:text="@string/confirmpay"
-                android:textColor="@color/white" />
 
             <Space
                 android:id="@+id/relative_space"

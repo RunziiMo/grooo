@@ -2,13 +2,17 @@ package com.wenym.grooo.ui.shop;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.animation.ValueAnimatorCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +25,7 @@ import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityShopBinding;
 import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.app.Shop;
+import com.wenym.grooo.model.viewmodel.ShopViewModel;
 import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.activities.ConfirmOrderActivity;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
@@ -40,6 +45,7 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
 
 
     BottomSheetBehavior bottomSheetBehavior;
+    private ShopViewModel viewModel;
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -65,7 +71,8 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        viewModel = new ShopViewModel(this);
+        bind.setViewModel(viewModel);
         bind.setShop(getIntent().getParcelableExtra("shopId"));
         Basket.INSTANCE.init(bind.getShop());
 
@@ -75,17 +82,14 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                Log.d("BottomSheetCallback", "newState " + newState);
             }
 
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.d("BottomSheetCallback", "slideOffset " + slideOffset);
-                if (slideOffset > 0.05f) {
-                    bind.fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-                    bind.fab.setIma
-                }else {
-                    bind.fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                if (slideOffset > 0.05f && !viewModel.isBottomExpanded.get()) {
+                    viewModel.isBottomExpanded.set(true);
+                } else if (slideOffset <= 0.05f && viewModel.isBottomExpanded.get()) {
+                    viewModel.isBottomExpanded.set(false);
                 }
             }
         });
@@ -95,7 +99,6 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
         bind.basketList.addItemDecoration(new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST));
         bind.basketList.setHasFixedSize(true);
-
 
         setupViewPager(bind.viewpager, bind.getShop().getId());
 
@@ -220,6 +223,11 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
             return;
         if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
             toggleSlidingUpLayout(BottomSheetBehavior.STATE_EXPANDED);
+        else {
+            Intent intent = new Intent(ShopActivity.this
+                    , ConfirmOrderActivity.class);
+            startActivityForResult(intent, REQUESTCODE_CONFIRMPAY);
+        }
     }
 
     static class MyPagerAdapter extends FragmentPagerAdapter {

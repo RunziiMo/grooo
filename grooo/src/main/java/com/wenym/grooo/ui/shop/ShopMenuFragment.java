@@ -363,7 +363,7 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
         final View view = addViewToAnimLayout(anim_mask_layout, v,
                 start_location);
         int[] end_location = new int[2];// 这是用来存储动画结束位置的X、Y坐标
-        basketBar.findViewById(R.id.basket_icon).getLocationInWindow(end_location);// shopCart是那个购物车
+        basketBar.findViewById(R.id.basket_cost).getLocationInWindow(end_location);// shopCart是那个购物车
 
         // 计算位移
         int endX = end_location[0] - start_location[0] + 60;// 动画位移的X坐标
