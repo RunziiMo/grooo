@@ -6,7 +6,7 @@ import android.databinding.Bindable;
 /**
  * Created by runzii on 16-7-2.
  */
-public class RegistForm extends BaseObservable{
+public class RegisterForm extends BaseObservable{
 
     /**
      * username : Runzii

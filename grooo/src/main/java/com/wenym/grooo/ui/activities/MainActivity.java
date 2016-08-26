@@ -223,7 +223,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
         mBottomBar.setOnMenuTabClickListener(new OnMenuTabClickListener() {
 
-
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
 

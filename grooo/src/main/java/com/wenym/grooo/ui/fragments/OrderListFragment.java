@@ -61,28 +61,26 @@ public class OrderListFragment extends BaseFragment<FragmentRecyclerviewBinding>
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         orderOb = NetworkWrapper.get().getOrders()
+                .compose(bindToLifecycle())
                 .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
         bind.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         bind.recyclerView.setEmptyView(bind.tvEmptyview);
-        Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+        RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+                .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     loadOrder();
                 }, errorHandle("获取所有订单"));
-        addSubscription(rx);
         setAdapter();
         loadOrder();
     }
 
 
     private void loadOrder() {
-        Subscription s = orderOb.
-                compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout))
-                .subscribe(orders -> {
+        orderOb.subscribe(orders -> {
                     mlist.clear();
                     mlist.addAll(orders);
                     mAdapter.notifyDataSetChanged();
                 }, errorHandle("加载所有订单"));
-        addSubscription(s);
     }
 
 

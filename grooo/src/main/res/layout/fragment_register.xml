@@ -9,8 +9,8 @@
             type="android.databinding.ObservableBoolean" />
 
         <variable
-            name="registForm"
-            type="com.wenym.grooo.model.http.RegistForm" />
+            name="registerForm"
+            type="com.wenym.grooo.model.http.RegisterForm" />
     </data>
 
     <RelativeLayout
@@ -39,7 +39,7 @@
                     android:hint="@string/phonenumber"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:text="@={registForm.username}"
+                    android:text="@={registerForm.username}"
                     app:met_clearButton="true"
                     app:met_floatingLabel="highlight"
                     app:met_iconLeft="@drawable/ic_phone_white_36dp"
@@ -54,7 +54,7 @@
                     android:hint="@string/login_password_hint"
                     android:inputType="textPassword"
                     android:maxLength="16"
-                    android:text="@={registForm.password}"
+                    android:text="@={registerForm.password}"
                     app:met_clearButton="true"
                     app:met_floatingLabel="highlight"
                     app:met_iconLeft="@drawable/ic_lock_outline_white_36dp"

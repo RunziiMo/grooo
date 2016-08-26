@@ -59,6 +59,7 @@ public class CommentActivity extends BaseActivity<ActivityCommentBinding> {
 
         RxTextView.textChanges(bind.etComment)
                 .map(charSequence -> 140 - charSequence.length())
+                .compose(bindToLifecycle())
                 .subscribe(integer -> bind.tvAbleCount
                         .setText(String.format(getString(R.string.commentFormat), integer)));
     }

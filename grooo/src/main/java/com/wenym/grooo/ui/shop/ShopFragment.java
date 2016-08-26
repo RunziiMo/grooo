@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.fragments;
+package com.wenym.grooo.ui.shop;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,27 +47,17 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
         super.onViewCreated(view, savedInstanceState);
         shopObservable = NetworkWrapper.get()
                 .getAllShop(AppPreferences.get().getProfile().getSchool().getId())
-                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout));
-        Subscription rx = RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout))
+                .compose(bindToLifecycle());
+        RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
+                .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
                     loadShop();
                 });
-        addSubscription(rx);
         pagerAdapter = new ShopViewPagerAdapter(getLayoutInflater(savedInstanceState));
         setUpViewPager();
         loadShop();
     }
-
-    private Handler shopHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
-            Bundle b = message.getData();
-            if (b != null && pagerAdapter != null) {
-                pagerAdapter.setShops(b.getParcelableArrayList("shops"));
-            }
-            return false;
-        }
-    });
 
     private void setUpViewPager() {
         bind.pager.setAdapter(pagerAdapter);
@@ -95,16 +85,11 @@ public class ShopFragment extends BaseFragment<FragmentShoplistBinding> {
 
 
     private void loadShop() {
-        Subscription s = shopObservable
+        shopObservable
                 .subscribe(shops -> {
-                            Message msg = new Message();
-                            Bundle b = new Bundle();
-                            b.putParcelableArrayList("shops", new ArrayList<>(shops));
-                            msg.setData(b);
-                            shopHandler.sendMessage(msg);
+                            pagerAdapter.setShops(shops);
                         }
                         , errorHandle("获取所有商家"));
-        addSubscription(s);
     }
 
     @Override

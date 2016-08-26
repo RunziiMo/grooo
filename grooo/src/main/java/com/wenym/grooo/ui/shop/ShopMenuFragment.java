@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wenym.grooo.ui.fragments;
+package com.wenym.grooo.ui.shop;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,11 @@ import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.support.v4.widget.RxSwipeRefreshLayout;
+import com.wenym.grooo.util.RxJava.RxNetWorking;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentShopMenuBinding;
@@ -44,11 +44,9 @@ import com.wenym.grooo.databinding.ItemFoodListBinding;
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.app.Food;
-import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
-import com.wenym.grooo.util.RxJava.RxNetWorking;
 import com.wenym.grooo.util.Tools;
 import com.wenym.grooo.widgets.BadgeView;
 import com.wenym.grooo.widgets.CheckableTextView;
@@ -59,7 +57,6 @@ import java.util.Random;
 
 import rx.Observable;
 import rx.Subscription;
-import rx.functions.Action0;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -71,18 +68,18 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
     private ArrayList<String> stickers_left;
     private ViewGroup anim_mask_layout;//动画层
     private BadgeView buyImg;//漂浮动画
-    private View basketbar;//显示数量的图片
+    private View basketBar;//显示数量的图片
     private MenuListViewAdapter contentAdapter;
     private BaseAdapter headAdapter;
 
-    private int shopid;
+    private int shopId;
 
-    private Observable<List<Food>> foodObservavle;
+    private Observable<List<Food>> foodObservable;
 
     public static ShopMenuFragment newInstance(int shopId) {
         ShopMenuFragment fragment = new ShopMenuFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("shopid", shopId);
+        bundle.putInt("shopId", shopId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -98,7 +95,7 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        shopid = getArguments().getInt("shopid");
+        shopId = getArguments().getInt("shopId");
         super.onCreate(savedInstanceState);
     }
 
@@ -106,16 +103,13 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        foodObservavle = NetworkWrapper.get().getShopFood(shopid)
-                .compose(RxNetWorking.bindRefreshing(bind.swipeRefreshLayout))
-                .flatMap(foods1 -> Observable.from(foods1))
-                .groupBy(food -> food.getCategory())
-                .flatMap(foodObservavle -> foodObservavle.toList());
-        RxSwipeRefreshLayout.refreshes(bind.swipeRefreshLayout)
-                .subscribe(aVoid -> {
-                    loadMenu();
-                });
-        bind.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
+        foodObservable = NetworkWrapper.get().getShopFood(shopId)
+                .compose(RxNetWorking.bindProgress(bind.menuProgress))
+                .compose(bindToLifecycle())
+                .flatMap(Observable::from)
+                .groupBy(Food::getCategory)
+                .flatMap(Observable::toList);
+        loadMenu();
         setupView();
     }
 
@@ -127,14 +121,15 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.d("onScrollStateChanged", "scrollState " + scrollState);
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
-                        ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
+                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
                     } else {
-                        ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
+                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
                     }
                 } else {
-                    ((RestaurantDetailActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
+                    ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
                 }
             }
 
@@ -143,15 +138,9 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
 
             }
         });
-        bind.foodListContentList.setOnStickyHeaderChangedListener(ShopMenuFragment.this);
-
+        bind.foodListContentList.setOnStickyHeaderChangedListener(this);
         bind.foodListHeaderList.setAdapter(new HeaderListViewAdapter());
-        bind.foodListHeaderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bind.foodListContentList.setSelection(stickers.indexOf(stickers_left.get(position)));
-            }
-        });
+        bind.foodListHeaderList.setOnItemClickListener((parent, view, position, id) -> bind.foodListContentList.setSelection(stickers.indexOf(stickers_left.get(position))));
     }
 
     private void loadMenu() {
@@ -160,22 +149,18 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
         stickers = new ArrayList<>();
         stickers_left = new ArrayList<>();
 
-        Subscription s = foodObservavle
+        foodObservable
                 .subscribe(foods1 -> {
                     foods.addAll(foods1);
                     stickers_left.add(foods1.get(0).getCategory());
                     for (int i = 0; i < foods1.size(); i++) {
                         stickers.add(foods1.get(i).getCategory());
                     }
-                    basketbar = ((RestaurantDetailActivity) getActivity()).getBasket();
-                }, throwable -> Toasts.show(throwable.getMessage()), new Action0() {
-                    @Override
-                    public void call() {
-                        contentAdapter.notifyDataSetChanged();
-                        headAdapter.notifyDataSetChanged();
-                    }
+                    basketBar = ((ShopActivity) getActivity()).getBasket();
+                }, throwable -> Toasts.show(throwable.getMessage()), () -> {
+                    contentAdapter.notifyDataSetChanged();
+                    headAdapter.notifyDataSetChanged();
                 });
-        addSubscription(s);
     }
 
 
@@ -278,6 +263,7 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
                 holder = (ViewHolder) convertView.getTag();
             }
             final Food food = foods.get(position);
+            holder.bind.setFood(food);
             holder.bind.foodListItemAdd.setOnClickListener(v -> {
                 Basket.INSTANCE.addFood(food);
                 int[] start_location = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
@@ -313,7 +299,11 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
             ItemFoodListBinding bind;
 
             public ViewHolder(View view) {
-                bind= DataBindingUtil.bind(view);
+                bind = DataBindingUtil.bind(view);
+            }
+
+            public void bind(Food food) {
+                bind.setFood(food);
             }
 
         }
@@ -339,9 +329,6 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
     }
 
     /**
-     * @param
-     * @return void
-     * @throws
      * @Description: 创建动画层
      */
     private ViewGroup createAnimLayout() {
@@ -376,7 +363,7 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
         final View view = addViewToAnimLayout(anim_mask_layout, v,
                 start_location);
         int[] end_location = new int[2];// 这是用来存储动画结束位置的X、Y坐标
-        basketbar.findViewById(R.id.basket_icon).getLocationInWindow(end_location);// shopCart是那个购物车
+        basketBar.findViewById(R.id.basket_icon).getLocationInWindow(end_location);// shopCart是那个购物车
 
         // 计算位移
         int endX = end_location[0] - start_location[0] + 60;// 动画位移的X坐标

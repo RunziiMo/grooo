@@ -8,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jakewharton.rxbinding.view.RxView;
-import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemShopListDevBinding;
 import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.ui.activities.RestaurantDetailActivity;
+import com.wenym.grooo.ui.shop.ShopActivity;
 import com.wenym.grooo.util.SmallTools;
-import com.wenym.grooo.util.Toasts;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -53,8 +51,8 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopVi
         RxView.clicks(holder.itemView)
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe(aVoid -> {
-                    Intent intent = new Intent(holder.itemView.getContext(), RestaurantDetailActivity.class);
-                    intent.putExtra("shopid", SmallTools.toGsonString(shop));
+                    Intent intent = new Intent(holder.itemView.getContext(), ShopActivity.class);
+                    intent.putExtra("shopId", shop);
                     holder.itemView.getContext().startActivity(intent);
                 });
     }

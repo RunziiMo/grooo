@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 /**
  * Created by runzii on 16-7-2.
  */
-public class Shop implements Parcelable,Serializable {
+public class Shop implements Parcelable {
 
     private String activity;
     private float basePrice;

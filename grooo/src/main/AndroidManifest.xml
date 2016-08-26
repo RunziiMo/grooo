@@ -54,7 +54,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activities.RestaurantDetailActivity" />
+        <activity android:name=".ui.shop.ShopActivity" />
         <activity android:name=".ui.activities.WebViewActivity" />
         <activity
             android:name=".ui.activities.AboutActivity"

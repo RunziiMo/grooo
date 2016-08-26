@@ -8,6 +8,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="food"
             type="com.wenym.grooo.model.app.Food" />
@@ -27,7 +29,7 @@
             android:layout_marginRight="16dp"
             android:contentDescription="@null"
             android:minWidth="64dp"
-            android:visibility="@{food.logo != null ? View.VISIBLE : View.GONE}"
+            android:visibility="@{TextUtils.isEmpty(food.logo) ? View.GONE : View.VISIBLE}"
             android:src="@mipmap/ic_launcher"
             app:logo="@{food.logo}" />
 
@@ -61,7 +63,7 @@
             android:layout_below="@+id/food_list_item_name"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/food_list_item_buynums_des"
-            android:text="@{food.monthSold}"
+            android:text="@{String.valueOf(food.monthSold)}"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_micro"
             tools:text="month_sold_num" />

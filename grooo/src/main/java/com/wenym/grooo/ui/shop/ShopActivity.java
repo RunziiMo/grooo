@@ -1,7 +1,10 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.shop;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,25 +12,27 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.runzii.lib.ui.base.BaseActivity;
-import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
-import com.wenym.grooo.databinding.ActivityShopdetailBinding;
-import com.wenym.grooo.model.app.Shop;
+import com.wenym.grooo.databinding.ActivityShopBinding;
 import com.wenym.grooo.model.app.Basket;
+import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.provider.ExtraActivityKeys;
-import com.wenym.grooo.ui.fragments.ShopMenuFragment;
+import com.wenym.grooo.ui.activities.ConfirmOrderActivity;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
 import com.wenym.grooo.util.SmallTools;
+import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.widgets.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBinding> {
+public class ShopActivity extends BaseActivity<ActivityShopBinding> {
 
     public static final int REQUESTCODE_CONFIRMPAY = 1;
 
@@ -35,7 +40,6 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
 
 
     BottomSheetBehavior bottomSheetBehavior;
-
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -49,7 +53,7 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_shopdetail;
+        return R.layout.activity_shop;
     }
 
     @Override
@@ -62,12 +66,29 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
         super.onCreate(savedInstanceState);
 
 
-        bind.setShop(SmallTools.fromGson(getIntent().getStringExtra("shopid"), Shop.class));
+        bind.setShop(getIntent().getParcelableExtra("shopId"));
         Basket.INSTANCE.init(bind.getShop());
 
         bind.setBasket(Basket.INSTANCE);
 
         bottomSheetBehavior = BottomSheetBehavior.from(bind.basketForm);
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                Log.d("BottomSheetCallback", "newState " + newState);
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                Log.d("BottomSheetCallback", "slideOffset " + slideOffset);
+                if (slideOffset > 0.05f) {
+                    bind.fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                    bind.fab.setIma
+                }else {
+                    bind.fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                }
+            }
+        });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         bind.basketList.setLayoutManager(layoutManager);
@@ -168,47 +189,6 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
         }
     }
 
-//    @Override
-//    public void onPanelSlide(View panel, float slideOffset) {
-//        final View background = panel.findViewById(R.id.basket_info);
-//        int before = currBasketColor;
-//        int after = 0;
-//        if (slideOffset > 0f) {
-//            after = getResources().getColor(R.color.colorPrimary);
-//            if (currBasketColor == after) {
-//                return;
-//            }
-//            ((TextView) getBasket().findViewById(R.id.basket_costname)).setTextColor(Color.WHITE);
-//            ((TextView) getBasket().findViewById(R.id.basket_cost)).setTextColor(Color.WHITE);
-//            basketIcon.setImageDrawable(new IconicsDrawable(RestaurantDetailActivity.this
-//                    , GoogleMaterial.Icon.gmd_keyboard_arrow_down).color(Color.WHITE).sizeDp(36));
-//        } else {
-//            after = getResources().getColor(R.color.white);
-//            ((TextView) getBasket().findViewById(R.id.basket_costname)).setTextColor(Color.BLACK);
-//            ((TextView) getBasket().findViewById(R.id.basket_cost)).setTextColor(Color.BLACK);
-//            basketIcon.setImageDrawable(new IconicsDrawable(RestaurantDetailActivity.this
-//                    , GoogleMaterial.Icon.gmd_keyboard_arrow_up).color(Color.BLACK).sizeDp(36));
-//        }
-//        ObjectAnimator colorAnim = ObjectAnimator.ofInt(background, "backgroundColor", before, after);
-//        colorAnim.setEvaluator(new ArgbEvaluator());
-//        colorAnim.setDuration((long) 100);
-//        colorAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                int colorAlpha = Utils.colorWithAlpha(((Integer) animation.getAnimatedValue()).intValue(), 0f);
-//                background.setBackgroundColor(colorAlpha);
-//            }
-//        });
-//        colorAnim.start();
-//        currBasketColor = after;
-//    }
-
-    public void confirmOrder(View view) {
-
-        Intent intent = new Intent(RestaurantDetailActivity.this
-                , ConfirmOrderActivity.class);
-        startActivityForResult(intent, REQUESTCODE_CONFIRMPAY);
-    }
-
     public void clearOrder(View view) {
 
         Basket.INSTANCE.init(bind.getShop());
@@ -218,6 +198,28 @@ public class RestaurantDetailActivity extends BaseActivity<ActivityShopdetailBin
         if (menu_fragment != null) {
             menu_fragment.getListAdpter().notifyDataSetChanged();
         }
+    }
+
+    public void goPay(View view) {
+        Intent intent = new Intent(ShopActivity.this
+                , ConfirmOrderActivity.class);
+        startActivityForResult(intent, REQUESTCODE_CONFIRMPAY);
+    }
+
+    public void showBottomOrHide(View view) {
+        if (bottomSheetBehavior == null)
+            return;
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
+            toggleSlidingUpLayout(BottomSheetBehavior.STATE_EXPANDED);
+        else
+            toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    public void showBottomOrBuy(View view) {
+        if (bottomSheetBehavior == null)
+            return;
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
+            toggleSlidingUpLayout(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     static class MyPagerAdapter extends FragmentPagerAdapter {

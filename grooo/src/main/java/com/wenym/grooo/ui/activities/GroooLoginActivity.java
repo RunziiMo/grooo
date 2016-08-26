@@ -64,6 +64,7 @@ public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
         Observable.combineLatest(RxTextView.textChanges(bind.etUsername).skip(1)
                 , RxTextView.textChanges(bind.etPassword).skip(1)
                 , (charSequence, charSequence2) -> !TextUtils.isEmpty(charSequence) && !TextUtils.isEmpty(charSequence2))
+                .compose(bindToLifecycle())
                 .subscribe(aBoolean -> bind.btnLogin.setEnabled(aBoolean));
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.wenym.grooo.ui.profile.ProfileFragment;
 import com.wenym.grooo.ui.fragments.OrderListFragment;
-import com.wenym.grooo.ui.fragments.ShopFragment;
+import com.wenym.grooo.ui.shop.ShopFragment;
 
 import java.util.ArrayList;
 import java.util.List;

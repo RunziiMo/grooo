@@ -3,10 +3,12 @@ package com.wenym.grooo.ui.profile;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.runzii.lib.ui.base.BaseActivity;
@@ -64,7 +66,8 @@ public class SchoolActivity extends BaseActivity<ActivityRecyclerViewBinding> im
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_confirm_edit, menu);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+            MenuItem searchItem = menu.findItem(R.id.search);
+            final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override

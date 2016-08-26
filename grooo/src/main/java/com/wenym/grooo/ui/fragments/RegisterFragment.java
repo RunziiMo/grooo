@@ -13,14 +13,13 @@ import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentRegisterBinding;
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.School;
-import com.wenym.grooo.model.http.RegistForm;
+import com.wenym.grooo.model.http.RegisterForm;
 import com.wenym.grooo.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
-import rx.Subscription;
 
 public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
 
@@ -31,7 +30,7 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
     private ArrayList<School> schools = new ArrayList<>();
 
     private ObservableBoolean enable = new ObservableBoolean(false);
-    private RegistForm form = new RegistForm();
+    private RegisterForm form = new RegisterForm();
 
     @Override
     protected int getLayoutId() {
@@ -54,19 +53,19 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bind.setRegistForm(form);
+        bind.setRegisterForm(form);
 
         int layoutItemId = android.R.layout.simple_dropdown_item_1line;
         ArrayAdapter<School> adapter = new ArrayAdapter<>(getContext(), layoutItemId, schools);
         bind.etSchool.setAdapter(adapter);
 
         if (schools.size() == 0) {
-            Subscription s = NetworkWrapper.get().getSchools()
+            NetworkWrapper.get().getSchools()
+                    .compose(bindToLifecycle())
                     .subscribe(schools1 -> {
                         schools = schools1;
                         adapter.notifyDataSetChanged();
                     });
-            addSubscription(s);
         }
 
         Observable<String> phoneOb = RxTextView.textChanges(bind.etPhone).skip(1).map(charSequence -> charSequence.toString());
@@ -87,22 +86,24 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> {
                         bind.etSchool.setError("必须得选择学校");
                         return false;
                     }
-                    bind.getRegistForm().setSchool_id(school.getId());
+                    bind.getRegisterForm().setSchool_id(school.getId());
                     return true;
-                }).subscribe(aBoolean -> {
+                })
+                .compose(bindToLifecycle())
+                .subscribe(aBoolean -> {
             enable.set(aBoolean);
         });
 
-        Subscription regist = RxView.clicks(bind.btnRegist)
+        RxView.clicks(bind.btnRegist)
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .subscribe(aVoid -> regist(bind.getRegistForm()));
-        addSubscription(regist);
+                .compose(bindToLifecycle())
+                .subscribe(aVoid -> register(bind.getRegisterForm()));
     }
 
-    private void regist(RegistForm registForm) {
-        Subscription s = NetworkWrapper.get().regist(registForm)
+    private void register(RegisterForm registerForm) {
+        NetworkWrapper.get().regist(registerForm)
+                .compose(bindToLifecycle())
                 .subscribe(s1 -> Snackbar.make(getView(), s1, Snackbar.LENGTH_SHORT).show());
-        addSubscription(s);
     }
 
 }

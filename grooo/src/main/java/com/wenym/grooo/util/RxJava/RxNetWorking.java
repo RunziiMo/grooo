@@ -1,6 +1,8 @@
 package com.wenym.grooo.util.RxJava;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import rx.Observable;
 
@@ -14,5 +16,12 @@ public class RxNetWorking {
                 .doOnSubscribe(() -> indicator.post(() -> indicator.setRefreshing(true)))
                 .doOnError(e -> indicator.post(() -> indicator.setRefreshing(false)))
                 .doOnCompleted(() -> indicator.post(() -> indicator.setRefreshing(false)));
+    }
+
+    public static <T> Observable.Transformer<T, T> bindProgress(ProgressBar progressBar) {
+        return observable -> observable
+                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
+                .doOnError(e ->  progressBar.setVisibility(View.GONE))
+                .doOnCompleted(() ->  progressBar.setVisibility(View.GONE));
     }
 }

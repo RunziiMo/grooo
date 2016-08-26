@@ -17,7 +17,7 @@ import com.wenym.grooo.model.http.ChangePwdForm;
 import com.wenym.grooo.model.http.CommentForm;
 import com.wenym.grooo.model.http.HttpResult;
 import com.wenym.grooo.model.http.OrderForm;
-import com.wenym.grooo.model.http.RegistForm;
+import com.wenym.grooo.model.http.RegisterForm;
 import com.wenym.grooo.util.AppPreferences;
 
 import java.util.ArrayList;
@@ -70,8 +70,8 @@ public class NetworkWrapper {
         groooService = retrofit.create(GroooService.class);
     }
 
-    public Observable<String> regist(RegistForm registForm) {
-        return groooService.regist(registForm)
+    public Observable<String> regist(RegisterForm registerForm) {
+        return groooService.regist(registerForm)
                 .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

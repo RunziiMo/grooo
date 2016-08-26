@@ -13,19 +13,13 @@ public enum Basket  {
 
     INSTANCE;
 
-    private static Basket basket;
     private int buyNum = 0;// 购买数量
     private float totalPrice = 0;// 购买总价
     private int shopid;//商家id
     private boolean status;//商家状态
     private float min_price = 0;//最小价格
-    private HashMap<Food, Integer> order;
-    private DecimalFormat df;
-
-    private Basket() {
-        order = new HashMap<>();
-        df = new DecimalFormat("0.0");
-    }
+    private HashMap<Food, Integer> order = new HashMap<>();
+    private DecimalFormat df = new DecimalFormat("0.0");
 
     public int getShopid() {
         return shopid;

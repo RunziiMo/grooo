@@ -12,7 +12,7 @@ import com.wenym.grooo.model.http.ChangePwdForm;
 import com.wenym.grooo.model.http.CommentForm;
 import com.wenym.grooo.model.http.HttpResult;
 import com.wenym.grooo.model.http.OrderForm;
-import com.wenym.grooo.model.http.RegistForm;
+import com.wenym.grooo.model.http.RegisterForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import rx.Observable;
 public interface GroooService {
 
     @POST("accounts")
-    Observable<HttpResult<ResponseBody>> regist(@Body RegistForm registForm);
+    Observable<HttpResult<ResponseBody>> regist(@Body RegisterForm registerForm);
 
     @PUT("accounts")
     Observable<HttpResult<ResponseBody>> changePwd(@Body ChangePwdForm changePwdForm);

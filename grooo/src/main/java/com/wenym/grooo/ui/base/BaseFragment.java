@@ -19,6 +19,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 
+import com.squareup.leakcanary.RefWatcher;
+import com.trello.rxlifecycle.components.support.RxFragment;
+import com.wenym.grooo.GroooApplication;
 import com.wenym.grooo.R;
 import com.wenym.grooo.model.viewmodel.BaseViewModel;
 
@@ -29,34 +32,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by runzii on 15-9-24.
  */
-public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
-
-    private CompositeSubscription mCompositeSubscription;
-
-
-    public CompositeSubscription getCompositeSubscription() {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-
-        return this.mCompositeSubscription;
-    }
-
-    public void addSubscription(Subscription s) {
-        if (this.mCompositeSubscription == null) {
-            this.mCompositeSubscription = new CompositeSubscription();
-        }
-
-        this.mCompositeSubscription.add(s);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (this.mCompositeSubscription != null) {
-            this.mCompositeSubscription.unsubscribe();
-        }
-    }
+public abstract class BaseFragment<T extends ViewDataBinding> extends RxFragment {
 
     /**
      * 广播拦截器
@@ -89,6 +65,13 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
         View v = inflater.inflate(getLayoutId(), container, false);
         bind = DataBindingUtil.bind(v);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = GroooApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     @Override
