@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

@@ -1,11 +1,7 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +9,6 @@ import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivitySplashBinding;
 import com.wenym.grooo.util.AppPreferences;
-import com.wenym.grooo.util.GroooAppManager;
 
 
 /**

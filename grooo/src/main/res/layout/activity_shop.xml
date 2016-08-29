@@ -13,8 +13,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.shop.ShopActivity">
 
     <data>
 
@@ -85,19 +87,20 @@
             app:elevation="17dp"
             app:layout_anchor="@+id/basket_form"
             app:layout_anchorGravity="end|right"
-            app:layout_behavior="com.wenym.grooo.widgets.FabBottomSheetBehavior" />
+            app:layout_behavior="com.wenym.grooo.widgets.behavior.FabBottomSheetBehavior" />
 
         <!-- Bottom Sheet -->
         <RelativeLayout
             android:id="@+id/basket_form"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="match_parent"
             android:background="@color/white"
+            app:anchor_point="@dimen/anchor_height"
             android:elevation="16dp"
             android:onClick="showBottomOrHide"
             app:behavior_hideable="true"
             app:behavior_peekHeight="?attr/actionBarSize"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+            app:layout_behavior="com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior">
 
             <LinearLayout
                 android:id="@+id/basket_info"

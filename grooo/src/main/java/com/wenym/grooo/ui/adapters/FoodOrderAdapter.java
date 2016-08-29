@@ -12,7 +12,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ItemOrderContentBinding;
 import com.wenym.grooo.model.app.Order;
-import com.wenym.grooo.ui.activities.OrderDetailActivity;
+import com.wenym.grooo.ui.activity.OrderDetailActivity;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

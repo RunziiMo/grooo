@@ -1,4 +1,4 @@
-package com.wenym.grooo.widgets;
+package com.wenym.grooo.widgets.behavior;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior;
 import com.wenym.grooo.R;
 
 /**
@@ -66,8 +67,10 @@ public class FabBottomSheetBehavior extends CoordinatorLayout.Behavior<FloatingA
         if (startDependencyY == 0)
             startDependencyY = dependency.getY();
         lp = (CoordinatorLayout.LayoutParams) dependency.getLayoutParams();
-        if (bottomSheetPeekHeight == 0)
-            bottomSheetPeekHeight = ((BottomSheetBehavior) lp.getBehavior()).getPeekHeight();
+        if (bottomSheetPeekHeight == 0
+                && lp.getBehavior() != null
+                && lp.getBehavior() instanceof BottomSheetAnchorBehavior)
+            bottomSheetPeekHeight = ((BottomSheetAnchorBehavior<View>) lp.getBehavior()).getPeekHeight();
     }
 
     public int getStatusBarHeight() {

@@ -1,36 +1,27 @@
 package com.wenym.grooo.ui.shop;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.animation.ValueAnimatorCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.runzii.lib.ui.base.BaseActivity;
+import com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityShopBinding;
 import com.wenym.grooo.model.app.Basket;
-import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.model.viewmodel.ShopViewModel;
-import com.wenym.grooo.provider.ExtraActivityKeys;
-import com.wenym.grooo.ui.activities.ConfirmOrderActivity;
+import com.wenym.grooo.ui.activity.ConfirmOrderActivity;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
-import com.wenym.grooo.util.SmallTools;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.widgets.DividerItemDecoration;
 
@@ -44,7 +35,7 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
     private ShopMenuFragment menu_fragment;
 
 
-    BottomSheetBehavior bottomSheetBehavior;
+    BottomSheetAnchorBehavior bottomSheetBehavior;
     private ShopViewModel viewModel;
 
     @Override
@@ -78,8 +69,8 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
 
         bind.setBasket(Basket.INSTANCE);
 
-        bottomSheetBehavior = BottomSheetBehavior.from(bind.basketForm);
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior = BottomSheetAnchorBehavior.from(bind.basketForm);
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetAnchorBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
             }
@@ -115,7 +106,7 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUESTCODE_CONFIRMPAY) {
-                Toasts.show(data.getStringExtra(ExtraActivityKeys.PAYINFO.toString()));
+                Toasts.show(data.getStringExtra("pay_info"));
                 toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
                 finish();
             }
@@ -184,9 +175,9 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
 
     @Override
     public void onBackPressed() {
-        if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED
-                || bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        if (bottomSheetBehavior.getState() == BottomSheetAnchorBehavior.STATE_EXPANDED
+                || bottomSheetBehavior.getState() == BottomSheetAnchorBehavior.STATE_ANCHORED) {
+            bottomSheetBehavior.setState(BottomSheetAnchorBehavior.STATE_COLLAPSED);
         } else {
             super.onBackPressed();
         }
@@ -212,7 +203,7 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
     public void showBottomOrHide(View view) {
         if (bottomSheetBehavior == null)
             return;
-        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
+        if (bottomSheetBehavior.getState() != BottomSheetAnchorBehavior.STATE_EXPANDED)
             toggleSlidingUpLayout(BottomSheetBehavior.STATE_EXPANDED);
         else
             toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
@@ -221,9 +212,9 @@ public class ShopActivity extends BaseActivity<ActivityShopBinding> {
     public void showBottomOrBuy(View view) {
         if (bottomSheetBehavior == null)
             return;
-        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)
-            toggleSlidingUpLayout(BottomSheetBehavior.STATE_EXPANDED);
-        else {
+        if (bottomSheetBehavior.getState() != BottomSheetAnchorBehavior.STATE_ANCHORED)
+            toggleSlidingUpLayout(BottomSheetAnchorBehavior.STATE_ANCHORED);
+        else{
             Intent intent = new Intent(ShopActivity.this
                     , ConfirmOrderActivity.class);
             startActivityForResult(intent, REQUESTCODE_CONFIRMPAY);

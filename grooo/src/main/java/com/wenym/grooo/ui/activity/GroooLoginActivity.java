@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,14 +15,10 @@ import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityLoginBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.model.http.AuthUser;
-import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.util.AppPreferences;
-import com.wenym.grooo.util.GroooAppManager;
 
 import rx.Observable;
-import rx.functions.Func2;
 
 public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
 
@@ -91,7 +87,7 @@ public class GroooLoginActivity extends BaseActivity<ActivityLoginBinding> {
     public void startRegist(View view) {
 
         Intent intent = new Intent(GroooLoginActivity.this, MyFragmentActivity.class);
-        intent.putExtra(ExtraActivityKeys.FRAGMENT.toString(), MyFragmentActivity.regist);
+        intent.putExtra("fragment", MyFragmentActivity.regist);
         startActivity(intent);
     }
 

@@ -20,8 +20,11 @@ public class RxNetWorking {
 
     public static <T> Observable.Transformer<T, T> bindProgress(ProgressBar progressBar) {
         return observable -> observable
-                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
-                .doOnError(e ->  progressBar.setVisibility(View.GONE))
-                .doOnCompleted(() ->  progressBar.setVisibility(View.GONE));
+                .doOnSubscribe(() -> {
+                    if (progressBar.getVisibility() != View.VISIBLE)
+                        progressBar.setVisibility(View.VISIBLE);
+                })
+                .doOnError(e -> progressBar.setVisibility(View.GONE))
+                .doOnCompleted(() -> progressBar.setVisibility(View.GONE));
     }
 }

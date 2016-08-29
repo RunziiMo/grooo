@@ -3,24 +3,21 @@ package com.wenym.grooo.model.viewmodel;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.ObservableField;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Address;
 import com.wenym.grooo.model.app.Profile;
-import com.wenym.grooo.ui.activities.EditActivity;
-import com.wenym.grooo.ui.activities.MainActivity;
+import com.wenym.grooo.ui.activity.EditActivity;
+import com.wenym.grooo.ui.activity.MainActivity;
 import com.wenym.grooo.ui.profile.BuildingActivity;
-import com.wenym.grooo.ui.profile.SchoolActivity;
 import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.Toasts;
 
 import cn.jpush.android.api.JPushInterface;
 import rx.Observable;
 import rx.Subscription;
-import rx.functions.Func1;
 
 /**
  * Created by runzii on 16-8-23.

@@ -15,4 +15,8 @@
     </declare-styleable>
 
     <attr name="SwipeBackLayoutStyle" format="reference"/>
+
+    <declare-styleable name="BottomSheetAnchorBehavior">
+        <attr name="anchor_point" format="dimension"/>
+    </declare-styleable>
 </resources>

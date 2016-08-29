@@ -1,4 +1,4 @@
-package com.wenym.grooo.widgets;
+package com.wenym.grooo.widgets.behavior;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.wenym.grooo.R;
+import com.wenym.grooo.widgets.CircleImageView;
 
 /**
  * Created by runzii on 16-8-1.

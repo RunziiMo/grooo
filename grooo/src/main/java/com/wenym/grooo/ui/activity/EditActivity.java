@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;

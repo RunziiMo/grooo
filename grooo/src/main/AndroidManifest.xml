@@ -40,7 +40,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
-            android:name=".ui.activities.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,33 +49,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.GroooLoginActivity"
+            android:name=".ui.activity.GroooLoginActivity"
             android:theme="@style/LoginTheme" />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.shop.ShopActivity" />
-        <activity android:name=".ui.activities.WebViewActivity" />
+        <activity android:name=".ui.activity.WebViewActivity" />
         <activity
-            android:name=".ui.activities.AboutActivity"
+            android:name=".ui.activity.AboutActivity"
             android:label="@string/aboutus" />
         <activity
-            android:name=".ui.activities.OrderDetailActivity"
+            android:name=".ui.activity.OrderDetailActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
-            android:name=".ui.activities.ConfirmOrderActivity"
+            android:name=".ui.activity.ConfirmOrderActivity"
             android:label="@string/confirmpay"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.activities.EditActivity"
+            android:name=".ui.activity.EditActivity"
             android:label="@string/activitylabel_suggest"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.activities.CommentActivity"
+            android:name=".ui.activity.CommentActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.activities.MyFragmentActivity"
+            android:name=".ui.activity.MyFragmentActivity"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- 设置AppKey -->

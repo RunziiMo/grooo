@@ -20,7 +20,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,8 +35,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.wenym.grooo.util.RxJava.RxNetWorking;
-import com.wenym.grooo.util.Toasts;
+import com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentShopMenuBinding;
 import com.wenym.grooo.databinding.ItemFoodListBinding;
@@ -47,6 +45,8 @@ import com.wenym.grooo.model.app.Food;
 import com.wenym.grooo.ui.base.BaseFragment;
 import com.wenym.grooo.util.RxEvent.FoodEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
+import com.wenym.grooo.util.RxJava.RxNetWorking;
+import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.util.Tools;
 import com.wenym.grooo.widgets.BadgeView;
 import com.wenym.grooo.widgets.CheckableTextView;
@@ -56,7 +56,6 @@ import java.util.List;
 import java.util.Random;
 
 import rx.Observable;
-import rx.Subscription;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -123,14 +122,12 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 Log.d("onScrollStateChanged", "scrollState " + scrollState);
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
-                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
-                    } else {
-                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_COLLAPSED);
-                    }
-                } else {
-                    ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetBehavior.STATE_HIDDEN);
-                }
+                    if (view.getLastVisiblePosition() == (view.getCount() - 1))
+                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetAnchorBehavior.STATE_HIDDEN);
+                    else
+                        ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetAnchorBehavior.STATE_COLLAPSED);
+                } else
+                    ((ShopActivity) getActivity()).toggleSlidingUpLayout(BottomSheetAnchorBehavior.STATE_HIDDEN);
             }
 
             @Override

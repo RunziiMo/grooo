@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.runzii.lib.ui.base.BaseActivity;
 import com.wenym.grooo.R;
-import com.wenym.grooo.provider.ExtraActivityKeys;
 import com.wenym.grooo.ui.fragments.AboutUsFragment;
 import com.wenym.grooo.ui.fragments.RegisterFragment;
 
@@ -52,7 +51,7 @@ public class MyFragmentActivity extends BaseActivity {
 
     private Fragment createFragment() {
         Fragment fragment = null;
-        switch (getIntent().getIntExtra(ExtraActivityKeys.FRAGMENT.toString(), 0)) {
+        switch (getIntent().getIntExtra("fragment", 0)) {
             case 1:
                 fragment = new AboutUsFragment();
                 break;

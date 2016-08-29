@@ -1,7 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
 
         <!-- Material Theme -->
         <item name="colorPrimary">@color/colorPrimary</item>

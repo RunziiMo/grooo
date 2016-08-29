@@ -13,6 +13,7 @@
     <dimen name="bt_height">32dp</dimen>
     <dimen name="image_width">120dp</dimen>
     <dimen name="actionBarSize">56dp</dimen>
+    <dimen name="anchor_height">300dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

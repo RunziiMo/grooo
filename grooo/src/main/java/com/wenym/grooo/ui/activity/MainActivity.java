@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,10 +20,8 @@ import com.wenym.grooo.ui.profile.ProfileFragment;
 import com.wenym.grooo.util.AppPreferences;
 import com.wenym.grooo.util.RxEvent.ScrollEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
-import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.ActivityMainBinding;
-import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Profile;
 import com.wenym.grooo.model.http.UpdateInfo;
 import com.wenym.grooo.ui.adapters.BottomNavPagerAdapter;
@@ -33,7 +30,6 @@ import com.wenym.grooo.util.GroooAppManager;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.jpush.android.api.JPushInterface;
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
 
@@ -139,7 +135,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         adapter = new BottomNavPagerAdapter(getSupportFragmentManager());
 
         bind.pager.setAdapter(adapter);
-        bind.pager.setOffscreenPageLimit(2);
+        bind.pager.setOffscreenPageLimit(0);
         setUpBottomNavigation(savedInstanceState);
 
     }

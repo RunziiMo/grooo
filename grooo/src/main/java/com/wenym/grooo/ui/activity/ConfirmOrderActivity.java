@@ -1,4 +1,4 @@
-package com.wenym.grooo.ui.activities;
+package com.wenym.grooo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.wenym.grooo.databinding.ActivityConfirmOrderBinding;
 import com.wenym.grooo.http.NetworkWrapper;
 import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.http.OrderForm;
-import com.wenym.grooo.provider.ExtraActivityKeys;
 
 /**
  * Created by runzii on 15-11-7.
@@ -65,8 +64,8 @@ public class ConfirmOrderActivity extends BaseActivity<ActivityConfirmOrderBindi
                 .subscribe(s -> {
                     Snackbar.make(bind.confirmPay, s, Snackbar.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.putExtra(ExtraActivityKeys.CONFIRMPAY.toString(), true);
-                    intent.putExtra(ExtraActivityKeys.PAYINFO.toString(), s);
+                    intent.putExtra("confirm_pay", true);
+                    intent.putExtra("pay_info", s);
                     setResult(RESULT_OK, intent);
                     finish();
                 });
