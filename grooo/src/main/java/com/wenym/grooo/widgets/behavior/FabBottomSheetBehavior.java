@@ -3,9 +3,12 @@ package com.wenym.grooo.widgets.behavior;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -18,18 +21,27 @@ import com.wenym.grooo.R;
 /**
  * Created by runzii on 16-8-1.
  */
-public class FabBottomSheetBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+public class FabBottomSheetBehavior extends FloatingActionButton.Behavior {
 
     private final static String TAG = "behavior";
     private Context mContext;
 
     public FabBottomSheetBehavior(Context context, AttributeSet attrs) {
         mContext = context;
+        offset = 0;
+    }
+
+    @Override
+    public boolean onStartNestedScroll(final CoordinatorLayout coordinatorLayout, final FloatingActionButton child,
+                                       final View directTargetChild, final View target, final int nestedScrollAxes) {
+        // Ensure we react to vertical scrolling
+        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL
+                || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
     }
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        return dependency instanceof RelativeLayout;
+        return dependency instanceof NestedScrollView;
     }
 
     private int fabBottomMargin;
@@ -42,7 +54,16 @@ public class FabBottomSheetBehavior extends CoordinatorLayout.Behavior<FloatingA
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        if (dependency instanceof RelativeLayout) {
+
+        if (offset == 0)
+            setOffsetValue(parent);
+
+        if (child.getY() <= (offset + child.getHeight()) && child.getVisibility() == View.VISIBLE)
+            child.hide();
+        else if (child.getY() > offset && child.getVisibility() != View.VISIBLE)
+            child.show();
+
+        if (dependency instanceof NestedScrollView) {
             maybeInitProperties(child, dependency);
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
@@ -73,17 +94,21 @@ public class FabBottomSheetBehavior extends CoordinatorLayout.Behavior<FloatingA
             bottomSheetPeekHeight = ((BottomSheetAnchorBehavior<View>) lp.getBehavior()).getPeekHeight();
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+    float offset;
 
-        if (resourceId > 0) {
-            result = mContext.getResources().getDimensionPixelSize(resourceId);
+    private void setOffsetValue(CoordinatorLayout coordinatorLayout) {
+
+        for (int i = 0; i < coordinatorLayout.getChildCount(); i++) {
+            View child = coordinatorLayout.getChildAt(i);
+
+            if (child instanceof AppBarLayout) {
+
+                if (child.getTag() != null &&
+                        child.getTag().toString().contentEquals("modal-appbar")) {
+                    offset = child.getY() + child.getHeight();
+                    break;
+                }
+            }
         }
-        return result;
-    }
-
-    public int getActionBarHeight() {
-        return mContext.getResources().getDimensionPixelSize(R.dimen.actionBarSize);
     }
 }

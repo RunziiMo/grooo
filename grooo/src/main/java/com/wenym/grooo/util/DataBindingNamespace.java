@@ -8,11 +8,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.runzii.lib.utils.Logs;
-import com.wenym.grooo.model.app.Shop;
-import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.app.Order;
+import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.ui.adapters.OrderDetailAdapter;
-import com.wenym.grooo.ui.adapters.PayListAdapter;
 import com.wenym.grooo.ui.adapters.ShopListAdapter;
 
 import java.util.List;
@@ -31,17 +29,6 @@ public class DataBindingNamespace {
             ShopListAdapter adapter = (ShopListAdapter) recyclerView.getAdapter();
             adapter.setContents(shops);
             adapter.notifyDataSetChanged();
-        }
-    }
-
-    @BindingAdapter("entries_basket")
-    public static void entriesBasket(RecyclerView recyclerView, Basket basket) {
-        if (recyclerView.getAdapter() == null)
-            recyclerView.setAdapter(new PayListAdapter(basket));
-        else {
-            Logs.d("entries_basket调用");
-            PayListAdapter adapter = (PayListAdapter) recyclerView.getAdapter();
-            adapter.setBasket(basket);
         }
     }
 

@@ -16,13 +16,10 @@
 
 package com.wenym.grooo.ui.shop;
 
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -33,30 +30,25 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior;
 import com.wenym.grooo.R;
 import com.wenym.grooo.databinding.FragmentShopMenuBinding;
-import com.wenym.grooo.databinding.ItemFoodListBinding;
 import com.wenym.grooo.http.NetworkWrapper;
-import com.wenym.grooo.model.app.Basket;
 import com.wenym.grooo.model.app.Food;
 import com.wenym.grooo.ui.base.BaseFragment;
-import com.wenym.grooo.util.RxEvent.FoodEvent;
+import com.wenym.grooo.util.RxEvent.ClearEvent;
 import com.wenym.grooo.util.RxJava.RxBus;
 import com.wenym.grooo.util.RxJava.RxNetWorking;
 import com.wenym.grooo.util.Toasts;
 import com.wenym.grooo.util.Tools;
 import com.wenym.grooo.widgets.BadgeView;
-import com.wenym.grooo.widgets.CheckableTextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import rx.Observable;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> implements StickyListHeadersListView.OnStickyHeaderChangedListener {
@@ -66,7 +58,6 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
     private ArrayList<Food> foods;
     private ArrayList<String> stickers_left;
     private ViewGroup anim_mask_layout;//动画层
-    private BadgeView buyImg;//漂浮动画
     private View basketBar;//显示数量的图片
     private MenuListViewAdapter contentAdapter;
     private BaseAdapter headAdapter;
@@ -110,11 +101,17 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
                 .flatMap(Observable::toList);
         loadMenu();
         setupView();
+
+        RxBus.getDefault().toObserverable(ClearEvent.class)
+                .compose(bindToLifecycle())
+                .subscribe(clearEvent -> {
+                    if (contentAdapter != null) contentAdapter.clearNumb();
+                });
     }
 
     private void setupView() {
-        contentAdapter = new MenuListViewAdapter();
-        headAdapter = new HeaderListViewAdapter();
+        contentAdapter = new MenuListViewAdapter(foods, stickers);
+        headAdapter = new HeaderListViewAdapter(stickers_left);
         bind.foodListContentList.setAdapter(contentAdapter);
         bind.foodListContentList.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -136,16 +133,14 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
             }
         });
         bind.foodListContentList.setOnStickyHeaderChangedListener(this);
-        bind.foodListHeaderList.setAdapter(new HeaderListViewAdapter());
+        bind.foodListHeaderList.setAdapter(headAdapter);
         bind.foodListHeaderList.setOnItemClickListener((parent, view, position, id) -> bind.foodListContentList.setSelection(stickers.indexOf(stickers_left.get(position))));
     }
 
     private void loadMenu() {
-
         foods = new ArrayList<>();
         stickers = new ArrayList<>();
         stickers_left = new ArrayList<>();
-
         foodObservable
                 .subscribe(foods1 -> {
                     foods.addAll(foods1);
@@ -166,155 +161,6 @@ public class ShopMenuFragment extends BaseFragment<FragmentShopMenuBinding> impl
         bind.foodListHeaderList.setItemChecked(stickers_left.indexOf(stickers.get(itemPosition)), true);
     }
 
-
-    public class HeaderListViewAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return stickers_left.size();
-        }
-
-        @Override
-        public String getItem(int position) {
-            return stickers_left.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return stickers_left.get(position).hashCode();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            HeaderHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food_list_header, parent, false);
-                holder = new HeaderHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderHolder) convertView.getTag();
-            }
-            holder.header.setText(getItem(position));
-            return convertView;
-        }
-
-        public class HeaderHolder {
-            public final CheckableTextView header;
-
-            public HeaderHolder(View view) {
-                header = (CheckableTextView) view.findViewById(R.id.food_list_item_header);
-            }
-
-        }
-    }
-
-    public class MenuListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
-
-        public MenuListViewAdapter() {
-            super();
-        }
-
-        @Override
-        public View getHeaderView(int position, View convertView, ViewGroup parent) {
-            HeaderHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food_list_header_thin, parent, false);
-                holder = new HeaderHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (HeaderHolder) convertView.getTag();
-            }
-            holder.header.setText(stickers.get(position));
-            return convertView;
-        }
-
-        @Override
-        public long getHeaderId(int position) {
-            return stickers.get(position).hashCode();
-        }
-
-
-        @Override
-        public int getCount() {
-            return foods.size();
-        }
-
-        @Override
-        public Food getItem(int position) {
-            return foods.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return foods.get(position).getId();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food_list, parent, false);
-                holder = new ViewHolder(convertView);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            final Food food = foods.get(position);
-            holder.bind.setFood(food);
-            holder.bind.foodListItemAdd.setOnClickListener(v -> {
-                Basket.INSTANCE.addFood(food);
-                int[] start_location = new int[2];// 一个整型数组，用来存储按钮的在屏幕的X、Y坐标
-                v.getLocationInWindow(start_location);// 这是获取购买按钮的在屏幕的X、Y坐标（这也是动画开始的坐标）
-//                    buyImg = new BadgeView(getActivity());
-////                    buyNumView.setImageResource(R.drawable.default_photo);
-//                    try {
-//                        buyImg.setImageBitmap(getAddDrawBitMap(position));// 设置buyImg的图片
-//                    }catch (NullPointerException e){
-//                        Toasts.show("fuck");
-//                    }
-                notifyDataSetChanged();
-                RxBus.getDefault().post(new FoodEvent());
-            });
-            holder.bind.foodListItemMinus.setOnClickListener(v -> {
-                Basket.INSTANCE.minusFood(food);
-                notifyDataSetChanged();
-                RxBus.getDefault().post(new FoodEvent());
-            });
-            holder.bind.foodListItemNum.setText(String.valueOf(Basket.INSTANCE.getFoodBuyNum(food)));
-            if (Basket.INSTANCE.getFoodBuyNum(food) > 0) {
-                holder.bind.foodListItemMinus.setVisibility(View.VISIBLE);
-                holder.bind.foodListItemNum.setVisibility(View.VISIBLE);
-            } else {
-                holder.bind.foodListItemMinus.setVisibility(View.INVISIBLE);
-                holder.bind.foodListItemNum.setVisibility(View.INVISIBLE);
-            }
-            return convertView;
-        }
-
-        public class ViewHolder {
-
-            ItemFoodListBinding bind;
-
-            public ViewHolder(View view) {
-                bind = DataBindingUtil.bind(view);
-            }
-
-            public void bind(Food food) {
-                bind.setFood(food);
-            }
-
-        }
-
-        public class HeaderHolder extends RecyclerView.ViewHolder {
-            public final TextView header;
-
-            public HeaderHolder(View view) {
-                super(view);
-                header = (TextView) view.findViewById(R.id.food_list_item_header);
-            }
-
-        }
-    }
 
     private List<String> getRandomSublist(String[] array, int amount) {
         ArrayList<String> list = new ArrayList<>(amount);

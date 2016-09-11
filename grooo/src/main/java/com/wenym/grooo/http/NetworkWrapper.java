@@ -1,7 +1,10 @@
 package com.wenym.grooo.http;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.runzii.lib.utils.Logs;
 import com.wenym.grooo.BuildConfig;
 import com.wenym.grooo.util.Toasts;
@@ -20,14 +23,20 @@ import com.wenym.grooo.model.http.OrderForm;
 import com.wenym.grooo.model.http.RegisterForm;
 import com.wenym.grooo.util.AppPreferences;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
@@ -88,7 +97,8 @@ public class NetworkWrapper {
 
     public Observable<AuthToken> getAuthToken(AuthUser user) {
         return groooService.getAuthToken(user)
-                .map(new HttpResultFunc<>())
+                .map(retrofit2.Response::body)
+                .map(HttpResult::getData)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -193,14 +203,9 @@ public class NetworkWrapper {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<String> postOrder(OrderForm orderForm) {
-        return groooService.postOrder(AppPreferences.get().getAuth(), orderForm)
-                .onErrorResumeNext(new CheckAuth<ResponseBody>() {
-                    @Override
-                    protected Observable<HttpResult<ResponseBody>> getObservable(String finalToken) {
-                        return groooService.postOrder(finalToken, orderForm);
-                    }
-                })
+    public Observable<String> postOrder(int id, OrderForm orderForm) {
+        return groooService.postOrder(AppPreferences.get().getAuth(), id, orderForm)
+                .onErrorReturn(new CheckError<>())
                 .map(HttpResult::getMessage)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -240,16 +245,14 @@ public class NetworkWrapper {
     }
 
 
-    private abstract class CheckAuth<T> implements Func1<Throwable, Observable<HttpResult<T>>>
-
-    {
+    private abstract class CheckAuth<T> implements Func1<Throwable, Observable<HttpResult<T>>> {
 
         @Override
         public Observable<HttpResult<T>> call(Throwable throwable) {
+            Logs.d(throwable.getMessage());
             if (isHttp401Error(throwable)) {
-                Logs.d(throwable.getMessage());
                 return groooService.getAuthToken(AppPreferences.get().getAuthUser()).flatMap(authTokenHttpResult -> {
-                    String auth = authTokenHttpResult.getData().getToken();
+                    String auth = authTokenHttpResult.body().getData().getToken();
                     AppPreferences.get().setAuth(auth);
                     return getObservable(auth);
                 });
@@ -258,6 +261,26 @@ public class NetworkWrapper {
         }
 
         protected abstract Observable<HttpResult<T>> getObservable(String finalToken);
+    }
+
+    private class CheckError<T> implements Func1<Throwable, HttpResult<T>> {
+
+        @Override
+        public HttpResult<T> call(Throwable throwable) {
+            Log.d("postOrder",throwable.toString());
+            HttpResult<T> responseError = null;
+            if (throwable instanceof HttpException){
+                try {
+                    String errorBody = ((HttpException)throwable).response().errorBody().string();
+                    Type type = new TypeToken<HttpResult<ResponseBody>>(){}.getType();
+                    responseError = new Gson().fromJson(errorBody,type);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return responseError;
+        }
+
     }
 
 

@@ -11,8 +11,8 @@ public class Address {
      * building : 鹏远3号楼
      */
 
-    private String address;
-    private String building;
+    private String address = "";
+    private String building = "";
 
     public String getAddress() {
         return address;

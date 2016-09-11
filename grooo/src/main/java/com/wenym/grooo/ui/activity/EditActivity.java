@@ -22,6 +22,7 @@ public class EditActivity extends BaseActivity<ActivityEditBinding> {
     public static final String EMAIL = "EMAIL";
     public static final String ROOM = "ROOM";
     public static final String NICK = "NICK";
+    public static final String REMARK = "REMARK";
 
     public static void lanuch(Activity activity, String hint, String title, String editType, int requestCode) {
         Intent intent = new Intent(activity, EditActivity.class);
@@ -99,6 +100,9 @@ public class EditActivity extends BaseActivity<ActivityEditBinding> {
                 break;
             case NICK:
                 intent.putExtra("nick", text);
+                break;
+            case REMARK:
+                intent.putExtra("remark", text);
                 break;
         }
         setResult(RESULT_OK, intent);

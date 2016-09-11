@@ -48,12 +48,11 @@ public class OrderDetailActivity extends BaseActivity<ActivityOrderDetailBinding
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Order order = (Order) getIntent().getSerializableExtra("order");
+        Order order = getIntent().getParcelableExtra("order");
 
         bind.setOrder(order);
 
         loadBackDrop();
-
 
     }
 

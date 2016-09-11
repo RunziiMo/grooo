@@ -1,13 +1,17 @@
 package com.wenym.grooo.model.http;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.wenym.grooo.model.app.Order;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by runzii on 16-7-2.
  */
-public class OrderForm {
+public class OrderForm implements Serializable{
 
 
     /**
@@ -57,4 +61,5 @@ public class OrderForm {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
 }

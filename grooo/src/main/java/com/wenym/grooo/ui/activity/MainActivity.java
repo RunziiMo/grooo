@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public static final int REQUEST_CODE_EMAIL = 0x31;
     public static final int REQUEST_CODE_BUILDING = 0x32;
     public static final int REQUEST_CODE_ROOM = 0x33;
+    public static final int REQUEST_CODE_REMARK = 0x35;
     public static final int REQUEST_CODE_NICK = 0X34;
 
     private static Boolean isExit = false;

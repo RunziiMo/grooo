@@ -43,7 +43,7 @@ public abstract class BaseViewModel {
         }
     }
 
-    protected void onResume() {
+    public void onResume() {
 
     }
 

@@ -49,6 +49,8 @@ import java.util.Vector;
  */
 public class BottomSheetAnchorBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
 
+    private static final String TAG = "BottomSheet";
+
     /**
      * Callback for monitoring events about bottom sheets.
      */
@@ -747,14 +749,24 @@ public class BottomSheetAnchorBehavior<V extends View> extends CoordinatorLayout
             int top;
             @State int targetState;
             if (yvel < 0) { // Moving up
-                top = mMinOffset;
-                targetState = STATE_EXPANDED;
+                //判断该滑到哪里
+                int currentTop = releasedChild.getTop();
+                if (Math.abs(currentTop - (mParentHeight - mAnchorPoint)) < Math.abs(currentTop - mMinOffset) / 2) {
+                    top = mParentHeight - mAnchorPoint;
+                    targetState = STATE_ANCHORED;
+                } else {
+                    top = mMinOffset;
+                    targetState = STATE_EXPANDED;
+                }
             } else if (mHideable && shouldHide(releasedChild, yvel)) {
                 top = mParentHeight;
                 targetState = STATE_HIDDEN;
             } else if (yvel == 0.f) {
                 int currentTop = releasedChild.getTop();
-                if (Math.abs(currentTop - mMinOffset) < Math.abs(currentTop - mMaxOffset)) {
+                if (Math.abs(currentTop - (mParentHeight - mAnchorPoint)) < Math.abs(currentTop - mMinOffset)) {
+                    top = mParentHeight - mAnchorPoint;
+                    targetState = STATE_ANCHORED;
+                } else if (Math.abs(currentTop - mMinOffset) < Math.abs(currentTop - mMaxOffset)) {
                     top = mMinOffset;
                     targetState = STATE_EXPANDED;
                 } else {

@@ -52,7 +52,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<ShopListAdapter.ShopVi
                 .debounce(200, TimeUnit.MILLISECONDS)
                 .subscribe(aVoid -> {
                     Intent intent = new Intent(holder.itemView.getContext(), ShopActivity.class);
-                    intent.putExtra("shopId", shop);
+                    intent.putExtra("shop", shop);
                     holder.itemView.getContext().startActivity(intent);
                 });
     }

@@ -64,15 +64,13 @@
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
-            android:name=".ui.activity.ConfirmOrderActivity"
-            android:label="@string/confirmpay"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.activity.EditActivity"
+            android:launchMode="singleTop"
             android:label="@string/activitylabel_suggest"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.CommentActivity"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.activity.MyFragmentActivity"

@@ -18,6 +18,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:padding="10dp">
 
 
@@ -29,8 +32,8 @@
             android:layout_marginRight="16dp"
             android:contentDescription="@null"
             android:minWidth="64dp"
-            android:visibility="@{TextUtils.isEmpty(food.logo) ? View.GONE : View.VISIBLE}"
             android:src="@mipmap/ic_launcher"
+            android:visibility="@{TextUtils.isEmpty(food.logo) ? View.GONE : View.VISIBLE}"
             app:logo="@{food.logo}" />
 
         <TextView
@@ -117,7 +120,8 @@
                 android:background="@drawable/selector_border_button_add"
                 android:text="-"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_large"
+                android:visibility="@{food.buyNum>0?View.VISIBLE:View.INVISIBLE}" />
 
             <TextView
                 android:id="@+id/food_list_item_num"
@@ -127,8 +131,10 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/shape_grey_round"
                 android:gravity="center"
+                android:text="@{String.valueOf(food.buyNum)}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="@{food.buyNum>0?View.VISIBLE:View.INVISIBLE}" />
 
             <Button
                 android:id="@+id/food_list_item_add"

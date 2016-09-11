@@ -1,5 +1,7 @@
 package com.wenym.grooo.model.app;
 
+import android.databinding.ObservableInt;
+
 public class Food {
 
 
@@ -22,6 +24,9 @@ public class Food {
     private String name;
     private String price;
     private int remain;
+
+    //购买数量，本地数据，只和下单相关
+    public ObservableInt buyNum = new ObservableInt(0);
 
     public String getCategory() {
         return category;

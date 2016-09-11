@@ -17,6 +17,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -32,8 +33,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/pay_remark"
@@ -64,8 +67,8 @@
                     android:id="@+id/pay_building"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:hint="宿舍楼"
+                    android:onClick="selectBuilding"
                     android:text="@={form.building}"
                     android:textSize="@dimen/text_size_medium"
                     app:met_floatingLabel="highlight"
@@ -82,9 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
-            android:onClick="confirmOrder"
             android:background="@drawable/selector_green_button"
-            android:text="@string/confirmpay"
+            android:onClick="confirmOrder"
+            android:text="@string/confirm_pay"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium" />
 

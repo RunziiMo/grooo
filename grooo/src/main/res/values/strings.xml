@@ -10,7 +10,7 @@
     <string name="login">登录</string>
     <string name="register_txt1">还没有账号？</string>
     <string name="register_txt2">立即注册 ></string>
-    <string name="confirmpay">确认</string>
+    <string name="confirm_pay">确认</string>
     <string name="clearorder">清空</string>
     <string name="confirmregister">确认注册</string>
     <string name="phonenumber">手机号</string>
@@ -25,6 +25,8 @@
     <string name="label_order_list">订单</string>
     <string name="label_profile">个人信息</string>
     <string name="commentFormat">你还能评价 %d 个字</string>
+    <string name="priceFormat">花了：￥ %s</string>
     <string name="title_activity_school">选择学校</string>
     <string name="title_activity_building">选择楼层</string>
+    <string name="key_binding_default_toolbar_name">Modal-Toolbar-Title</string>
 </resources>

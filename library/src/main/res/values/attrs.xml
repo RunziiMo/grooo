@@ -19,4 +19,8 @@
     <declare-styleable name="BottomSheetAnchorBehavior">
         <attr name="anchor_point" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="ScrollingAppBarLayoutBehavior_Params">
+        <attr name="behavior_scrolling_appbar_peek_height" format="dimension"/>
+    </declare-styleable>
 </resources>

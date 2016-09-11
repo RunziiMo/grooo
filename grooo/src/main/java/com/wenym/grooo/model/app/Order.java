@@ -4,15 +4,13 @@ package com.wenym.grooo.model.app;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.wenym.grooo.util.SmallTools;
-import com.wenym.grooo.model.app.Shop;
 import com.wenym.grooo.util.OrderStatus;
+import com.wenym.grooo.util.SmallTools;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Order implements Serializable  {
+public class Order implements Parcelable {
 
 
     /**
@@ -63,6 +61,55 @@ public class Order implements Serializable  {
      */
 
     private List<DetailBean> detail;
+
+
+    protected Order(Parcel in) {
+        address = in.readString();
+        building = in.readString();
+        order_id = in.readString();
+        price = in.readString();
+        rating = in.readInt();
+        rating_remark = in.readString();
+        remark = in.readString();
+        seller = in.readParcelable(Shop.class.getClassLoader());
+        status = in.readInt();
+        username = in.readString();
+        detail = in.createTypedArrayList(DetailBean.CREATOR);
+        time = (Date) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(address);
+        dest.writeString(building);
+        dest.writeString(order_id);
+        dest.writeString(price);
+        dest.writeInt(rating);
+        dest.writeString(rating_remark);
+        dest.writeString(remark);
+        dest.writeParcelable(seller, flags);
+        dest.writeInt(status);
+        dest.writeString(username);
+        dest.writeTypedList(detail);
+        dest.writeSerializable(time);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
 
     public String getAddress() {
         return address;
@@ -164,9 +211,39 @@ public class Order implements Serializable  {
         this.detail = detail;
     }
 
-    public static class DetailBean implements Serializable {
+    public static class DetailBean implements Parcelable {
         private String count;
         private String name;
+
+        public DetailBean(){}
+
+        protected DetailBean(Parcel in) {
+            count = in.readString();
+            name = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(count);
+            dest.writeString(name);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<DetailBean> CREATOR = new Creator<DetailBean>() {
+            @Override
+            public DetailBean createFromParcel(Parcel in) {
+                return new DetailBean(in);
+            }
+
+            @Override
+            public DetailBean[] newArray(int size) {
+                return new DetailBean[size];
+            }
+        };
 
         public String getCount() {
             return count;

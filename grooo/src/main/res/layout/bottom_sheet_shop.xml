@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.wenym.grooo.model.viewmodel.ShopViewModel" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:onClick="showBottomOrHide"
+        android:orientation="vertical"
+        app:anchor_point="@dimen/anchor_height"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="?attr/actionBarSize"
+        app:bottom_sheet_state="@{viewModel.bottomSheetState}"
+        app:layout_behavior="com.runzii.lib.widgets.behavior.BottomSheetAnchorBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/basket_info"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:animation="@{viewModel.isBottomExpanded}">
+
+                <TextView
+                    android:id="@+id/basket_costname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:text="花了：￥"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:id="@+id/basket_cost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|end|center_vertical"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical|left"
+                    android:text="@{String.valueOf(viewModel.totalPrice)}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:text="起送价：￥"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                    android:textSize="@dimen/text_size_large" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|end|center_vertical"
+                    android:layout_weight="6"
+                    android:gravity="center_vertical|left"
+                    android:text="@{String.valueOf(viewModel.minPrice)}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:animation="@{viewModel.isBottomExpanded}">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:onClick="@{viewModel::setRoom}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_room_white_36dp"
+                        android:tint="@{viewModel.isBottomExpanded? @color/white : @color/colorAccent}"
+                        tools:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.room}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                        tools:text="房间号" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:onClick="@{viewModel::setBuilding}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_home_white_36dp"
+                        android:tint="@{viewModel.isBottomExpanded? @color/white : @color/colorAccent}"
+                        tools:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.building}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}"
+                        tools:text="宿舍楼" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:onClick="@{viewModel::clearOrder}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_phone_white_36dp"
+                        android:tint="@{viewModel.isBottomExpanded? @color/white : @color/colorAccent}"
+                        tools:tint="@color/colorAccent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="清空"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@{viewModel.isBottomExpanded? @color/white : @color/black}" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:onClick="@{viewModel::setRemark}"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/order_detail_order_remark_duck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:text="订单备注" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{viewModel.remark}"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    tools:text="@string/aboutusintroduce" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/mdtp_line_background" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/basket_List"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:entries_orders="@{viewModel.orders}"
+                tools:listitem="@layout/item_shop_paylist" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -38,7 +39,7 @@ public interface GroooService {
 
     @Headers("Content-Type: application/json")
     @POST("accounts/token")
-    Observable<HttpResult<AuthToken>> getAuthToken(@Body AuthUser user);
+    Observable<Response<HttpResult<AuthToken>>> getAuthToken(@Body AuthUser user);
 
     @GET("accounts/school")
     Observable<HttpResult<ArrayList<School>>> getSchools();
@@ -50,7 +51,7 @@ public interface GroooService {
     Observable<HttpResult<Profile>> getProfile(@Path("id") int userId);
 
     @PUT("accounts/{id}/profile")
-    Observable<HttpResult<ResponseBody>> putProfile(@Header("Authorization") String auth,@Path("id") int userId, @Body Profile profile);
+    Observable<HttpResult<ResponseBody>> putProfile(@Header("Authorization") String auth, @Path("id") int userId, @Body Profile profile);
 
     @GET("shops/user/order")
     Observable<HttpResult<List<Order>>> getOrders(@Header("Authorization") String auth);
@@ -71,7 +72,7 @@ public interface GroooService {
     Observable<HttpResult<List<Food>>> getShopFood(@Path("id") int shopId);
 
     @POST("shops/shop/{id}/order")
-    Observable<HttpResult<ResponseBody>> postOrder(@Header("Authorization") String auth, @Body OrderForm orderForm);
+    Observable<HttpResult<ResponseBody>> postOrder(@Header("Authorization") String auth, @Path("id") int shopId, @Body OrderForm orderForm);
 
     @POST("shops/user/order")
     Observable<HttpResult<ResponseBody>> postComment(@Header("Authorization") String auth, @Body CommentForm commentForm);
