@@ -163,8 +163,9 @@ public class ShopViewModel extends BaseViewModel {
                     .onPositive((dialog, which) -> {
                         Subscription subscription = NetworkWrapper.get().postOrder(id,form)
                                 .subscribe(s -> {
+                                    activity.finish();
                                     Snackbar.make(activity.getWindow().getDecorView(), s, Snackbar.LENGTH_SHORT).show();
-                                });
+                                },errorHandle(""));
                         addSubscription(subscription);
                     })
                     .show();

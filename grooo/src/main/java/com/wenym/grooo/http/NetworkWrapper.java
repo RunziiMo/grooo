@@ -267,15 +267,17 @@ public class NetworkWrapper {
 
         @Override
         public HttpResult<T> call(Throwable throwable) {
-            Log.d("postOrder",throwable.toString());
+            Log.d("postOrder", throwable.toString());
             HttpResult<T> responseError = null;
-            if (throwable instanceof HttpException){
+            if (throwable instanceof HttpException) {
                 try {
-                    String errorBody = ((HttpException)throwable).response().errorBody().string();
-                    Type type = new TypeToken<HttpResult<ResponseBody>>(){}.getType();
-                    responseError = new Gson().fromJson(errorBody,type);
+                    String errorBody = ((HttpException) throwable).response().errorBody().string();
+                    Type type = new TypeToken<HttpResult<ResponseBody>>() {
+                    }.getType();
+                    responseError = new Gson().fromJson(errorBody, type);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    throw new RuntimeException(throwable.getMessage());
                 }
             }
             return responseError;
