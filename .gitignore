@@ -1,11 +1,6 @@
 
 /.gradle/
-/.idea/
 /build/
 /grooo/build/
-/grooo/grooo.iml
 /library/build/
-/library/library.iml
-/grooo_android_client.iml
 /local.properties
-/.idea/workspace.xml
