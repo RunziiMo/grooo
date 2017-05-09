@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+
+    <ImageView
+        android:id="@+id/category_dot"
+        android:layout_width="36dp"
+        android:scaleType="center"
+        android:layout_height="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    <TextView
+        android:id="@+id/category_name"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="72dp"
+        android:text="菜单类别" />
+
+
+    <TextView
+        android:id="@+id/category_count_text"
+        android:layout_width="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_alignLeft="@+id/category_name"
+        android:layout_below="@+id/category_name"
+        android:text="菜品数量:" />
+
+    <TextView
+        android:id="@+id/category_count"
+        android:layout_width="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_toRightOf="@+id/category_count_text"
+        android:layout_below="@+id/category_name"
+        android:text="菜品数量" />
+
+    <ImageView
+        android:id="@+id/category_detail"
+        android:layout_width="36dp"
+        android:scaleType="center"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

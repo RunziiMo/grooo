@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorAccent">#7C4DFF</color>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorPrimaryLight">#FFCCBC</color>
+    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorControlActivated">@color/colorAccent</color>
+    <color name="colorSwitchThumbNormal">#FF78909C</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#727272</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">#FF000000</color>
+    <color name="translucence">#ff4e4752</color>
+
+    <color name="green_500">#4caf50</color>
+    <color name="green_800">#2e7d32</color>
+</resources>

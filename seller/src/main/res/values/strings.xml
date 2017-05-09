@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">咕噜卖家</string>
+    <string name="order_today">今日订单</string>
+    <string name="order_all">订单中心</string>
+    <string name="shop_manage">餐厅管理</string>
+    <string name="menu_manage">菜品管理</string>
+    <string name="text_btn_login">登录</string>
+    <string name="text_btn_init">百度账号绑定</string>
+    <string name="text_btn_init1">更换百度账号</string>
+    <string name="log_tip">日志：</string>
+    <string name="clear_log">清除日志</string>
+    <string name="text_btn_rich">富媒体消息</string>
+    <string name="text_btn_initAK">无账号绑定</string>
+    <string name="text_btn_setTags">设置标签</string>
+    <string name="text_btn_delTags">删除标签</string>
+    <string name="text_btn_senior">高级功能</string>
+    <string name="text_btn_set">设置</string>
+    <string name="text_media_title">富媒体消息列表</string>
+    <string name="media">Rich Media</string>
+    <string name="about_introduce">如果你有任何问题请联系\n王同学:18716036890\n\n查看订餐界面:www.grooo.cn</string>
+    <string name="tags_hint">请输入多个标签，以英文逗号隔开</string>
+
+    <string name="activitylabel_ordertoday">今日订单</string>
+    <string name="activitylabel_shopmanage">餐厅管理</string>
+    <string name="activitylabel_menumanage">菜单管理</string>
+    <string name="activitylabel_allorder">订单中心</string>
+    <string name="activitylabel_exit">退出登录</string>
+    <string name="activitylabel_aboutus">关于我们</string>
+    <string name="error_field_required">帐号不能为空</string>
+    <string name="error_invalid_phone">手机号格式不正确</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_food_detail">Settings</string>
+    <string name="text_hint_activity"><![CDATA[活动(用&&隔开,如“活动1&&活动2”)]]></string>
+
+</resources>

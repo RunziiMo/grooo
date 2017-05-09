@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="order"
+            type="net.azstudio.groooseller.model.business.FoodOrder" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:id="@+id/food_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:id="@+id/avater"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@null"
+                android:src="@drawable/login_logo"
+                app:imageUrl="@{order.address}" />
+
+            <TextView
+                android:id="@+id/building"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/avater"
+                android:hint="寝室楼"
+                android:text="@{order.building}" />
+
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/building"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/building"
+                android:hint="地址"
+                android:text="@{order.address}" />
+
+
+            <TextView
+                android:id="@+id/remark"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/building"
+                android:layout_toRightOf="@+id/avater"
+                android:hint="订单备注"
+                android:text="@{order.remark}"
+                android:visibility="@{order.remark !=null ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                android:id="@+id/duck"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/remark"
+                android:layout_toRightOf="@+id/avater"
+                android:text="时间：" />
+
+            <TextView
+                android:id="@+id/time"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/remark"
+                android:layout_toRightOf="@+id/duck"
+                android:hint="04:10"
+                android:text="@{order.time}" />
+
+            <TextView
+                android:id="@+id/status"
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="@+id/time"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:hint="新订单"
+                android:text="@{order.statusString}"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/time"
+                android:layout_below="@+id/status"
+                android:layout_toLeftOf="@+id/price"
+                android:gravity="bottom"
+                android:text="￥"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/price"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/time"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/status"
+                android:gravity="bottom"
+                android:hint="12"
+                android:text="@{order.price}"
+                android:textColor="@color/colorPrimary" />
+
+            <RelativeLayout
+                android:id="@+id/detail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/duck"
+                android:layout_below="@+id/duck"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/detail_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/dial"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/detail_list"
+                    android:layout_below="@+id/detail_list"
+                    android:src="@drawable/ic_local_phone_white_24dp"
+                    android:text="确认" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

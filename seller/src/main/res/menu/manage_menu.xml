@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activities.ManageActivity">
+
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_edit_white_24dp"
+        android:orderInCategory="100"
+        android:title="编辑"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_check"
+        android:icon="@drawable/ic_check_white_24dp"
+        android:orderInCategory="100"
+        android:title="确认"
+        app:showAsAction="always" />
+</menu>
