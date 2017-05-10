@@ -1,5 +1,6 @@
 package net.azstudio.groooseller.ui.widgets.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ItemFoodBinding;
 import net.azstudio.groooseller.model.http.HttpFood;
 import net.azstudio.groooseller.ui.activities.MenuActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by runzii on 16-5-25.
@@ -102,22 +102,22 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
     public static class FoodHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.food_list_item_image)
         ImageView logo;
-        @BindView(R.id.food_list_item_name)
         TextView name;
-        @BindView(R.id.food_list_item_price)
         TextView price;
-        @BindView(R.id.food_list_item_monthsold)
         TextView sold;
-        @BindView(R.id.food_list_item_description)
         TextView description;
-        @BindView(R.id.food_list_item_select)
         CheckBox select;
 
         public FoodHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemFoodBinding binding = DataBindingUtil.bind(itemView);
+            logo = binding.foodListItemImage;
+            name = binding.foodListItemName;
+            price = binding.foodListItemPrice;
+            sold = binding.foodListItemMonthsold;
+            description = binding.foodListItemDescription;
+            select = binding.foodListItemSelect;
         }
 
     }

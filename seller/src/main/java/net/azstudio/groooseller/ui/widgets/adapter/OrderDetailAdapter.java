@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import net.azstudio.groooseller.R;
 import net.azstudio.groooseller.databinding.ItemOrderDetailBinding;
@@ -13,8 +12,6 @@ import net.azstudio.groooseller.model.business.FoodOrder;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by runzii on 16-5-25.

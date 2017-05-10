@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -14,17 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by runzii on 15-9-24.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
     /**
      * 广播拦截器
      */
     private InternalReceiver internalReceiver;
+
+    protected T binding;
 
     /**
      * 当前页面是否可以销毁
@@ -37,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(getLayoutId(), container, false);
-        ButterKnife.bind(this, rootView);
+        binding = DataBindingUtil.bind(rootView);
         return rootView;
     }
 

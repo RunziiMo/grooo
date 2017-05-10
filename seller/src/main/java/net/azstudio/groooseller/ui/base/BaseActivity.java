@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import com.runzii.lib.app.SwipeBackActivity;
 
@@ -31,14 +29,11 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackActivity {
 
     @Nullable
-    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     private CompositeSubscription _compositeSubscription = new CompositeSubscription();
 
-    private T t;
-
-    private static final String TAG = BaseActivity.class.getSimpleName();
+    protected T binding;
 
     protected abstract boolean isDisplayHomeAsUp();
 
@@ -72,10 +67,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
         return toolbar;
     }
 
-    public T getDataBinding() {
-        return t;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,12 +74,11 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends SwipeBackA
         setSwipeBackEnable(isEnableSwipe());
 
         if (getLayoutId() != 0) {
-            t = DataBindingUtil.setContentView(this, getLayoutId());
+            binding = DataBindingUtil.setContentView(this, getLayoutId());
         } else {
             Logs.d("avtivity_base");
-            t = DataBindingUtil.setContentView(this, R.layout.activity_base);
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_base);
         }
-        ButterKnife.bind(this);
         setupToolbar();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

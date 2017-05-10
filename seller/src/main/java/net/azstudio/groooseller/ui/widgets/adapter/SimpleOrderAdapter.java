@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.ButterKnife;
 
 /**
  * Created by runzii on 16-5-25.
@@ -89,7 +88,6 @@ public class SimpleOrderAdapter extends RecyclerView.Adapter<SimpleOrderAdapter.
 
         public OrderHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
             orderSimpleContentBinding = DataBindingUtil.bind(itemView);
             orderSimpleContentBinding.detailList.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
         }

@@ -11,20 +11,14 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ActivitySplashBinding;
 import net.azstudio.groooseller.ui.base.BaseActivity;
-
-import butterknife.BindView;
 
 
 /**
  * 开屏页
  */
-public class SplashActivity extends BaseActivity{
-
-    @BindView(R.id.splash_root)
-    FrameLayout rootLayout;
-    @BindView(R.id.spalash_background)
-    ImageView back;
+public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
 
     private static final int sleepTime = 3000;
 
@@ -50,11 +44,11 @@ public class SplashActivity extends BaseActivity{
 
         Glide.with(this).load(R.drawable.grooo_spalash)
                 .centerCrop()
-                .into(back);
+                .into(binding.spalashBackground);
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(2500);
-        rootLayout.startAnimation(animation);
+        binding.splashRoot.startAnimation(animation);
 
 //        versionText.setText("GROOO " + GroooAppManager.getVersion());
 

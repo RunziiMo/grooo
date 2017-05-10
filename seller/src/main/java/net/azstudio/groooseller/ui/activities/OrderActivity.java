@@ -28,7 +28,6 @@ public class OrderActivity extends BaseActivity<ActivityOrdercenterBinding> {
 
 
     private ObservableCalendar calendar;
-    private ActivityOrdercenterBinding ordercenterBinding;
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -48,23 +47,22 @@ public class OrderActivity extends BaseActivity<ActivityOrdercenterBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ordercenterBinding = getDataBinding();
         calendar = new ObservableCalendar(Calendar.getInstance());
-        ordercenterBinding.setDate(calendar);
+        binding.setDate(calendar);
         setUpPager();
-        RxSwipeRefreshLayout.refreshes(ordercenterBinding.swipeRefreshLayout)
+        RxSwipeRefreshLayout.refreshes(binding.swipeRefreshLayout)
                 .doOnUnsubscribe(() -> {
-                    ordercenterBinding.swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefreshLayout.setRefreshing(false);
                 })
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
-                    ordercenterBinding.swipeRefreshLayout.setRefreshing(false);
+                    binding.swipeRefreshLayout.setRefreshing(false);
                 });
-        ordercenterBinding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
     }
 
     private void setUpPager() {
-        ordercenterBinding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -77,23 +75,23 @@ public class OrderActivity extends BaseActivity<ActivityOrdercenterBinding> {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                ordercenterBinding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
-        ordercenterBinding.pager.setAdapter(new OrderPagerAdapter());
-        ordercenterBinding.tabs.setupWithViewPager(ordercenterBinding.pager);
+        binding.pager.setAdapter(new OrderPagerAdapter());
+        binding.tabs.setupWithViewPager(binding.pager);
     }
 
     public void leftClick(View view) {
         calendar.rollMonth(false);
         calendar.notifyChange();
-        ordercenterBinding.pager.getAdapter().notifyDataSetChanged();
+        binding.pager.getAdapter().notifyDataSetChanged();
     }
 
     public void rightClick(View view) {
         calendar.rollMonth(true);
         calendar.notifyChange();
-        ordercenterBinding.pager.getAdapter().notifyDataSetChanged();
+        binding.pager.getAdapter().notifyDataSetChanged();
     }
 
     private class OrderPagerAdapter extends PagerAdapter {
@@ -118,7 +116,7 @@ public class OrderActivity extends BaseActivity<ActivityOrdercenterBinding> {
             recyclerView.setAdapter(orderAdapter);
             NetworkWrapper.get()
                     .getOrder(calendar.getDate(position + 1), calendar.getDate(position + 2))
-                    .compose(RxNetWorking.bindRefreshing(ordercenterBinding.swipeRefreshLayout))
+                    .compose(RxNetWorking.bindRefreshing(binding.swipeRefreshLayout))
                     .compose(bindToLifecycle())
                     .subscribe(orders -> orderAdapter.setOrders(orders)
                             , throwable -> Snackbar.make(recyclerView, throwable.getMessage(), Snackbar.LENGTH_SHORT).show());

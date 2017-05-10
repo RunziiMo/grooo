@@ -23,6 +23,7 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ActivityMenuBinding;
 import net.azstudio.groooseller.http.NetworkWrapper;
 import net.azstudio.groooseller.model.business.Menu;
 import net.azstudio.groooseller.model.http.HttpFood;
@@ -42,18 +43,9 @@ import net.azstudio.groooseller.utils.SmallTools;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import rx.Observable;
 
-public class MenuActivity extends BaseActivity {
-
-    @BindView(R.id.pager)
-    ViewPager viewPager;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout refreshLayout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
+public class MenuActivity extends BaseActivity<ActivityMenuBinding> {
 
     private MenuAdapter menuAdapter;
     private CategoryApdater categoryAdapter;
@@ -86,8 +78,8 @@ public class MenuActivity extends BaseActivity {
             foodAdapter.setSelectMode(!foodAdapter.isSelectMode());
             supportInvalidateOptionsMenu();
         }, this::showFoodDialog);
-        viewPager.setAdapter(menuAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager.setAdapter(menuAdapter);
+        binding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -100,7 +92,7 @@ public class MenuActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                refreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
         setUpData();
@@ -110,7 +102,7 @@ public class MenuActivity extends BaseActivity {
                 .subscribe(this::onToolbarItemClicked);
         refreshData();
         Glide.with(this).load("")
-                .placeholder(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(24).colorRes(R.color.white)).into(fab);
+                .placeholder(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_add).sizeDp(24).colorRes(R.color.white)).into(binding.fab);
     }
 
     private void setUpSubscriber() {
@@ -118,15 +110,15 @@ public class MenuActivity extends BaseActivity {
                 .compose(bindToLifecycle())
                 .subscribe(userEvent -> {
                     currCategory = userEvent.getPosition();
-                    viewPager.setCurrentItem(1, true);
+                    binding.pager.setCurrentItem(1, true);
                     foodAdapter.setFoods(userEvent.getFoods());
                 });
     }
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 1)
-            viewPager.setCurrentItem(0, true);
+        if (binding.pager.getCurrentItem() == 1)
+            binding.pager.setCurrentItem(0, true);
         else
             super.onBackPressed();
     }
@@ -185,11 +177,11 @@ public class MenuActivity extends BaseActivity {
     private void setUpData() {
         observableRefreshData = NetworkWrapper.get()
                 .getMenu(AppPreferences.get().getAuth(), AppManager.getShopInfo().getId())
-                .compose(RxNetWorking.bindRefreshing(refreshLayout));
-        refreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
-        RxSwipeRefreshLayout.refreshes(refreshLayout)
+                .compose(RxNetWorking.bindRefreshing(binding.swipeRefreshLayout));
+        binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
+        RxSwipeRefreshLayout.refreshes(binding.swipeRefreshLayout)
                 .doOnUnsubscribe(() -> {
-                    refreshLayout.setRefreshing(false);
+                    binding.swipeRefreshLayout.setRefreshing(false);
                 })
                 .compose(bindToLifecycle())
                 .subscribe(aVoid -> {
@@ -204,15 +196,14 @@ public class MenuActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.fab)
-    public void addFood() {
-        showFoodDialog(new HttpFood(), true, foods.size() == 0 ? "" : foods.get(currCategory).getCategory());
-    }
-
     private void notifyDataSetChanged(List<Menu> menus) {
         foods = menus;
         categoryAdapter.setFoods(foods);
         foodAdapter.setFoods(foods.size() == 0 ? new ArrayList<>() : foods.get(currCategory).getFoods());
+    }
+
+    public void onClickFab(View view) {
+        showFoodDialog(new HttpFood(), true, foods.size() == 0 ? "" : foods.get(currCategory).getCategory());
     }
 
     private class MenuAdapter extends PagerAdapter {

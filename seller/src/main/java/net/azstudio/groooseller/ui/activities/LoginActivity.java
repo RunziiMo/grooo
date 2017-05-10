@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ActivityLoginBinding;
 import net.azstudio.groooseller.http.NetworkWrapper;
 import net.azstudio.groooseller.model.app.ShopInfo;
 import net.azstudio.groooseller.model.http.AuthToken;
@@ -21,21 +22,10 @@ import net.azstudio.groooseller.ui.base.BaseActivity;
 import net.azstudio.groooseller.utils.AppManager;
 import net.azstudio.groooseller.utils.AppPreferences;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import rx.Subscriber;
 
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
-    @BindView(R.id.et_username)
-    EditText username;
-    @BindView(R.id.et_password)
-    EditText password;
-    @BindView(R.id.login_progress)
-    View mProgressView;
-    @BindView(R.id.login_form)
-    View mLoginFormView;
+public class LoginActivity extends BaseActivity<ActivityLoginBinding>  {
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -58,26 +48,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    @OnClick(R.id.btn_login)
-    public void onClick(View v) {
-        attemptLogin();
-    }
-
-    @OnClick(R.id.tv_dial)
-    public void contactUs() {
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:18716036890"));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     private void attemptLogin() {
         // Reset errors.
-        username.setError(null);
-        password.setError(null);
+        binding.etUsername.setError(null);
+        binding.etPassword.setError(null);
 
         // Store values at the time of the login attempt.
-        String phone = username.getText().toString();
-        String password = this.password.getText().toString();
+        String phone = binding.etPassword.getText().toString();
+        String password = this.binding.etPassword.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -90,8 +68,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //        }
 
         if (TextUtils.isEmpty(phone)) {
-            Snackbar.make(username, R.string.error_field_required, Snackbar.LENGTH_SHORT).show();
-            focusView = username;
+            Snackbar.make(binding.etUsername, R.string.error_field_required, Snackbar.LENGTH_SHORT).show();
+            focusView = binding.etUsername;
             cancel = true;
         }
 //        } else if (!isPhoneValid(phone)) {
@@ -119,7 +97,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onError(Throwable e) {
                     e.printStackTrace();
-                    Snackbar.make(username, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.etUsername, e.getMessage(), Snackbar.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -151,28 +129,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            binding.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            binding.loginForm.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    binding.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
+            binding.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            binding.loginProgress.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                    binding.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
                 }
             });
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            binding.loginProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+            binding.loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    public void onClickLogin(View view) {
+        attemptLogin();
+    }
+
+    public void onClickContact(View view) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:18716036890"));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

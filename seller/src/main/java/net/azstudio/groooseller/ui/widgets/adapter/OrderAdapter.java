@@ -1,8 +1,8 @@
 package net.azstudio.groooseller.ui.widgets.adapter;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.view.RxView;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ItemOrderContentBinding;
 import net.azstudio.groooseller.http.NetworkWrapper;
 import net.azstudio.groooseller.model.business.FoodOrder;
 import net.azstudio.groooseller.provider.OrderStatus;
@@ -24,8 +25,6 @@ import net.azstudio.groooseller.utils.RxJava.RxBus;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by runzii on 16-5-25.
@@ -112,35 +111,35 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderHolder>
 
 
     public static class OrderHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.order_item_avater)
+
         ImageView logo;
-        @BindView(R.id.order_item_building)
         TextView building;
-        @BindView(R.id.order_item_address)
         TextView address;
-        @BindView(R.id.order_item_remark)
         TextView remark;
-        @BindView(R.id.order_item_time)
         TextView time;
-        @BindView(R.id.order_item_price)
         TextView price;
-        @BindView(R.id.order_item_status)
         TextView status;
-        @BindView(R.id.order_item_confirm)
         Button confirm;
-        @BindView(R.id.order_item_cancel)
         Button cancel;
-        @BindView(R.id.order_item_dial)
         ImageButton dial;
-        @BindView(R.id.order_item_detail_list)
         RecyclerView detail;
-        @BindView(R.id.order_item_detail_content)
         View content;
 
         public OrderHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
-            detail.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+            ItemOrderContentBinding binding = DataBindingUtil.bind(itemView);
+            logo = binding.orderItemAvater;
+            building = binding.orderItemBuilding;
+            address = binding.orderItemAddress;
+            remark = binding.orderItemRemark;
+            time = binding.orderItemTime;
+            price = binding.orderItemPrice;
+            status = binding.orderItemStatus;
+            confirm = binding.orderItemConfirm;
+            cancel = binding.orderItemCancel;
+            dial = binding.orderItemDial;
+            detail = binding.orderItemDetailList;
+            content = binding.orderItemDetailContent;
         }
     }
 

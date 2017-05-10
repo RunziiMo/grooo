@@ -1,5 +1,6 @@
 package net.azstudio.groooseller.ui.widgets.adapter;
 
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +13,13 @@ import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
 import net.azstudio.groooseller.R;
+import net.azstudio.groooseller.databinding.ItemCategoryBinding;
 import net.azstudio.groooseller.model.business.Menu;
 import net.azstudio.groooseller.utils.RxJava.RxBus;
 import net.azstudio.groooseller.utils.RxEvent.CategoryClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by runzii on 16-5-24.
@@ -67,16 +66,16 @@ public class CategoryApdater extends RecyclerView.Adapter<CategoryApdater.Catego
 
     public static class CategoryHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.category_dot)
         ImageView detail;
-        @BindView(R.id.category_name)
         TextView name;
-        @BindView(R.id.category_count)
         TextView count;
 
         public CategoryHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ItemCategoryBinding binding = DataBindingUtil.bind(itemView);
+            detail = binding.categoryDot;
+            name = binding.categoryName;
+            count = binding.categoryCount;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 detail.setImageDrawable(new IconicsDrawable(itemView.getContext(), GoogleMaterial.Icon.gmd_lens).sizeDp(8));
             } else {

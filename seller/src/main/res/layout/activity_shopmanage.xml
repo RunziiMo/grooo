@@ -1,323 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activities.ManageActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="4dp"
-        app:layout_behavior="net.azstudio.groooseller.ui.widgets.FlingBehavior">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleGravity="center_horizontal|bottom"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_scrollFlags="snap|exitUntilCollapsed">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_collapseMode="pin">
-
-                <net.azstudio.groooseller.ui.widgets.CircleImageView
-                    android:id="@+id/iv_user_logo"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="36dp"
-                    android:src="@drawable/responsible" />
-            </FrameLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        tools:context=".ui.activities.ManageActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="4dp"
+            app:layout_behavior="net.azstudio.groooseller.ui.widgets.FlingBehavior">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleGravity="center_horizontal|bottom"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_scrollFlags="snap|exitUntilCollapsed">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="pin">
+
+                    <net.azstudio.groooseller.ui.widgets.CircleImageView
+                        android:id="@+id/iv_user_logo"
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="36dp"
+                        android:src="@drawable/responsible" />
+                </FrameLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/transparent"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="84dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tv_user_monthsold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="100"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_user_monthsold"
-                    android:layout_centerHorizontal="true"
-                    android:text="月售"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tv_user_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="100"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_user_rating"
-                    android:layout_centerHorizontal="true"
-                    android:text="评分"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tv_user_ratenum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:text="100"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_user_ratenum"
-                    android:layout_centerHorizontal="true"
-                    android:text="评价人数"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/scroll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="84dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="88dp"
-                    android:padding="16dp">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/iv_user_name_logo"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_local_phone_white_24dp" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_user_monthsold"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_user_name_logo">
+                        android:layout_centerHorizontal="true"
+                        android:text="100"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                        <EditText
-                            android:id="@+id/tv_user_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="商店名"
-                            android:text="东北大学秦皇岛分校"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_user_monthsold"
+                        android:layout_centerHorizontal="true"
+                        android:text="月售"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="88dp"
-                    android:padding="16dp">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/iv_user_phone_logo"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_local_phone_white_24dp" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_user_rating"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_user_phone_logo">
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="100"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                        <EditText
-                            android:id="@+id/tv_user_phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="电话"
-                            android:text="12343423423"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_user_rating"
+                        android:layout_centerHorizontal="true"
+                        android:text="评分"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="88dp"
-                    android:padding="16dp">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/iv_user_baseprice_logo"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_local_phone_white_24dp" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_user_ratenum"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_user_baseprice_logo">
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="100"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                        <EditText
-                            android:id="@+id/tv_user_baseprice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="起送价"
-                            android:inputType="numberDecimal"
-                            android:text="10"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                    </android.support.design.widget.TextInputLayout>
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="88dp"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/iv_user_description_logo"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_local_phone_white_24dp" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_user_description_logo">
-
-                        <EditText
-                            android:id="@+id/tv_user_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="描述"
-                            android:text="12343423423"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                    </android.support.design.widget.TextInputLayout>
-
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="88dp"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/iv_user_activity_logo"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/ic_local_phone_white_24dp" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/iv_user_activity_logo">
-
-                        <EditText
-                            android:id="@+id/tv_user_activity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:hint="@string/text_hint_activity"
-                            android:text="12343423423"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_below="@id/tv_user_ratenum"
+                        android:layout_centerHorizontal="true"
+                        android:text="评价人数"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 </RelativeLayout>
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
 
-        <View
-            android:id="@+id/toolbar_dropshadow"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/toolbar_dropshadow" />
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="16dp"-->
-    <!--android:clickable="true"-->
-    <!--android:src="@drawable/ic_message_white_24dp"-->
-    <!--app:layout_anchor="@id/appbar"-->
-    <!--app:layout_anchorGravity="bottom|right|end" />-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:padding="16dp">
 
-</android.support.design.widget.CoordinatorLayout>
+                        <ImageView
+                            android:id="@+id/iv_user_name_logo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/ic_local_phone_white_24dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/iv_user_name_logo">
+
+                            <EditText
+                                android:id="@+id/tv_user_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="商店名"
+                                android:text="东北大学秦皇岛分校"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/iv_user_phone_logo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/ic_local_phone_white_24dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/iv_user_phone_logo">
+
+                            <EditText
+                                android:id="@+id/tv_user_phone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="电话"
+                                android:text="12343423423"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/iv_user_baseprice_logo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/ic_local_phone_white_24dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/iv_user_baseprice_logo">
+
+                            <EditText
+                                android:id="@+id/tv_user_baseprice"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="起送价"
+                                android:inputType="numberDecimal"
+                                android:text="10"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/iv_user_description_logo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/ic_local_phone_white_24dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/iv_user_description_logo">
+
+                            <EditText
+                                android:id="@+id/tv_user_description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="描述"
+                                android:text="12343423423"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="88dp"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:id="@+id/iv_user_activity_logo"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="16dp"
+                            android:src="@drawable/ic_local_phone_white_24dp" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/iv_user_activity_logo">
+
+                            <EditText
+                                android:id="@+id/tv_user_activity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="@string/text_hint_activity"
+                                android:text="12343423423"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+
+            <View
+                android:id="@+id/toolbar_dropshadow"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/toolbar_dropshadow" />
+
+        </LinearLayout>
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/ic_message_white_24dp"-->
+        <!--app:layout_anchor="@id/appbar"-->
+        <!--app:layout_anchorGravity="bottom|right|end" />-->
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     private Observable<List<FoodOrder>[]> observableRefreshData;
 
     private OrderAdapter undo, finished;
-    private ActivityMainBinding mainBinding;
 
     @Override
     protected boolean isDisplayHomeAsUp() {
@@ -111,7 +110,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainBinding = getDataBinding();
         if (AppPreferences.get().getAuthUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -160,17 +158,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                     .subscribe(s -> {
                             }
                             , throwable ->
-                                    Snackbar.make(mainBinding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()
+                                    Snackbar.make(binding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()
                     );
 //            Logs.d(JPushInterface.getRegistrationID(this));
             setUpDrawer(savedInstanceState);
             registerMessageReceiver();
             setUpPager();
             shopInfoObservable = NetworkWrapper.get().getShopInfo(AppManager.getShopInfo().getId());
-            mainBinding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
-            RxSwipeRefreshLayout.refreshes(mainBinding.swipeRefreshLayout)
+            binding.swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimaryLight, R.color.colorPrimary);
+            RxSwipeRefreshLayout.refreshes(binding.swipeRefreshLayout)
                     .doOnUnsubscribe(() -> {
-                        mainBinding.swipeRefreshLayout.setRefreshing(false);
+                        binding.swipeRefreshLayout.setRefreshing(false);
                     })
                     .compose(bindToLifecycle())
                     .subscribe(aVoid -> {
@@ -221,10 +219,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                     }
                     return new List[]{undo, finished};
                 })
-                .compose(RxNetWorking.bindRefreshing(mainBinding.swipeRefreshLayout))
+                .compose(RxNetWorking.bindRefreshing(binding.swipeRefreshLayout))
                 .compose(bindToLifecycle());
         observableRefreshData.subscribe(menus -> notifyDataSetChanged(menus)
-                , throwable -> Snackbar.make(mainBinding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show());
+                , throwable -> Snackbar.make(binding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show());
         shopInfoObservable.subscribe(shopInfo -> {
             AppPreferences.get().setShopInfo(shopInfo);
             AppManager.setShopInfo(shopInfo);
@@ -237,7 +235,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
             shopStatus.withName("营业状态:" + (status ? "开" : "关"));
             shopStatus.withChecked(status);
             result.updateItem(shopStatus);
-        }, throwable -> Snackbar.make(mainBinding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show());
+        }, throwable -> Snackbar.make(binding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show());
     }
 
     private void setIntentService(boolean action) {
@@ -259,7 +257,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     private void setUpPager() {
         undo = new OrderAdapter(undoOrder);
         finished = new OrderAdapter(finishedOrder);
-        mainBinding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -272,10 +270,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                mainBinding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
+                binding.swipeRefreshLayout.setEnabled(state == ViewPager.SCROLL_STATE_IDLE);
             }
         });
-        mainBinding.pager.setAdapter(new PagerAdapter() {
+        binding.pager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
                 return 2;
@@ -308,7 +306,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                 else return "已处理";
             }
         });
-        mainBinding.tabs.setupWithViewPager(mainBinding.pager);
+        binding.tabs.setupWithViewPager(binding.pager);
     }
 
     @Override
@@ -460,7 +458,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
                             AppManager.getShopInfo().setStatus(isChecked ? 1 : 0);
                             result.updateItem(MainActivity.this.shopStatus);
                             setIntentService(isChecked);
-                        }, throwable -> Snackbar.make(mainBinding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()));
+                        }, throwable -> Snackbar.make(binding.pager, throwable.getMessage(), Snackbar.LENGTH_SHORT).show()));
                 break;
         }
     }
@@ -493,6 +491,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements O
     }
 
     private void setCostomMsg(String msg) {
-        Snackbar.make(mainBinding.pager, "你有新订单", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.pager, "你有新订单", Snackbar.LENGTH_SHORT).show();
     }
 }
