@@ -116,7 +116,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding>  {
     }
 
     private boolean isPhoneValid(String phone) {
-        //TODO: Replace this with your own logic
         return phone.matches("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     }
 
