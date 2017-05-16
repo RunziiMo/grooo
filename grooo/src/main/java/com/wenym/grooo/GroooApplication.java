@@ -21,6 +21,8 @@ public class GroooApplication extends MyApplication {
         super.onCreate();
 
         GroooAppManager.init(this);
+
+        //内存泄露检测
         refWatcher = LeakCanary.install(this);
     }
 }
